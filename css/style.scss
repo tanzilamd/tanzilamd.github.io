@@ -36,6 +36,17 @@ body {
         }
 
         .details {
+            ul {
+                li {
+                    list-style-image: url('../img/hand.png');
+                    font-size: 18px;
+                    padding: 10px 0;
+                    a {
+                        color: white;
+                    }
+                }
+                
+            }
             h1 {
                 font-size: 36px;
             }

@@ -32,6 +32,16 @@ body .container .profile {
           clip-path: circle();
 }
 
+body .container .details ul li {
+  list-style-image: url("../img/hand.png");
+  font-size: 18px;
+  padding: 10px 0;
+}
+
+body .container .details ul li a {
+  color: white;
+}
+
 body .container .details h1 {
   font-size: 36px;
 }
