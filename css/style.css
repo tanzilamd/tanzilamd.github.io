@@ -1,9 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background: linear-gradient(235deg, #BABC4A 0%, #000000 100%), linear-gradient(235deg, #0026AC 0%, #282534 100%), linear-gradient(235deg, #434d4b 0%, #000000 100%), radial-gradient(120% 185% at 25% -25%, #EEEEEE 0%, #EEEEEE 40%, #7971EA calc(40% + 1px), #7971EA 50%, #393E46 calc(50% + 1px), #393E46 70%, #222831 calc(70% + 1px), #222831 100%), radial-gradient(70% 140% at 90% 10%, #F5F5C6 0%, #F5F5C6 30%, #7DA87B calc(30% + 1px), #7DA87B 60%, #326765 calc(60% + 1px), #326765 80%, #27253D calc(80% + 1px), #27253D 100%);
   background-blend-mode: overlay, lighten, overlay, color-burn, normal;
   background-repeat: no-repeat;
-  height: 98vh;
+  height: 100%;
   color: white;
   font-family: 'Roboto Mono', monospace;
 }
@@ -19,23 +26,55 @@ body .container {
       -ms-flex-pack: center;
           justify-content: center;
   height: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding-bottom: 50px;
   position: relative;
+  margin: 0 20px;
 }
 
 body .container .profile {
-  position: absolute;
-  top: -5px;
-  right: 0;
-  height: 70px;
-  border-radius: 50%;
+  margin-top: 20px;
   -webkit-clip-path: circle();
           clip-path: circle();
+  background-color: white;
+  padding: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-radius: 50%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+body .container .profile img {
+  width: 120px;
+  -webkit-clip-path: circle();
+          clip-path: circle();
+}
+
+body .container .details ul {
+  margin: 20px 0;
 }
 
 body .container .details ul li {
   list-style-image: url("../img/hand.png");
   font-size: 18px;
   padding: 10px 0;
+  list-style-position: inside;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+body .container .details ul li:hover {
+  margin-left: 30px;
+  cursor: pointer;
 }
 
 body .container .details ul li a {
@@ -47,7 +86,7 @@ body .container .details h1 {
 }
 
 body .container .details h2 {
-  font-size: 28px;
+  font-size: 24px;
 }
 
 body .container .details .social a {
@@ -66,5 +105,7 @@ body .container .details .social a {
 body .container .details .social a:hover {
   background-color: #0D1414;
   color: white;
+  -webkit-transform: scale(0.9);
+          transform: scale(0.9);
 }
 /*# sourceMappingURL=style.css.map */
