@@ -57,6 +57,7 @@ body .container .profile img {
   width: 120px;
   -webkit-clip-path: circle();
           clip-path: circle();
+  cursor: pointer;
 }
 
 body .container .details ul {
