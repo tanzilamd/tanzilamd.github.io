@@ -36,8 +36,10 @@ The first four published projects with `featured: true`, sorted by `order`, appe
 
 ## Publish
 
-The GitHub Pages workflow checks PRs and prepares deployment on pushes to `master` or a manual run. Select **GitHub Actions** in repository Settings → Pages first. Offscript is merged into `master` and published at https://tanzilamd.github.io/. New content commits to `master` go through the same checks and deployment workflow.
+The GitHub Pages workflow checks PRs and prepares deployment on pushes to `master` or a manual run. Select **GitHub Actions** in repository Settings → Pages first. Offscript is merged into `master`. New content commits to `master` go through the same checks and deployment workflow.
 
-Canonical origin: `https://tanzilamd.github.io`. If it changes, update `astro.config.mjs`, `public/robots.txt` and generated-link tests. Publish only `dist/`, not source attachments or research.
+Canonical origin: `https://tanzilahmed.tech`. Follow [the custom-domain guide](docs/CUSTOM-DOMAIN.md) to connect DNS and activate it in GitHub Pages. Until activation, the published site remains at https://tanzilamd.github.io/.
+
+If the domain changes, update `astro.config.mjs`, `public/robots.txt` and `public/CNAME`; generated-link tests derive the origin from Astro configuration and check these files agree. Publish only `dist/`, not source attachments or research.
 
 The public email is intentionally empty until the owner chooses one; LinkedIn/GitHub/DEV provide working contact destinations. No phone number, original application PDF, private address or application IDs belong in content, metadata or downloads. See [release notes](docs/RELEASE-NOTES.md) for editorial decisions.
