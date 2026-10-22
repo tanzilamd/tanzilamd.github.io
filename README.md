@@ -44,4 +44,4 @@ Canonical origin: `https://tanzilahmed.tech`. Follow [the custom-domain guide](d
 
 If the domain changes, update `astro.config.mjs`, `public/robots.txt` and `public/CNAME`; generated-link tests derive the origin from Astro configuration and check these files agree. Publish only `dist/`, not source attachments or research.
 
-The public email is intentionally empty until the owner chooses one; LinkedIn/GitHub/DEV provide working contact destinations. No phone number, original application PDF, private address or application IDs belong in content, metadata or downloads. See [release notes](docs/RELEASE-NOTES.md) for editorial decisions.
+The owner-approved public email is configured in `src/data/profile.json`; Contact provides email and copy actions alongside LinkedIn/GitHub/DEV. No phone number, original application PDF, private address or application IDs belong in content, metadata or downloads. See [release notes](docs/RELEASE-NOTES.md) for editorial decisions.
