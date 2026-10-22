@@ -1,10 +1,11 @@
 ---
 {
-  "title": "Tech Diary Developer Article Contest",
+  "title": "Tech Diary Developer Article Contest — Champion",
   "year": "2021",
-  "summary": "Champion in the developer article contest, bringing technical learning into writing.",
-  "kind": "Recognition",
-  "order": 4
+  "summary": "Won the national developer article contest for technical writing.",
+  "kind": "National · Technical writing",
+  "featured": true,
+  "order": 2
 }
 ---
 

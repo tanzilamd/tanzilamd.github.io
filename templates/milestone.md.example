@@ -4,6 +4,7 @@
   "year": "2026",
   "kind": "Milestone",
   "summary": "What this recognition or milestone actually represents.",
+  "featured": false,
   "order": 5,
   "draft": true
 }

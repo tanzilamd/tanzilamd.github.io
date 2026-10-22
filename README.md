@@ -34,6 +34,8 @@ Copy a template and follow [the content guide](docs/CONTENT-GUIDE.md). No compon
 
 The first four published projects with `featured: true`, sorted by `order`, appear on Home. Current priority: Tuktak, ScopeProof, EngJatra, Choreseed. Cargotab and Tanzilbot remain in Earlier work. Up to three featured contributions appear on Home. Drafts are excluded from generated pages and sitemap.
 
+The homepage introduces learning and exploration across several interests. Selected recognition uses `featured: true` in `src/content/milestones/`; all recognition and work experience appear on About. Published website contributions can omit a PR number and use the website contribution template. Tabbycat’s website work is featured on Home and explained at the top of Open source.
+
 ## Publish
 
 The GitHub Pages workflow checks PRs and prepares deployment on pushes to `master` or a manual run. Select **GitHub Actions** in repository Settings → Pages first. Offscript is merged into `master`. New content commits to `master` go through the same checks and deployment workflow.

@@ -7,10 +7,10 @@ import profile from '../data/profile.json';
 import Icon from '../components/Icon.astro';
 interface Props { title?: string; description?: string; noindex?: boolean }
 const { title, description = profile.description, noindex = false } = Astro.props;
-const pageTitle = title ? `${title} — Tanzil Ahmed` : 'Tanzil Ahmed — Developer & builder';
+const pageTitle = title ? `${title} — ${profile.name}` : profile.siteTitle;
 const path = Astro.url.pathname;
 const canonical = new URL(path, Astro.site);
-const nav = [['Work', '/work/'], ['Open source', '/open-source/'], ['About', '/about/'], ['Notes', '/notes/']];
+const nav = [['Projects', '/work/'], ['Open source', '/open-source/'], ['About', '/about/'], ['Writing', '/notes/']];
 ---
 <!doctype html>
 <html lang="en" data-theme="dark">
@@ -23,7 +23,7 @@ const nav = [['Work', '/work/'], ['Open source', '/open-source/'], ['About', '/a
     {noindex && <meta name="robots" content="noindex"/>}
     <meta property="og:type" content="website"/><meta property="og:locale" content="en_US"/>
     <meta property="og:title" content={pageTitle}/><meta property="og:description" content={description}/><meta property="og:url" content={canonical}/>
-    <meta property="og:image" content={new URL('/social-card.png', Astro.site)}/><meta property="og:image:alt" content="Tanzil Ahmed — A curious mind. A maker’s instinct."/>
+    <meta property="og:image" content={new URL('/social-card.png', Astro.site)}/><meta property="og:image:alt" content={`${profile.name} — ${profile.headline} ${profile.headlineAccent}`}/>
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="author" content={profile.name}/>
     <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'Person', name: profile.name, url: Astro.site, description: profile.description, sameAs: [profile.github, profile.linkedin, profile.dev] }).replace(/</g, '\\u003c')}/>
@@ -37,12 +37,12 @@ const nav = [['Work', '/work/'], ['Open source', '/open-source/'], ['About', '/a
       <a class="wordmark" href="/">TANZIL <span>AHMED<span class="wordmark-dot">.</span></span></a>
       <nav class="desktop-nav" aria-label="Main navigation">{nav.map(([label, href]) => <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}</a>)}</nav>
       <div class="header-actions"><button type="button" class="theme-toggle icon-button" data-theme-toggle aria-label="Switch to light theme" hidden><Icon name="sun" class="sun-icon"/><Icon name="moon" class="moon-icon"/></button><a class="header-contact" href="/contact/">Let’s talk <Icon name="diagonal" size={16}/></a><button type="button" class="menu-toggle icon-button" data-menu-toggle aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav" hidden><Icon name="menu" class="menu-icon"/><Icon name="close" class="close-icon"/></button></div>
-      <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" inert hidden>{nav.map(([label, href]) => <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}<Icon name="diagonal"/></a>)}<a href="/beyond/">Beyond code<Icon name="diagonal"/></a><a href="/contact/">Let’s talk<Icon name="diagonal"/></a></nav>
+      <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" inert hidden>{nav.map(([label, href]) => <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}<Icon name="diagonal"/></a>)}<a href="/beyond/">Activities<Icon name="diagonal"/></a><a href="/contact/">Contact<Icon name="diagonal"/></a></nav>
       <noscript><nav class="fallback-nav" aria-label="Navigation without JavaScript">{nav.map(([label, href]) => <a href={href}>{label}</a>)}<a href="/contact/">Contact</a></nav></noscript>
     </header>
     <main id="main" tabindex="-1"><slot/></main>
     <footer class="site-footer container">
-      <div class="footer-top"><a class="footer-heading" href="/contact/">Something on your mind?<br/><span>Let’s talk.</span><Icon name="diagonal" size={38}/></a><p>Good work usually starts<br/>with a good conversation.</p></div>
+      <div class="footer-top"><a class="footer-heading" href="/contact/">Have a project or an idea?<br/><span>Let’s talk.</span><Icon name="diagonal" size={38}/></a><p>Open to collaborations,<br/>new ideas, and learning opportunities.</p></div>
       <div class="footer-bottom"><a class="wordmark footer-wordmark" href="/">TANZIL AHMED<span class="wordmark-dot">.</span></a><div class="social-links"><a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub <Icon name="diagonal" size={14}/></a><a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <Icon name="diagonal" size={14}/></a><a href={profile.dev} target="_blank" rel="noopener noreferrer">DEV <Icon name="diagonal" size={14}/></a></div><span class="footer-signoff">Made with curiosity. © {new Date().getFullYear()}</span></div>
     </footer>
     <script src="../scripts/site.ts"></script>

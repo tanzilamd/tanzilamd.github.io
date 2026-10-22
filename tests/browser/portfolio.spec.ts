@@ -61,6 +61,21 @@ test('contribution filters distinguish organization and personal-fork work', asy
   await expect(page.locator('[data-item]:visible')).toHaveCount(8);
 });
 
+test('a published website contribution has source evidence without an invented pull request', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.contribution-preview').first()).toHaveAttribute('href', 'https://tabbycat-debate.org/tabbycat/');
+  await page.goto('/open-source/');
+  const spotlight = page.getByRole('region', { name: 'Tabbycat software website', exact: true });
+  await expect(spotlight.getByRole('link', { name: 'Visit website', exact: true })).toHaveAttribute('href', 'https://tabbycat-debate.org/tabbycat/');
+  await expect(spotlight.getByRole('link', { name: 'View source code', exact: true })).toHaveAttribute('href', 'https://github.com/tanzilamd/tc');
+  await expect(spotlight.getByRole('link', { name: 'Official integration', exact: true })).toHaveAttribute('href', 'https://github.com/TabbycatDebate/tabbycatdebate.github.io/commit/aff7c01965bc775d38e0575b5176753b2e812624');
+  await page.getByRole('button', { name: 'Website', exact: true }).click();
+  const row = page.locator('[data-item]:visible');
+  await expect(row).toHaveCount(1);
+  await expect(row.locator('.merge-status')).toHaveText('Published');
+  await expect(row.locator('.pr-link')).toHaveCount(0);
+});
+
 test('mobile menu supports keyboard, escape and route navigation', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
@@ -102,8 +117,8 @@ test('essential mobile navigation and all work remain usable without JavaScript'
   await expect(page.locator('[data-filter-bar]')).toBeHidden();
   await expect(page.locator('.fallback-nav')).toBeVisible();
   await page.locator('.fallback-nav').getByRole('link', { name: 'Open source' }).click();
-  await expect(page.locator('[data-item]:visible')).toHaveCount(11);
-  await expect(page.locator('h1')).toContainText('together');
+  await expect(page.locator('[data-item]:visible')).toHaveCount(12);
+  await expect(page.locator('h1')).toContainText('contributions');
   await context.close();
 });
 
@@ -117,8 +132,8 @@ test('blocked local storage has a working theme fallback', async ({ page }) => {
 
 test('the error page offers a route back to the work', async ({ page }) => {
   await page.goto('/404.html');
-  await expect(page.locator('h1')).toContainText('another');
+  await expect(page.locator('h1')).toContainText('found');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
-  await page.getByRole('link', { name: 'Explore the work', exact: true }).click();
+  await page.getByRole('link', { name: 'View projects', exact: true }).click();
   await expect(page).toHaveURL('/work/');
 });

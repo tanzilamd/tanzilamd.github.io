@@ -19,10 +19,13 @@ const contributions = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/contributions' }),
   schema: z.object({
     ...common, title: z.string(), repository: z.string(), summary: z.string(),
-    type: z.enum(['Resources', 'Code', 'Infrastructure', 'Learning']), featured: z.boolean().default(false),
+    type: z.enum(['Resources', 'Code', 'Infrastructure', 'Learning', 'Website']), featured: z.boolean().default(false),
+    spotlight: z.boolean().default(false), projectUrl: z.url().optional(), evidenceUrl: z.url().optional(),
     relationship: z.enum(['Upstream', 'Organization', 'Personal fork']),
-    status: z.enum(['Merged', 'Open', 'Closed']), mergedAt: z.string().optional(),
-    url: z.url(), pr: z.number(), event: z.string().optional(),
+    status: z.enum(['Merged', 'Open', 'Closed', 'Published']), mergedAt: z.string().optional(),
+    url: z.url(), pr: z.number().int().positive().optional(), event: z.string().optional(),
+  }).refine((data) => data.status === 'Published' || data.pr !== undefined, {
+    message: 'PR entries require a PR number. Use Published for work published without a PR.', path: ['pr'],
   }),
 });
 const notes = defineCollection({
@@ -35,6 +38,6 @@ const experience = defineCollection({
 });
 const milestones = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/milestones' }),
-  schema: z.object({ ...common, title: z.string(), year: z.string(), summary: z.string(), kind: z.string(), url: z.url().optional() }),
+  schema: z.object({ ...common, title: z.string(), year: z.string().optional(), summary: z.string(), kind: z.string(), url: z.url().optional(), featured: z.boolean().default(false) }),
 });
 export const collections = { projects, contributions, notes, experience, milestones };

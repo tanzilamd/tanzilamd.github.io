@@ -1,11 +1,11 @@
 ---
 {
-  "title": "Open-source, one resource at a time",
+  "title": "Hacktoberfest 2021 participation",
   "year": "2021",
-  "summary": "Five merged course-resource contributions carrying the hacktoberfest-accepted label.",
-  "kind": "Participation",
+  "summary": "Contributed five course resources to Tech Diary’s awesome-courses repository. All five were merged and labelled hacktoberfest-accepted.",
+  "kind": "Open source · Participation",
   "url": "https://github.com/techdiary-dev/awesome-courses/pulls?q=is%3Apr+state%3Aclosed+author%3Atanzilamd",
-  "order": 2
+  "order": 7
 }
 ---
 

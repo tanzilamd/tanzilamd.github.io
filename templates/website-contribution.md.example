@@ -1,0 +1,23 @@
+---
+{
+  "title": "Project website",
+  "repository": "organization/official-website",
+  "summary": "What you designed or developed and who it helps.",
+  "type": "Website",
+  "relationship": "Upstream",
+  "status": "Published",
+  "url": "https://github.com/owner/website-source",
+  "projectUrl": "https://example.com",
+  "evidenceUrl": "https://github.com/organization/official-website/commit/COMMIT_ID",
+  "featured": false,
+  "spotlight": false,
+  "order": 20,
+  "draft": true
+}
+---
+
+### About the project
+Explain what the project does in everyday language.
+
+### My contribution
+Describe your actual work and the result. Link to the original sources.

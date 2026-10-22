@@ -26,14 +26,16 @@ Categories: `Product`, `Tool`, `Experiment`, `Earlier work`. Illustration styles
 
 ## Contributions
 
-Copy the contribution template into `src/content/contributions/`. Keep one record per PR, with the original URL/number and an accurate summary.
+Copy the contribution template into `src/content/contributions/`. Keep one record per PR, with the original URL/number and an accurate summary. For a published website contribution, use `templates/website-contribution.md.example`; no PR number is needed.
 
-- `type`: `Resources`, `Code`, `Infrastructure`, `Learning`.
+- `type`: `Resources`, `Code`, `Infrastructure`, `Learning`, `Website`.
 - `relationship`: `Upstream`, `Organization`, `Personal fork`.
-- `status`: `Merged`, `Open`, `Closed` (closed without merge).
+- `status`: `Merged`, `Open`, `Closed` (closed without merge), `Published` (published work without a PR).
 - `mergedAt`: optional `YYYY-MM-DD`, only for a real merge.
 - `event`: optional confirmed event/year label.
 - `featured` and `order`: select up to three homepage highlights.
+- `spotlight: true`: প্রথম published/non-draft spotlight entry Open source page-এর উপরে বিস্তারিত দেখাবে। নিচে Markdown-এ project কী এবং নিজের contribution লিখুন।
+- `projectUrl`: optional live website link; `evidenceUrl`: optional original integration/source evidence. এগুলো spotlight-এর links হবে। Homepage-এ `projectUrl` থাকলে সেটিই খুলবে।
 
 A fork merge is not an upstream acceptance. Resource curation is not a core software feature. Do not duplicate PRs to inflate counts.
 
@@ -43,11 +45,11 @@ Copy the matching template into `src/content/notes/`, `experience/` or `mileston
 
 Notes link to the original published article and use a short excerpt, platform, tags and real date (`YYYY-MM` or `YYYY-MM-DD`). Newest dates appear first. Unpublished DEV drafts should stay draft here too; do not copy an entire external article by default.
 
-Experience and milestones appear on About automatically. Milestone filenames starting with `hacktoberfest` also appear on the Open source timeline. Preserve exact award wording: nomination is not a win, participation is not a prize, and stickers are not PR totals. Omit unknown dates. Keep private evidence outside the public content folder.
+Experience and milestones appear on About automatically. Awards/recognition and Hacktoberfest milestones have separate sections. Milestone filenames starting with `hacktoberfest` also appear on the Open source timeline. Use `featured: true` and `order` on milestones to choose up to three homepage recognition entries. Preserve exact award wording: nomination is not a win, participation is not a prize, and stickers are not PR totals. Omit unknown years. Keep private evidence outside the public content folder.
 
 ## Profile and contact
 
-Edit `src/data/profile.json`. Put only the email you want public in `email`; the Contact page then adds email and copy actions. An empty string keeps them hidden. Do not add a phone field.
+Edit `src/data/profile.json`: `siteTitle` browser/search title, `label` ছোট পরিচয়, `headline` ও `headlineAccent` hero title, `intro` পরিচিতি, আর `description` search/social description। Put only the email you want public in `email`; the Contact page then adds email and copy actions. An empty string keeps them hidden. Do not add a phone field.
 
 Replace `src/assets/tanzil.jpg` to update the photo. Astro generates local optimized WebP variants. The current image is the newly attached patterned-shirt portrait; the older picture is not bundled.
 
