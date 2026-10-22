@@ -1,6 +1,6 @@
 # Local verification — Offscript
 
-Verified October 22, 2026. These results describe the local production build, not a deployed website or a restored new cloud task.
+Verified October 22, 2026. The checks below cover the production build; deployment verification is recorded in the Publication section. A restored new cloud task has not been independently tested.
 
 - Frozen dependency reinstall: `npm ci` passed.
 - `npm run check`: 22 files, zero errors, warnings or hints.
@@ -24,4 +24,4 @@ Accessible-name mismatches were corrected and the final Lighthouse report listed
 
 ## Publication
 
-No GitHub push, Pages settings change or website deployment was performed. The workflow is prepared for master and documented in README. External application links were preserved from sources; local portfolio tests do not validate their availability or live AI behavior. The cloud install/start instructions were saved in the environment configuration draft; publishing that environment is separate from website deployment.
+Offscript was merged into master and deployed by the GitHub Pages workflow. Build and deploy run 39759013466 succeeded for commit 7d54df1. Live HTTPS requests returned 200 for the homepage, assets, Work, Open source, About, Notes, Contact and the Tuktak story; the old homepage was replaced. Browser interaction tests cover the production preview. External application links were preserved from sources; local portfolio tests do not validate their availability or live AI behavior. The cloud install/start instructions were saved in the environment configuration draft; publishing that environment is separate from website deployment.

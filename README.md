@@ -36,7 +36,7 @@ The first four published projects with `featured: true`, sorted by `order`, appe
 
 ## Publish
 
-The GitHub Pages workflow checks PRs and prepares deployment on pushes to `master` or a manual run. Select **GitHub Actions** in repository Settings → Pages first. This task has not changed account settings, pushed commits or deployed the site.
+The GitHub Pages workflow checks PRs and prepares deployment on pushes to `master` or a manual run. Select **GitHub Actions** in repository Settings → Pages first. Offscript is merged into `master` and published at https://tanzilamd.github.io/. New content commits to `master` go through the same checks and deployment workflow.
 
 Canonical origin: `https://tanzilamd.github.io`. If it changes, update `astro.config.mjs`, `public/robots.txt` and generated-link tests. Publish only `dist/`, not source attachments or research.
 
