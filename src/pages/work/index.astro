@@ -1,0 +1,14 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Filters from '../../components/Filters.astro';
+import { projects } from '../../lib/content';
+const all = await projects();
+const categories = [...new Set(all.map((project) => project.data.category))];
+---
+<Layout title="Work" description="Selected products, useful tools and earlier experiments by Tanzil Ahmed. Explore Tuktak, ScopeProof, EngJatra and Choreseed.">
+  <div class="container page-body"><header class="page-heading"><p class="eyebrow">A collection, not a finish line</p><h1>Ideas, made <span class="serif-word">real.</span></h1><p>Products, practical tools and a few things built along the way. Each has a different problem, a different story, and something to learn.</p></header>
+  <Filters options={categories} label="Filter projects by category"/>
+  <div class="work-grid">{all.map((project) => <ProjectCard project={project}/>)}</div>
+  <p class="archive-footnote">Earlier work is part of the story, too. Archived projects may no longer have a running demo.</p></div>
+</Layout>

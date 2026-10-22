@@ -1,0 +1,33 @@
+---
+import Icon from './Icon.astro';
+interface Props { kind: string; compact?: boolean; title?: string; image?: string; imageAlt?: string }
+const { kind, compact = false, title, image, imageAlt } = Astro.props;
+---
+<div class:list={['project-art', `art-${kind}`, { compact, 'art-with-image': !!image }]} aria-hidden={image ? undefined : 'true'}>
+  {image ? <img src={image} alt={imageAlt ?? `${title ?? 'Project'} cover`} loading="lazy" width="1200" height="675"/> : kind === 'tuktak' ? <>
+    <span class="art-caption">A LITTLE CONVERSATION GOES A LONG WAY</span>
+    <div class="tuktak-name" lang="bn">টুকটাক<span class="talk-dot"><Icon name="spark" size={28}/></span></div>
+    <p class="tuktak-tagline" lang="bn">ছোট ছোট কথায়<br/>বড় সংযোগ।</p>
+    <span class="conversation-bubble bubble-one">···</span><span class="conversation-bubble bubble-two">···</span>
+    <svg class="art-scribble" viewBox="0 0 500 250" fill="none"><path d="M-20 200C70 20 150 280 230 110S380 60 520 170" stroke="currentColor" stroke-dasharray="3 7" /></svg>
+  </> : kind === 'scopeproof' ? <>
+    <span class="art-caption">CLARITY BEFORE COMMITMENT</span>
+    <div class="scope-word">Scope<span>Proof.</span></div>
+    <div class="scope-paper"><span>THE NEXT REQUEST</span><div class="paper-line"></div><div class="paper-line short"></div><span class="paper-stamp">Let’s clarify.</span></div>
+    <span class="scope-mark"><Icon name="diagonal" size={88}/></span>
+  </> : kind === 'engjatra' ? <>
+    <span class="art-caption">A LITTLE PRACTICE. A NEW POSSIBILITY.</span>
+    <div class="eng-word">Eng<span>Jatra</span><span class="eng-path"><Icon name="diagonal" size={38}/></span></div>
+    <p class="art-subtitle" lang="bn">শেখার পথে, নিজের গতিতে।</p>
+    <svg class="eng-landscape" viewBox="0 0 600 160" fill="none"><path d="M-20 150Q120-50 260 100T620 80" stroke="currentColor" stroke-width="35" opacity=".1"/><path d="M40 180Q210 0 380 130T650 70" stroke="currentColor" stroke-width="2" /></svg>
+  </> : kind === 'choreseed' ? <>
+    <span class="art-caption">A LITTLE LESS BY HAND.</span>
+    <div class="chore-word">choreseed<span><Icon name="sprout" size={35}/></span></div>
+    <div class="routine"><span>Instructions</span><span>→</span><span>Your routine</span><span>↻</span></div>
+    <div class="seed-lines"></div>
+  </> : <>
+    <span class="art-caption">{kind === 'custom' ? 'AN IDEA, MADE REAL.' : 'FROM THE EARLIER WORK ARCHIVE'}</span>
+    <div class="archive-word">{title ?? (kind === 'cargotab' ? 'Cargotab' : 'Tanzilbot')}<span><Icon name="diagonal" size={32}/></span></div>
+    {kind !== 'custom' && <p class="art-subtitle">{kind === 'cargotab' ? 'Debate meets deployment.' : 'A helping hand for debaters.'}</p>}
+  </>}
+</div>

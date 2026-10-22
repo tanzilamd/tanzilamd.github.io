@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import profile from '../data/profile.json';
+---
+<Layout title="Contact" description="Start a conversation with Tanzil Ahmed about a project, an idea or open-source collaboration.">
+  <div class="container page-body contact-page"><header class="page-heading"><p class="eyebrow">A conversation is a good place to start</p><h1>Something<br/>on your <span class="serif-word">mind?</span></h1><p>A project, a question, or a shared curiosity. Find me in the places where I work and learn in public.</p></header>
+    <div class="contact-layout"><div class="contact-intro"><span class="contact-spark" aria-hidden="true">✳</span><h2>Let’s make<br/>a connection.</h2><p>A little context goes a long way: tell me what you’re working on, what you have in mind, and where I might fit.</p></div><div class="contact-links">{profile.email && <div class="email-contact"><a href={`mailto:${profile.email}`}><span><span class="eyebrow">Direct conversation</span><strong>{profile.email}</strong></span><Icon name="mail" size={28}/></a><button type="button" data-copy-email={profile.email} class="text-link" hidden><Icon name="copy" size={16}/>Copy email</button><p data-copy-status role="status"/></div>}<a href={profile.linkedin} target="_blank" rel="noopener noreferrer"><span><span class="eyebrow">Projects & professional conversations</span><strong>LinkedIn</strong><span>Connect with me</span></span><Icon name="diagonal" size={28}/></a><a href={profile.github} target="_blank" rel="noopener noreferrer"><span><span class="eyebrow">Code, issues & collaboration</span><strong>GitHub</strong><span>Explore what I’m building</span></span><Icon name="diagonal" size={28}/></a><a href={profile.dev} target="_blank" rel="noopener noreferrer"><span><span class="eyebrow">Writing & learning in public</span><strong>DEV Community</strong><span>Follow the thinking behind the work</span></span><Icon name="diagonal" size={28}/></a></div></div>
+  </div>
+</Layout>

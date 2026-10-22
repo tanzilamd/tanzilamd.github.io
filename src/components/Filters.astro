@@ -1,0 +1,9 @@
+---
+interface Props { options: string[]; label: string }
+const { options, label } = Astro.props;
+---
+<div class="filter-bar" data-filter-bar role="group" aria-label={label} hidden>
+  {['All', ...options].map((option) => <button type="button" data-filter={option} aria-pressed={option === 'All' ? 'true' : 'false'}>{option}</button>)}
+</div>
+<p class="filter-empty" data-filter-empty hidden>No entries in this category yet. <button type="button" data-reset-filter>Show all</button></p>
+<p class="sr-only" data-filter-status role="status" aria-live="polite"></p>

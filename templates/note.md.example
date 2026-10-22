@@ -1,0 +1,11 @@
+---
+{
+  "title": "The title of a published article",
+  "summary": "A short original excerpt describing the article.",
+  "date": "2026-10",
+  "platform": "DEV Community",
+  "url": "https://dev.to/your-handle/your-published-article",
+  "tags": ["Building in public"],
+  "draft": true
+}
+---

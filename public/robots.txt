@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tanzilamd.github.io/sitemap.xml

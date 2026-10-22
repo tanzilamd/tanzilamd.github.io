@@ -1,0 +1,15 @@
+---
+{
+  "title": "A clear description of the contribution",
+  "repository": "owner/repository",
+  "summary": "What changed and why it was useful.",
+  "type": "Code",
+  "relationship": "Upstream",
+  "status": "Open",
+  "pr": 123,
+  "url": "https://github.com/owner/repository/pull/123",
+  "featured": false,
+  "order": 20,
+  "draft": true
+}
+---

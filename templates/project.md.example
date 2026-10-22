@@ -1,0 +1,31 @@
+---
+{
+  "title": "My new project",
+  "summary": "The problem this project helps solve.",
+  "category": "Product",
+  "role": "My actual role",
+  "status": "In development",
+  "cover": "custom",
+  "tools": ["TypeScript"],
+  "links": [{"label": "Source on GitHub", "url": "https://github.com/owner/repository"}],
+  "featured": false,
+  "order": 5,
+  "draft": true
+}
+---
+
+## The problem
+
+Who is this for, and what do they need?
+
+## My contribution
+
+Describe what you actually did and credit collaborators and assistance.
+
+## Decisions and trade-offs
+
+Explain the useful choices, not just the tools.
+
+## Where it stands
+
+Describe the current result, limitations and what you learned.

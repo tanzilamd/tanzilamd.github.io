@@ -1,0 +1,20 @@
+---
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Cover from '../../components/Cover.astro';
+import Icon from '../../components/Icon.astro';
+import { projects } from '../../lib/content';
+export async function getStaticPaths() { return (await projects()).map((project) => ({ params: { slug: project.id }, props: { project } })); }
+const { project } = Astro.props;
+const { Content } = await render(project);
+const all = await projects();
+const next = all[(all.findIndex((item) => item.id === project.id) + 1) % all.length];
+---
+<Layout title={project.data.title} description={project.data.summary}>
+  <article class="container project-page"><a class="back-link text-link" href="/work/"><span aria-hidden="true">←</span> All work</a>
+    <header class="project-heading"><p class="eyebrow">{project.data.category} <span class="dot-divider">/</span> {project.data.status}</p><h1>{project.data.title}<span class="accent">.</span></h1><p>{project.data.summary}</p></header>
+    <div class="case-cover"><Cover kind={project.data.cover} title={project.data.title} image={project.data.coverImage} imageAlt={project.data.coverAlt}/></div><p class="art-disclosure">{project.data.coverImage ? (project.data.coverAlt ?? 'Project cover image') : 'Project artwork · Explore the source and links below for the actual product.'}</p>
+    <div class="case-layout"><aside class="project-facts" aria-label="Project details"><div><h2>My role</h2><p>{project.data.role}</p></div><div><h2>Built with</h2><ul class="tool-list">{project.data.tools.map((tool: string) => <li>{tool}</li>)}</ul></div><div><h2>Explore</h2><ul class="project-links">{project.data.links.map((link: { label: string; url: string }) => <li><a href={link.url} target="_blank" rel="noopener noreferrer">{link.label}<Icon name="diagonal" size={16}/></a></li>)}</ul></div>{project.data.note && <p class="project-note">{project.data.note}</p>}</aside><div class="prose"><Content/></div></div>
+    {next && <a class="next-project" href={`/work/${next.id}/`}><div><p class="eyebrow">Another thing I’ve worked on</p><h2>{next.data.title}</h2><p>{next.data.summary}</p></div><Icon name="diagonal" size={36}/></a>}
+  </article>
+</Layout>
