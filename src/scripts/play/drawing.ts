@@ -3,6 +3,7 @@ import type { Activity } from './types';
 type Point = { x: number; y: number };
 type Stroke = { points: Point[]; color: string; size: number; erase: boolean; mirror: boolean };
 const WIDTH = 1000, HEIGHT = 750, MAX_POINTS = 24000, MAX_STROKES = 120;
+const STORAGE_KEY = 'offscript-doodle:v1';
 
 export function mount(panel: HTMLElement): Activity {
   const canvas = panel.querySelector<HTMLCanvasElement>('[data-draw-canvas]')!;
@@ -11,25 +12,70 @@ export function mount(panel: HTMLElement): Activity {
   const ctx = context;
   const abort = new AbortController(), { signal } = abort;
   const undo = panel.querySelector<HTMLButtonElement>('[data-draw-undo]')!;
+  const redo = panel.querySelector<HTMLButtonElement>('[data-draw-redo]')!;
+  const saveNote = panel.querySelector<HTMLElement>('[data-draw-save]')!;
   const empty = panel.querySelector<HTMLElement>('[data-draw-empty]')!;
   const status = panel.querySelector<HTMLElement>('[data-draw-status]')!;
   const cursor = panel.querySelector<HTMLElement>('[data-draw-cursor]')!;
   const eraser = panel.querySelector<HTMLButtonElement>('[data-draw-eraser]')!;
   const mirrorButton = panel.querySelector<HTMLButtonElement>('[data-draw-mirror]')!;
   const palette = [...panel.querySelectorAll<HTMLButtonElement>('[data-draw-color]')];
-  let strokes: Stroke[] = [], cleared: Stroke[] | undefined, current: Stroke | undefined;
+  let strokes: Stroke[] = [], current: Stroke | undefined;
+  let past: Stroke[][] = [], future: Stroke[][] = [];
+  let saveTimer: ReturnType<typeof setTimeout> | undefined;
+  let dirty = false;
   let color = copy.palette[0].value, size = 8, erase = false, mirror = false, active = false;
   let pointer: number | undefined, bounds: DOMRect | undefined, keyboardPen = false;
   let pen: Point = { x: WIDTH / 2, y: HEIGHT / 2 }, promptIndex = -1;
   const clamp = (value: number, max: number) => Math.max(0, Math.min(max, value));
   const totalPoints = () => strokes.reduce((sum, stroke) => sum + stroke.points.length, 0) + (current?.points.length ?? 0);
   function tools() {
-    undo.disabled = strokes.length === 0 && !cleared && !current;
+    undo.disabled = past.length === 0;
+    redo.disabled = future.length === 0;
     empty.hidden = strokes.length > 0 || !!current;
     eraser.setAttribute('aria-pressed', String(erase));
     mirrorButton.setAttribute('aria-pressed', String(mirror));
     panel.querySelector('[data-mirror-label]')!.textContent = mirror ? 'on' : 'off';
     palette.forEach((button) => button.setAttribute('aria-pressed', String(!erase && button.dataset.drawColor === color)));
+  }
+  // Snapshots share immutable finished strokes. Bound history as well as live artwork.
+  function trimHistory() {
+    const points = () => [...past, ...future].reduce((sum, snapshot) => sum + snapshot.reduce((n, stroke) => n + stroke.points.length, 0), 0);
+    while (past.length + future.length > 20 || points() > MAX_POINTS * 3) {
+      if (past.length) past.shift(); else future.shift();
+    }
+  }
+  function checkpoint() { past.push(strokes.slice()); future = []; trimHistory(); }
+  function save() {
+    clearTimeout(saveTimer);
+    if (!dirty) return;
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, strokes }));
+      saveNote.textContent = 'Saved in this tab. Download PNG to keep it.';
+    } catch { saveNote.textContent = 'Tab saving is unavailable. Download PNG before leaving.'; }
+    dirty = false;
+  }
+  function changed() { dirty = true; clearTimeout(saveTimer); saveTimer = setTimeout(save, 150); }
+  function restore() {
+    try {
+      // Check storage availability even before the first stroke.
+      const raw = sessionStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        if (raw.length > 2_000_000) throw new Error('Oversized drawing');
+        const value = JSON.parse(raw);
+        if (value?.version !== 1 || !Array.isArray(value.strokes) || value.strokes.length > MAX_STROKES) throw new Error('Invalid drawing');
+        let points = 0;
+        for (const stroke of value.strokes) {
+          if (!stroke || !/^#[0-9a-f]{6}$/i.test(stroke.color) || !Number.isFinite(stroke.size) || stroke.size < 2 || stroke.size > 28 || typeof stroke.erase !== 'boolean' || typeof stroke.mirror !== 'boolean' || !Array.isArray(stroke.points) || !stroke.points.length) throw new Error('Invalid stroke');
+          points += stroke.points.length;
+          if (points > MAX_POINTS || stroke.points.some((point: Point) => !point || !Number.isFinite(point.x) || !Number.isFinite(point.y) || point.x < 0 || point.x > WIDTH || point.y < 0 || point.y > HEIGHT)) throw new Error('Invalid points');
+        }
+        strokes = value.strokes;
+        if (strokes.length) { past = [[]]; status.textContent = 'Your drawing is back.'; }
+      }
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, strokes }));
+      saveNote.textContent = 'Saved in this tab. Download PNG to keep it.';
+    } catch { saveNote.textContent = 'Tab saving is unavailable. Download PNG before leaving.'; }
   }
   function segment(stroke: Stroke, a: Point, b?: Point) {
     ctx.save();
@@ -65,7 +111,7 @@ export function mount(panel: HTMLElement): Activity {
   }
   function start(point: Point) {
     if (strokes.length >= MAX_STROKES || totalPoints() >= MAX_POINTS) { status.textContent = 'This canvas is full. Undo or clear to keep drawing.'; return false; }
-    cleared = undefined;
+    checkpoint();
     current = { points: [point], color, size, erase, mirror };
     segment(current, point); tools();
     return true;
@@ -77,7 +123,7 @@ export function mount(panel: HTMLElement): Activity {
     current.points.push(point); segment(current, previous, point);
   }
   function finish() {
-    if (current) { strokes.push(current); current = undefined; }
+    if (current) { strokes = [...strokes, current]; current = undefined; changed(); }
     const previousPointer = pointer;
     pointer = undefined; bounds = undefined; keyboardPen = false;
     if (previousPointer !== undefined && canvas.hasPointerCapture(previousPointer)) canvas.releasePointerCapture(previousPointer);
@@ -120,15 +166,28 @@ export function mount(panel: HTMLElement): Activity {
   panel.querySelector<HTMLInputElement>('[data-draw-size]')!.addEventListener('input', (event) => { size = Number((event.target as HTMLInputElement).value); }, { signal });
   eraser.addEventListener('click', () => { finish(); erase = !erase; tools(); }, { signal });
   mirrorButton.addEventListener('click', () => { finish(); mirror = !mirror; tools(); status.textContent = mirror ? 'Mirror on. Every stroke gets a reflection.' : 'Mirror off.'; }, { signal });
-  undo.addEventListener('click', () => {
+  function undoDrawing() {
     finish();
-    if (strokes.length) strokes.pop();
-    else if (cleared) { strokes = cleared; cleared = undefined; }
-    redraw(); tools(); status.textContent = 'Undone.';
+    const previous = past.pop(); if (!previous) return;
+    future.push(strokes); strokes = previous; trimHistory();
+    redraw(); tools(); changed(); status.textContent = 'Undone.';
+  }
+  function redoDrawing() {
+    finish();
+    const next = future.pop(); if (!next) return;
+    past.push(strokes); strokes = next; trimHistory();
+    redraw(); tools(); changed(); status.textContent = 'Redone.';
+  }
+  undo.addEventListener('click', undoDrawing, { signal });
+  redo.addEventListener('click', redoDrawing, { signal });
+  panel.addEventListener('keydown', (event) => {
+    if (!(event.ctrlKey || event.metaKey) || event.altKey || (event.target instanceof HTMLInputElement)) return;
+    const key = event.key.toLowerCase();
+    if (key === 'z' || key === 'y') { event.preventDefault(); if (key === 'y' || event.shiftKey) redoDrawing(); else undoDrawing(); }
   }, { signal });
   panel.querySelector('[data-draw-clear]')!.addEventListener('click', () => {
     finish();
-    if (strokes.length) { cleared = strokes; strokes = []; redraw(); tools(); status.textContent = 'Canvas cleared. Undo brings it back.'; }
+    if (strokes.length) { checkpoint(); strokes = []; redraw(); tools(); changed(); status.textContent = 'Canvas cleared. Undo brings it back.'; }
   }, { signal });
   panel.querySelector('[data-draw-star]')!.addEventListener('click', () => {
     finish(); erase = false; tools();
@@ -156,6 +215,6 @@ export function mount(panel: HTMLElement): Activity {
   panel.querySelectorAll<HTMLFieldSetElement>('[data-play-controls]').forEach((fieldset) => { fieldset.disabled = false; });
   panel.querySelector<HTMLButtonElement>('[data-draw-prompt-button]')!.disabled = false;
   const resize = new ResizeObserver(measure); resize.observe(canvas);
-  measure(); tools();
-  return { setActive(value) { active = value; if (active) measure(); else { finish(); cursor.hidden = true; } }, destroy() { active = false; finish(); resize.disconnect(); abort.abort(); } };
+  restore(); measure(); redraw(); tools();
+  return { setActive(value) { active = value; if (active) measure(); else { finish(); save(); cursor.hidden = true; } }, destroy() { active = false; finish(); save(); resize.disconnect(); abort.abort(); } };
 }

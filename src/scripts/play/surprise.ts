@@ -24,7 +24,7 @@ export function mount(panel: HTMLElement): Activity {
     effectVersion++;
     clearTimeout(cleanupTimer);
     animations.forEach((animation) => animation.cancel()); animations.clear();
-    stage.querySelectorAll('[data-confetti]').forEach((element) => element.remove());
+    stage.querySelectorAll('[data-confetti], [data-press-bubble]').forEach((element) => element.remove());
     note.style.removeProperty('transform'); duck.style.removeProperty('left');
     note.textContent = 'Everything is under control.';
     quiet();
@@ -70,6 +70,13 @@ export function mount(panel: HTMLElement): Activity {
         particle.style.background = colors[index % colors.length]; stage.append(particle);
         const x = (Math.random() - .5) * Math.min(stage.clientWidth - 32, 650);
         animate(particle, [{ opacity: 0, transform: 'translate(0,0) rotate(0)' }, { opacity: 1, transform: `translate(${x * .6}px,-70px) rotate(90deg)`, offset: .3 }, { opacity: 0, transform: `translate(${x}px,230px) rotate(${index * 29}deg)` }], 1100);
+      }
+    }
+    if (effect === 'bubbles') {
+      for (let index = 0; index < (preference.matches ? 3 : 12); index++) {
+        const bubble = document.createElement('span'); bubble.className = 'press-bubble'; bubble.dataset.pressBubble = ''; bubble.setAttribute('aria-hidden', 'true');
+        bubble.style.left = `${10 + Math.random() * 80}%`; bubble.style.top = `${12 + Math.random() * 60}%`; stage.append(bubble);
+        if (!preference.matches) animate(bubble, [{ opacity: 0, transform: 'translateY(35px) scale(.4)' }, { opacity: .8, transform: 'translateY(0) scale(1)', offset: .35 }, { opacity: 0, transform: 'translateY(-100px) scale(1.15)' }], 1400);
       }
     }
     if (effect === 'duck') {

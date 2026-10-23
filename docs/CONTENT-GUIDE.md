@@ -152,14 +152,15 @@ Browser ও authoring tests একসঙ্গে চালাবেন না; 
 
 ## Play page বদলানো
 
-Footer-এর **Take a little break** থেকে `/play/` খুলবে। Play-এর content বদলাতে শুধু `src/data/play.json` edit করুন:
+Footer-এর আলাদা **Take a little break** card থেকে `/play/` খুলবে। Card-এ click করলে প্রতিটি game নিজের page-এ খুলবে: `/play/playground/`, `/play/drawing-pad/`, `/play/do-not-press/`। Play-এর content বদলাতে শুধু `src/data/play.json` edit করুন:
 
 - `headline`, `headlineAccent`, `intro`: page-এর শুরুর লেখা।
 - `activities`: তিনটি card-এর title, label, description ও action text। `id` (`playground`, `draw`, `button`) অপরিবর্তিত রাখুন—এগুলো shareable URL ও controls-এর সঙ্গে যুক্ত।
 - `prompts`: drawing-এর **Give me a prompt** button-এর লেখা। Array-তে নতুন quoted sentence যোগ করতে পারেন; অন্তত একটি রাখুন।
 - `palette`: drawing-এর রঙের নাম ও `#RRGGBB` value। অন্তত একটি রং রাখুন।
-- `reactions`: button-এর message, caption ও effect। সমর্থিত effect: `balloon`, `flip`, `confetti`, `duck`। অন্তত একটি reaction রাখুন; page-এর আসল লেখা বা portfolio নষ্ট হয় না।
+- `pocket.label`: সব page-এর ছোট fixed **✦** button-এর accessible label/tooltip। `pocket.messages`: duck, bubbles, stars-এর তিনটি message—এই ক্রমে ঠিক তিনটি রাখুন। এগুলো page না বদলিয়েই দেখা যায়।
+- `reactions`: **Do not press** game-এর message, caption ও effect। সমর্থিত effect: `balloon`, `flip`, `confetti`, `duck`, `bubbles`। অন্তত একটি reaction রাখুন; page-এর আসল লেখা বা portfolio নষ্ট হয় না।
 
 উদাহরণ: নতুন drawing prompt দিতে `prompts`-এ `"Draw a tiny moon with a garden."` যোগ করুন। প্রতিটি item-এর মাঝে comma লাগবে; JSON-এ শেষ item-এর পরে comma দেবেন না। Build-এ খালি list, ভুল color বা unsupported effect ধরা পড়বে; invalid content live হবে না। Commit করলে স্বাভাবিক master deployment চলবে।
 
-Drawing browser-এর চলতি page-এ থাকে; অন্য activity খুলে ফিরলে পাওয়া যায়। Reload বা page ছেড়ে গেলে রাখতে চাইলে আগে **Download PNG** ব্যবহার করুন। কোনো drawing server-এ পাঠানো বা gallery-তে প্রকাশ করা হয় না।
+Drawing চলতি browser tab-এর `sessionStorage`-এ থাকে; একই tab-এ game বদলে বা normal reload করে ফিরলে পাওয়া যাবে। Tab/session শেষ হলে browser এটি সরিয়ে দিতে পারে; স্থায়ীভাবে রাখতে **Download PNG** ব্যবহার করুন। Browser storage বন্ধ থাকলে reminder দেখাবে, drawing/export তবুও কাজ করবে। Undo/Redo buttons বা Ctrl/Cmd+Z ও Ctrl/Cmd+Shift+Z ব্যবহার করা যায়। History সীমিত এবং reload-এ পুরো undo history রাখা হয় না। কোনো drawing server-এ পাঠানো বা gallery-তে প্রকাশ করা হয় না।

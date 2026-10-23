@@ -1,4 +1,5 @@
 import './motion';
+import './pocket';
 
 const root = document.documentElement;
 const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');

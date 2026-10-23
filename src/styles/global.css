@@ -35,7 +35,7 @@
   --selection: #f3ccb8;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 32px; scrollbar-gutter: stable; }
+html { scroll-behavior: smooth; scroll-padding-top: 32px; scroll-padding-bottom: 88px; scrollbar-gutter: stable; }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 ::selection { background: var(--selection); color: var(--text); }
 [hidden] { display: none !important; }
@@ -431,15 +431,37 @@ h2 { font-size: clamp(30px, 3vw, 40px); font-weight: 600; line-height: 1.2; lett
 .footer-heading svg { position: absolute; right: 0; bottom: 8px; color: var(--accent); }
 .footer-heading:hover > span { text-decoration: underline; }
 .footer-top > p { font-size: 13px; line-height: 1.9; color: var(--muted); }
-.footer-bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding-block: 24px; }
+.footer-bottom { display: grid; grid-template-columns: 1fr auto minmax(250px, 320px); align-items: center; gap: 36px; padding-block: 32px 100px; }
+.footer-identity { display: grid; gap: 10px; }
 .footer-top + .footer-bottom { border-top: 1px solid var(--line); }
-.footer-wordmark { font-size: 11px; }
+.footer-wordmark { font-size: 14px; }
 .social-links { display: flex; gap: 24px; }
 .social-links a { display: inline-flex; gap: 6px; align-items: center; min-height: 44px; font-size: 12px; color: var(--muted); }
 .social-links a:hover { color: var(--text); }
 .footer-signoff { color: var(--quiet); font-size: 11px; }
-.footer-play { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--accent); font-size: 12px; }
-.footer-play:hover { text-decoration: underline; }
+.footer-play { display: flex; align-items: center; gap: 14px; min-height: 82px; padding: 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.footer-play > span:nth-child(2) { flex: 1; }
+.footer-play strong { display: block; font-size: 13px; font-weight: 650; }
+.footer-play small { display: block; font-size: 11px; color: var(--muted); margin-top: 4px; }
+.footer-play-icon, .footer-play > svg { color: var(--accent); }
+.footer-play:hover { border-color: var(--accent); }
+@media (min-width: 800px) and (max-width: 1000px) { .footer-bottom { grid-template-columns: 1fr 1fr; gap: 24px; } .footer-bottom > .social-links { justify-self: end; } .footer-play { grid-column: 1 / -1; max-width: 360px; } }
+/* A fixed, quiet invitation. Its decorative stage cannot intercept page input. */
+.pocket-surprise { position: fixed; z-index: 30; right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); }
+.pocket-button { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: var(--surface-raised); color: var(--accent); box-shadow: 0 3px 14px #00000018; font-size: 28px; line-height: 1; }
+.pocket-button:hover { border-color: var(--accent); }
+.pocket-button:active > span { transform: scale(.88); }
+.pocket-scene { position: absolute; width: min(260px, calc(100vw - 40px)); height: 190px; right: 0; bottom: 72px; overflow: hidden; pointer-events: none; }
+.pocket-duck { position: absolute; right: 50px; bottom: 28px; width: 95px; height: 80px; }
+.pocket-bubble { position: absolute; width: 25px; height: 25px; border: 2px solid var(--accent); border-radius: 50%; background: var(--surface); }
+.pocket-star { position: absolute; color: var(--accent); font-size: 24px; line-height: 1; }
+.pocket-message, .pocket-hint { position: absolute; right: 0; bottom: 62px; width: max-content; max-width: min(260px, calc(100vw - 40px)); border: 1px solid var(--line); border-radius: 9px; padding: 10px 14px; color: var(--text); background: var(--surface-raised); font-size: 12px; line-height: 1.6; pointer-events: none; }
+.pocket-message:empty { display: none; }
+.pocket-hint { visibility: hidden; }
+.pocket-button:is(:hover, :focus-visible) ~ .pocket-hint { visibility: visible; }
+.pocket-surprise:has(.pocket-message:not(:empty)) .pocket-hint { visibility: hidden; }
+.photo-viewer-open .pocket-surprise, body:has([data-menu-toggle][aria-expanded='true']) .pocket-surprise, body:has([data-play-panel]:focus-within) .pocket-surprise { visibility: hidden; }
+
 .not-found { padding-block: 96px 120px; }
 .not-found > .eyebrow { margin-bottom: 24px; }
 .not-found > p:not(.eyebrow) { max-width: 480px; margin-top: 24px; font-size: 16px; color: var(--muted); }
@@ -568,7 +590,8 @@ h2 { font-size: clamp(30px, 3vw, 40px); font-weight: 600; line-height: 1.2; lett
   .footer-top { align-items: flex-start; flex-direction: column; gap: 24px; padding-block: 36px; }
   .footer-heading { font-size: 28px; }
   .footer-top > p br { display: none; }
-  .footer-bottom { gap: 8px 24px; padding-block: 18px; }
+  .footer-bottom { grid-template-columns: 1fr; gap: 20px; padding-block: 28px 100px; }
+  .footer-play { width: 100%; max-width: 380px; }
   .footer-signoff { width: 100%; }
   .not-found { padding-block: 64px 80px; }
 }
@@ -692,7 +715,7 @@ h2 { font-size: clamp(30px, 3vw, 40px); font-weight: 600; line-height: 1.2; lett
 }
 @media print {
   :root, :root[data-theme='light'] { --bg: #fff; --text: #111; --muted: #333; --quiet: #444; --surface: #f5f5f5; --surface-raised: #fff; --line: #bbb; --accent: #74321f; }
-  .site-header, .site-footer, .filter-bar, .hero-actions, .article-end, .reading-progress, .hero-type-caret { display: none; }
+  .site-header, .site-footer, .pocket-surprise, .filter-bar, .hero-actions, .article-end, .reading-progress, .hero-type-caret { display: none; }
   .hero-type-text { clip-path: none !important; }
   .container { width: 100%; }
   .hero { padding-top: 0; }

@@ -3,12 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import copy from '../lib/play';
 import '../styles/play.css';
+import { playRoutes } from '../lib/play-routes';
 ---
 <Layout title="Play" description="A little break: an interactive shape playground, a drawing pad, and one button you probably shouldn't press.">
   <div class="container page-body play-page" data-play-page>
     <header class="page-heading play-heading"><p class="eyebrow">A little break</p><h1>{copy.headline}<br/><span class="serif-word">{copy.headlineAccent}</span></h1><p>{copy.intro}</p></header>
     <div class="play-choices" aria-label="Choose an activity">
-      {copy.activities.map((activity) => <a class={`play-choice choice-${activity.id}`} href={`#${activity.id}`} data-play-choice={activity.id} aria-controls={activity.id}>
+      {copy.activities.map((activity) => <a class={`play-choice choice-${activity.id}`} href={playRoutes[activity.id]} id={activity.id} data-play-choice={activity.id}>
         <div class={`play-choice-art preview-${activity.id}`} aria-hidden="true">
           {activity.id === 'playground' ? <><span class="preview-circle"/><span class="preview-square"/><span class="preview-star"/><span class="preview-orbit"/></> : activity.id === 'draw' ? <><svg viewBox="0 0 300 180" fill="none"><path d="M35 125C60 25 95 150 125 72S170 40 170 92s55 42 80-42" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path d="m233 112 7 14 16 3-12 11 2 16-13-7-15 7 3-16-11-11 16-3Z" stroke-width="3" stroke="currentColor"/></svg><span class="preview-pencil"/></> : <><span class="preview-press">DO NOT<br/>PRESS<span/></span><span class="preview-warning">!</span></>}
           <span class="play-choice-number">{activity.number}</span>
@@ -18,30 +19,6 @@ import '../styles/play.css';
     </div>
     <p class="play-page-note">Small experiments, just for fun. Nothing to sign up for.</p>
     <noscript><p class="play-fallback">These interactive activities need JavaScript. You can still explore the <a href="/work/">projects</a>, <a href="/beyond/">photos</a> and <a href="/notes/">writing</a>.</p></noscript>
-    <section class="play-workspace" data-play-workspace hidden aria-labelledby="play-workspace-title">
-      <div class="play-workspace-header"><div><p class="eyebrow" data-workspace-label></p><h2 id="play-workspace-title" tabindex="-1" data-workspace-title></h2></div><button type="button" class="text-link play-back" data-play-close><span aria-hidden="true">←</span> All activities</button></div>
-      <p class="play-load-status" data-play-load role="status"></p><button class="button button-secondary" data-play-retry hidden type="button">Try again</button>
-      <div class="play-panel" id="playground" data-play-panel="playground" hidden>
-        <fieldset class="play-toolbar" disabled data-play-controls><legend class="sr-only">Playground controls</legend><button class="play-control" type="button" data-physics-add>Add a shape <span aria-hidden="true">+</span></button><button class="play-control" type="button" data-physics-gravity aria-pressed="true">Gravity <span data-gravity-label>on</span></button><button class="play-control" type="button" data-physics-pause aria-pressed="false">Pause</button><button class="play-control" type="button" data-physics-reset>Reset</button><span class="play-toolbar-note" data-physics-count></span></fieldset>
-        <div class="physics-stage" data-physics-stage role="group" aria-label="Interactive shapes" aria-describedby="physics-help"></div>
-        <div class="play-panel-footer"><p id="physics-help">Drag a shape and let it go. With a keyboard, focus a shape and use the arrow keys.</p><p role="status" data-physics-status></p></div>
-      </div>
-      <div class="play-panel" id="draw" data-play-panel="draw" hidden>
-        <fieldset class="play-toolbar draw-toolbar" disabled data-play-controls><legend class="sr-only">Drawing tools</legend><div class="draw-palette" role="group" aria-label="Ink colors">{copy.palette.map((color, index) => <button class="draw-swatch" type="button" style={`--swatch:${color.value}`} aria-label={color.name} aria-pressed={index === 0} data-draw-color={color.value}><span/><Icon name="check" size={16}/></button>)}</div><label class="draw-size">Brush <input type="range" min="2" max="28" value="8" data-draw-size aria-label="Brush size"/></label><button class="play-control" type="button" data-draw-eraser aria-pressed="false">Eraser</button><button class="play-control" type="button" data-draw-mirror aria-pressed="false">Mirror <span data-mirror-label>off</span></button></fieldset>
-        <div class="draw-prompt-row"><p data-draw-prompt>What will you make?</p><button class="text-link" type="button" data-draw-prompt-button disabled>Give me a prompt <Icon name="spark" size={16}/></button></div>
-        <div class="draw-paper" data-draw-paper><canvas width="1000" height="750" tabindex="0" role="group" aria-label="Drawing canvas" aria-describedby="drawing-help" data-draw-canvas>Your browser needs canvas support for drawing.</canvas><span class="draw-empty" data-draw-empty aria-hidden="true">A good place for<br/><em>a wonderfully bad drawing.</em></span><span class="draw-pen-cursor" data-draw-cursor hidden aria-hidden="true"/></div>
-        <fieldset class="play-toolbar draw-actions" disabled data-play-controls><legend class="sr-only">Drawing actions</legend><button class="play-control" type="button" data-draw-undo disabled>Undo</button><button class="play-control" type="button" data-draw-clear>Clear</button><button class="play-control" type="button" data-draw-star>Add a star</button><button class="button button-primary" type="button" data-draw-download>Download PNG <Icon name="arrow" size={17}/></button></fieldset>
-        <div class="play-panel-footer"><p id="drawing-help">Draw with a mouse, touch or pen. Keyboard: focus the canvas, use arrows to move, Space to lower/lift the pen, Escape to lift. Your drawing stays here while switching activities; download it before leaving or reloading.</p><p role="status" data-draw-status></p></div>
-      </div>
-      <div class="play-panel" id="button" data-play-panel="button" hidden>
-        <div class="press-topline"><p>One button. One very clear instruction.</p><fieldset class="press-options" disabled data-play-controls><legend class="sr-only">Surprise controls</legend><label><input type="checkbox" data-press-sound/> Sound</label><button class="play-control" type="button" data-press-reset>Reset</button></fieldset></div>
-        <div class="press-stage" data-press-stage>
-          <div class="press-decoration" aria-hidden="true" data-press-decoration><span class="press-note" data-press-note>Everything is under control.</span><svg class="press-duck" data-press-duck viewBox="0 0 120 100"><path d="M20 55c-8 0-15 7-15 16 0 18 20 25 44 25 23 0 46-9 46-30l-9-15c10-5 17-17 12-29C92 3 63 6 59 25c-2 10 2 18 9 24-17 0-26 10-35 10Z" fill="#f4cb70"/><path d="m92 29 24 9-22 9Z" fill="#ed906b"/><circle cx="84" cy="25" r="3.5" fill="#25383e"/><path d="M28 69c12 11 30 12 42 0" fill="none" stroke="#bd852c" stroke-width="3" stroke-linecap="round"/></svg></div>
-          <button type="button" class="do-not-press" data-press-button disabled><span data-press-face>Do not<br/>press<span class="press-button-dot" aria-hidden="true"/></span></button>
-          <p class="press-message" role="status" data-press-message>Tempting, isn't it?</p><p class="press-caption" data-press-caption>Nothing has happened. So far.</p><span class="press-count" data-press-count>0 presses</span>
-        </div>
-      </div>
-    </section>
   </div>
-  <script src="../scripts/play/index.ts"></script>
+  <script src="../scripts/play/legacy.ts"></script>
 </Layout>

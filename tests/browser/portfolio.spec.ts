@@ -96,7 +96,7 @@ test('mobile menu supports keyboard, escape and route navigation', async ({ page
 
 test('responsive layouts fit both themes at representative widths', async ({ page }) => {
   test.setTimeout(90_000);
-  const allRoutes = [...routes, '/work/scopeproof/', '/work/engjatra/', '/work/cargotab/', '/work/tanzilbot/', '/404.html'];
+  const allRoutes = [...routes, '/play/playground/', '/play/drawing-pad/', '/play/do-not-press/', '/work/scopeproof/', '/work/engjatra/', '/work/cargotab/', '/work/tanzilbot/', '/404.html'];
   for (const width of [320, 360, 390, 768, 800, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const theme of ['dark', 'light']) {

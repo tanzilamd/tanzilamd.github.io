@@ -1,27 +1,20 @@
-# Play page implementation plan
+# Play and corner-surprise implementation plan
 
-## Scope and presentation
+## Approved scope
 
-Add `/play/` as an optional, self-contained break from the portfolio, reached by a footer link. Keep the existing navigation, identity, project priorities, equal activity frames and content intact. Three illustrated choice cards open one workspace at a time; shareable hashes and browser back/forward work. Keep the page within Offscript's dark/light tokens. Controls remain usable at 320px and with keyboard focus.
+Keep Offscript's identity, owner content and equal activity photos intact. Make the footer's Play invitation a clear, separate card. Give Playground, Drawing pad and Do not press individual static pages, reached by native choice links. Add a fixed corner ✦ button whose small silent surprise happens on the current page. No new packages, accounts, uploads or backend.
 
-## Activities
+## Architecture and experience
 
-1. **Playground:** bounded, dependency-free 2D shapes; drag/throw, keyboard nudges, gravity, pause/resume, add and reset. Limit shape count. Pause animation when hidden, offscreen, inactive or motion is reduced; let settled shapes sleep. Reduced-motion users can arrange shapes manually.
-2. **Drawing pad:** responsive, high-resolution paper canvas; brush palette/size, eraser, undo, reversible clear, mirrored strokes, drawing prompts, keyboard pen controls and a star stamp, PNG download with paper background. Preserve normalized artwork through resizing and activity changes. Bound history/point counts; do not run an idle rendering loop. Drawing stays in memory in the current page; leaving/reloading does not save it.
-3. **Do not press:** a stable native button with bounded balloon, upside-down decoration, confetti and duck reactions. Keep the real message readable and announce it politely. Rapid presses replace the previous effect. Reset restores the initial state. Sound is off by default and uses short synthesized notes only after explicit opt-in. Reduced motion shows static reactions and messages.
-
-## Architecture and lifecycle
-
-- Store editable page copy, prompts, palette and reaction messages in `src/data/play.json`.
-- Use a route-specific controller and lazy activity imports; never include activity engines in the shared site entry.
-- Native links provide discoverable descriptions without JavaScript. Disable game controls until initialization and provide honest no-JavaScript/unsupported-browser messaging.
-- Keep activity state while switching, but run only the selected activity. Cancel pointer capture, frames, effects and audio on deactivation, backgrounding or navigation. No backend, tracking, uploads, external assets, persistent drawings or new packages.
-- Use canvas only where useful (drawing). Physics uses bounded DOM shapes; surprise effects stay inside their workspace. Never animate or rewrite the actual portfolio.
+- `/play/` contains three illustrated choices; `/play/playground/`, `/play/drawing-pad/` and `/play/do-not-press/` render one activity each. Native back/other-game links support navigation. Preserve old hash bookmarks, including same-document hash changes.
+- Keep editable headings/cards/prompts/colors/game and corner messages in `src/data/play.json`, validated during build. Keep public route mapping in `src/lib/play-routes.ts` so editing copy does not change URLs.
+- Load game CSS/bootstrap on Play routes only and lazy-import only the current engine. Global corner bootstrap imports its separate effect engine only after a click. Disable controls until initialized; provide retry/unsupported and no-JavaScript messages without breaking navigation.
+- Playground: at most 16 shapes; drag/throw, keyboard nudges, gravity, pause, add/reset and Shuffle. Bounded frame steps; stop when settled, offscreen, backgrounded or inactive. Reduced motion supports manual arrangement.
+- Drawing: capped high-DPI 4:3 canvas with normalized vectors, colors/brush/eraser/mirror, prompts, keyboard pen, star stamp, Undo/Redo, reversible clear and opaque PNG export. Bound live artwork/history. Validate and recover artwork from the current tab's session on navigation/reload; flush pending saves on exit. Storage restrictions fall back to drawing/export with a reminder. Reload need not preserve full history; PNG is the lasting copy.
+- Do not press: stable real button, bounded balloon/flip/confetti/duck/bubble decorations, repeat messages and reset. Replace effects on rapid input, stop them/audio offscreen/backgrounded, and keep sound opt-in. Reduced motion stays static/readable.
+- Corner surprise: stable 48px bottom-right control, safe-area spacing, small pointer-transparent decorative stage, polite short feedback and tooltip. Cycle duck/bubbles/stars; at most 12 particles and under three seconds. Never move the actual page, steal focus or make sound. Escape/background/navigation clean up; reduced motion uses static decorations. Hide during gallery/mobile navigation and focused game interaction.
+- Footer: identity/copyright, social profiles and Play card in a responsive grid, with reserved lower spacing for the corner control.
 
 ## Completion checks
 
-Run repository check/build/output/authoring checks, then the browser suite. Add meaningful checks for all three journeys: deep links/back navigation, physics pause/reduced motion, touch dragging, drawing/undo/mirror/resize/export, rapid surprise presses/reset/sound opt-in, keyboard accessibility, no-JavaScript fallback and dark/light/mobile overflow. Verify page-only script loading and inspect real desktop/mobile screenshots. Keep README previews, UI/content documentation, release and verification records in sync before publishing to master; report the actual deployment state.
-
-## Completion record
-
-Implemented and checked on the production preview. The current build has 16 static HTML pages; type checks, six output/content checks, authoring checks and all 62 browser checks passed. Desktop/mobile previews and maintenance instructions are included. See [verification](VERIFICATION.md) for scope and publication status.
+Run check, build, output/content tests, authoring tests and browser tests sequentially where build fixtures are involved. Cover native routes/back/legacy hashes, game controls, touch/keyboard, recovery/blocked/corrupt storage, actual PNG bytes, reduced motion, rapid input, lazy loading, error recovery, dark/light accessibility and 19-route responsive overflow. Inspect real desktop/mobile screenshots in both themes. Sync README, guides, previews and release/verification notes before publishing master, then report actual deployment status. Actual results belong in [verification](VERIFICATION.md).

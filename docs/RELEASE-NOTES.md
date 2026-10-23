@@ -4,6 +4,14 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 24 dedicated games, footer and corner surprises
+
+- Reorganized the footer into identity, social and dedicated Play groups, with consistent desktop/tablet/mobile spacing.
+- Added a fixed 48px ✦ control for same-page duck/bubble/star surprises. Its engine loads on first click; effects are bounded, silent, cancelable and reduced-motion aware. It hides during modal navigation/photo viewing and focused game interaction.
+- Moved the three games to individual static URLs with native back/other-game links and compatible legacy hash redirects. Only the current engine loads.
+- Added Playground Shuffle, Drawing Undo/Redo and keyboard shortcuts, validated tab-session artwork recovery, storage-failure feedback and additional Do not press bubble/repeat reactions. PNG remains the lasting-copy option; drawings never leave the browser.
+- Updated maintenance guides, README previews, sitemap and browser coverage alongside the implementation. No new packages, backend or changes to owner content.
+
 ## October 24 Play page
 
 - Added an optional `/play/` page through the footer's “Take a little break” link. Three illustrated cards open a single workspace, with direct hash links, back/forward navigation, focus restoration and readable no-JavaScript descriptions.

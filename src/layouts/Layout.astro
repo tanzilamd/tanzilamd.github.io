@@ -5,6 +5,7 @@ import '@fontsource/hind-siliguri/600.css';
 import '../styles/global.css';
 import profile from '../data/profile.json';
 import Icon from '../components/Icon.astro';
+import PocketSurprise from '../components/PocketSurprise.astro';
 interface Props { title?: string; description?: string; noindex?: boolean; article?: { published: string; updated?: string; genre: string } }
 const { title, description = profile.description, noindex = false, article } = Astro.props;
 const pageTitle = title ? `${title} — ${profile.name}` : profile.siteTitle;
@@ -58,8 +59,13 @@ const [firstName, ...restName] = profile.name.split(' ');
     <main id="main" tabindex="-1"><slot/></main>
     <footer class="site-footer container">
       {path !== '/contact/' && <div class="footer-top"><a class="footer-heading" href="/contact/">Have a project or an idea?<br/><span>Let’s talk.</span><Icon name="diagonal" size={32}/></a><p>Open to collaborations,<br/>new ideas, and learning opportunities.</p></div>}
-      <div class="footer-bottom"><a class="wordmark footer-wordmark" href="/">{profile.name}<span class="wordmark-dot">.</span></a><div class="social-links">{profile.socialLinks.map((link) => <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label} <Icon name="diagonal" size={14}/></a>)}</div><a class="footer-play" href="/play/" aria-current={path === '/play/' ? 'page' : undefined}>Take a little break <Icon name="spark" size={14}/></a><span class="footer-signoff">Made with curiosity. © {new Date().getFullYear()}</span></div>
+      <div class="footer-bottom">
+        <div class="footer-identity"><a class="wordmark footer-wordmark" href="/">{profile.name}<span class="wordmark-dot">.</span></a><p class="footer-signoff">Made with curiosity. © {new Date().getFullYear()}</p></div>
+        <nav class="social-links" aria-label="Social profiles">{profile.socialLinks.map((link) => <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label} <Icon name="diagonal" size={14}/></a>)}</nav>
+        <a class="footer-play" href="/play/" aria-current={path === '/play/' ? 'page' : undefined}><span class="footer-play-icon" aria-hidden="true"><Icon name="spark" size={22}/></span><span><strong>Take a little break</strong><small>Move, draw, or press your luck.</small></span><Icon name="arrow" size={18}/></a>
+      </div>
     </footer>
+    <PocketSurprise/>
     <script src="../scripts/site.ts"></script>
   </body>
 </html>

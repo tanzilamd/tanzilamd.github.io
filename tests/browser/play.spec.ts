@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import copy from '../../src/data/play.json' with { type: 'json' };
 
 async function open(page: Page, activity: string) {
   await page.locator(`[data-play-choice="${activity}"]`).click();
@@ -21,7 +22,7 @@ for (const theme of ['dark', 'light']) {
     await page.goto('/play/');
     for (const activity of ['playground', 'draw', 'button']) {
       await open(page, activity);
-      await expect(page.locator('#play-workspace-title')).toBeFocused();
+      await expect(page.locator('h1')).toHaveCount(1);
       if (activity === 'playground') await page.locator('[data-physics-pause]').click();
       const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22a', 'wcag22aa']).analyze();
       expect(results.violations).toEqual([]);
@@ -39,12 +40,12 @@ test('Play supports footer discovery, deep links, back navigation and retained a
   const drawing = await page.locator('[data-draw-canvas]').evaluate((element) => (element as HTMLCanvasElement).toDataURL());
   await open(page, 'button');
   await page.goBack();
-  await expect(page).toHaveURL('/play/#draw');
+  await expect(page).toHaveURL('/play/drawing-pad/');
   await expect(page.locator('[data-draw-star]')).toBeEnabled();
   expect(await page.locator('[data-draw-canvas]').evaluate((element) => (element as HTMLCanvasElement).toDataURL())).toBe(drawing);
   await page.locator('[data-play-close]').click();
-  await expect(page.locator('[data-play-workspace]')).toBeHidden();
-  await expect(page.locator('[data-play-choice="draw"]')).toBeFocused();
+  await expect(page).toHaveURL('/play/');
+  await expect(page.locator('[data-play-choice="draw"]')).toHaveAttribute('href', '/play/drawing-pad/');
   await page.goto('/play/#button');
   await expect(page.locator('[data-press-button]')).toBeEnabled();
 });
@@ -67,6 +68,9 @@ test('physics can pause, arrange with keyboard, cap shapes and reset under reduc
   await expect(page.locator('[data-physics-gravity]')).toHaveAttribute('aria-pressed', 'false');
   await page.locator('[data-physics-reset]').click();
   await expect(page.locator('.physics-shape')).toHaveCount(8);
+  const arrangement = await shape.getAttribute('style');
+  await page.locator('[data-physics-shuffle]').click();
+  expect(await shape.getAttribute('style')).not.toBe(arrangement);
 });
 
 test('physics stops on pause, activity changes and offscreen scrolling', async ({ page }) => {
@@ -80,7 +84,9 @@ test('physics stops on pause, activity changes and offscreen scrolling', async (
   await page.waitForTimeout(120);
   expect(await page.locator('.physics-shape').evaluateAll((elements) => elements.map((element) => (element as HTMLElement).style.transform))).toEqual(positions);
   await page.locator('[data-physics-pause]').click();
-  await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+  await page.setViewportSize({ width: 1280, height: 360 });
+  await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+  await expect.poll(() => page.locator('[data-physics-stage]').evaluate((stage) => stage.getBoundingClientRect().bottom)).toBeLessThan(0);
   await page.waitForTimeout(100);
   const offscreen = await page.locator('.physics-shape').evaluateAll((elements) => elements.map((element) => (element as HTMLElement).style.transform));
   await page.waitForTimeout(120);
@@ -112,6 +118,9 @@ test('drawing supports mirrored strokes, erasing, undo, clear recovery, resizing
   expect(await alphaAt(page, .27, .4)).toBe(0);
   await page.locator('[data-draw-undo]').click();
   expect(await alphaAt(page, .27, .4)).toBeGreaterThan(0);
+  await page.locator('[data-draw-redo]').click();
+  expect(await alphaAt(page, .27, .4)).toBe(0);
+  await page.locator('[data-draw-undo]').click();
   await page.locator('[data-draw-clear]').click();
   expect(await alphaAt(page, .27, .4)).toBe(0);
   await page.locator('[data-draw-undo]').click();
@@ -159,11 +168,11 @@ test('surprises support rapid presses, bounded effects and reset without changin
   await button.evaluate((element) => { for (let index = 0; index < 13; index++) (element as HTMLButtonElement).click(); });
   await expect(page.locator('[data-press-count]')).toHaveText('13 presses');
   expect(await page.locator('[data-confetti]').count()).toBeLessThanOrEqual(18);
-  await expect(page.locator('[data-press-message]')).toContainText('zero instructions');
+  await expect(page.locator('[data-press-message]')).toHaveText(copy.reactions[12 % copy.reactions.length].message);
   await page.locator('[data-press-reset]').click();
   await expect(page.locator('[data-press-count]')).toHaveText('0 presses');
   await expect(page.locator('[data-confetti]')).toHaveCount(0);
-  await expect(page.locator('h1')).toContainText('A little room');
+  await expect(page.locator('h1')).toContainText('Do not press');
 });
 
 test('sound is opt-in and reduced-motion surprises remain usable without animation', async ({ page }) => {
@@ -201,6 +210,7 @@ test('real touch dragging moves shapes and draws on a mobile canvas', async ({ b
     await drag(box!.x + box!.width / 2, box!.y + box!.height / 2, 45, 50);
     expect((await shape.boundingBox())!.x).toBeGreaterThan(box!.x + 20);
     await open(page, 'draw');
+    await page.locator('[data-draw-canvas]').scrollIntoViewIfNeeded();
     const canvas = await page.locator('[data-draw-canvas]').boundingBox();
     await drag(canvas!.x + canvas!.width * .3, canvas!.y + canvas!.height * .4, 40, 20);
     await expect(page.locator('[data-draw-undo]')).toBeEnabled();
@@ -213,7 +223,12 @@ test('Play remains readable without JavaScript and handles an unavailable canvas
     const noJs = await context.newPage(); await noJs.goto('http://127.0.0.1:4321/play/');
     await expect(noJs.locator('.play-fallback')).toContainText('need JavaScript');
     await expect(noJs.locator('.play-choice')).toHaveCount(3);
-    await expect(noJs.locator('[data-play-workspace]')).toBeHidden();
+    await expect(noJs.locator('[data-pocket]')).toBeHidden();
+    await expect(noJs.locator('[data-play-workspace]')).toHaveCount(0);
+    await noJs.locator('[data-play-choice="draw"]').click();
+    await expect(noJs).toHaveURL(/\/play\/drawing-pad\//);
+    await expect(noJs.locator('.play-fallback')).toContainText('needs JavaScript');
+    await expect(noJs.locator('[data-draw-star]')).toBeDisabled();
   } finally { await context.close(); }
   await page.addInitScript(() => { HTMLCanvasElement.prototype.getContext = (() => null) as typeof HTMLCanvasElement.prototype.getContext; });
   await page.goto('/play/#draw');
@@ -237,10 +252,56 @@ test('expanded Play workspaces fit small and large screens in both themes', asyn
   test.setTimeout(60_000);
   for (const width of [320, 768, 1440]) for (const theme of ['dark', 'light']) {
     await page.setViewportSize({ width, height: 900 });
-    await page.goto('/play/'); await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; }, theme);
+    await page.goto('/play/'); await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; localStorage.setItem('offscript-theme', theme); }, theme);
     for (const activity of ['playground', 'draw', 'button']) {
       await open(page, activity);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${activity}, ${theme}, ${width}px`).toBe(true);
     }
+  }
+});
+
+test('drawing survives reload and navigation, supports keyboard redo, and never uploads artwork', async ({ page }) => {
+  const uploads: string[] = [];
+  page.on('request', (request) => { if (request.method() !== 'GET') uploads.push(request.url()); });
+  await page.goto('/play/drawing-pad/');
+  await expect(page.locator('[data-draw-star]')).toBeEnabled();
+  await page.locator('[data-draw-star]').click();
+  const first = await page.locator('[data-draw-canvas]').evaluate((canvas) => (canvas as HTMLCanvasElement).toDataURL());
+  await page.locator('[data-draw-canvas]').focus();
+  await page.keyboard.press('Control+z');
+  await expect(page.locator('[data-draw-empty]')).toBeVisible();
+  await page.keyboard.press('Control+Shift+z');
+  await expect(page.locator('[data-draw-empty]')).toBeHidden();
+  await page.reload();
+  await expect(page.locator('[data-draw-status]')).toContainText('drawing is back');
+  expect(await page.locator('[data-draw-canvas]').evaluate((canvas) => (canvas as HTMLCanvasElement).toDataURL())).toBe(first);
+  await open(page, 'button');
+  await open(page, 'draw');
+  await expect(page.locator('[data-draw-empty]')).toBeHidden();
+  await page.locator('[data-draw-clear]').click();
+  await page.reload();
+  await expect(page.locator('[data-draw-star]')).toBeEnabled();
+  await expect(page.locator('[data-draw-empty]')).toBeVisible();
+  expect(uploads).toEqual([]);
+});
+
+test('blocked or corrupt tab storage does not prevent drawing and exporting', async ({ browser }) => {
+  for (const blocked of [false, true]) {
+    const context = await browser.newContext();
+    try {
+      await context.addInitScript((blocked) => {
+        if (blocked) Object.defineProperty(window, 'sessionStorage', { get() { throw new Error('Unavailable'); } });
+        else sessionStorage.setItem('offscript-doodle:v1', JSON.stringify({ version: 1, strokes: [{ points: [{ x: -1, y: null }] }] }));
+      }, blocked);
+      const page = await context.newPage();
+      await page.goto('http://127.0.0.1:4321/play/drawing-pad/');
+      await expect(page.locator('[data-draw-star]')).toBeEnabled();
+      await expect(page.locator('[data-draw-save]')).toContainText('unavailable');
+      await page.locator('[data-draw-star]').click();
+      await expect(page.locator('[data-draw-undo]')).toBeEnabled();
+      const download = page.waitForEvent('download');
+      await page.locator('[data-draw-download]').click();
+      expect((await download).suggestedFilename()).toBe('a-little-doodle.png');
+    } finally { await context.close(); }
   }
 });

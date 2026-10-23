@@ -148,6 +148,15 @@ export function mount(panel: HTMLElement): Activity {
   add.addEventListener('click', () => { if (shapes.length < 16) { makeShape(shapes.length); labels(); wake(); } }, { signal });
   pause.addEventListener('click', () => { paused = !paused; if (paused) stop(); else wake(); labels(); }, { signal });
   gravityButton.addEventListener('click', () => { gravity = !gravity; shapes.forEach((shape) => { shape.vx += random(-45, 45); shape.vy = gravity ? shape.vy : random(-85, 30); }); labels(); wake(); }, { signal });
+  panel.querySelector('[data-physics-shuffle]')!.addEventListener('click', () => {
+    release();
+    for (const shape of shapes) {
+      shape.x = random(shape.r, width - shape.r); shape.y = random(shape.r, height - shape.r);
+      shape.vx = random(-220, 220); shape.vy = random(-280, -50); shape.angle = random(-80, 80); shape.spin = random(-90, 90);
+      render(shape);
+    }
+    wake(); status.textContent = paused || preference.matches ? 'A fresh arrangement.' : 'A little chaos, on purpose.';
+  }, { signal });
   panel.querySelector('[data-physics-reset]')!.addEventListener('click', reset, { signal });
   preference.addEventListener('change', () => { if (preference.matches) { paused = true; release(); stop(); } labels(); }, { signal });
   const resize = new ResizeObserver(measure); resize.observe(stage);
