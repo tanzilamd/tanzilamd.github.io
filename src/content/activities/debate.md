@@ -1,19 +1,26 @@
 ---
 {
-  "title": "Debate & leadership",
-  "label": "Club leadership & competitions",
-  "summary": "Founded and led my school’s debating club and organized two inter-school tournaments.",
-  "art": "debate",
-  "order": 1,
-  "homePreview": false,
-  "gallery": [
-    {
-      "src": "/media/activities/demo-debate.webp",
-      "alt": "Fictional demo of a speaker at a debating event, with judges and an audience.",
-      "caption": "Debate & discussion",
-      "demo": true
-    }
-  ]
+    "title": "Debate & leadership",
+    "label": "Club leadership & competitions",
+    "summary": "Founded and led my school’s debating club and organized two inter-school tournaments.",
+    "art": "debate",
+    "order": 1,
+    "homePreview": false,
+    "gallery":
+        [
+            {
+                "src": "/media/activities/butex.jpg",
+                "alt": "Debate",
+                "caption": "BUTEXDC National Debate Festival 2022",
+                "demo": false,
+            },
+            {
+                "src": "/media/activities/iut.JPEG",
+                "alt": "Debate",
+                "caption": "IUT Interclub 2025 (Tab Team)",
+                "demo": false,
+            },
+        ],
 }
 ---
 

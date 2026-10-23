@@ -1,19 +1,32 @@
 ---
 {
-  "title": "Teaching & volunteering",
-  "label": "Education, scouting & social work",
-  "summary": "More than five years with Bangladesh Scouts, alongside teaching and community work.",
-  "art": "community",
-  "order": 3,
-  "homePreview": false,
-  "gallery": [
-    {
-      "src": "/media/activities/demo-community.webp",
-      "alt": "Fictional demo of adults learning together at a community workshop.",
-      "caption": "Learning together",
-      "demo": true
-    }
-  ]
+    "title": "Teaching & volunteering",
+    "label": "Education, scouting & social work",
+    "summary": "More than five years with Bangladesh Scouts, alongside teaching and community work.",
+    "art": "community",
+    "order": 3,
+    "homePreview": false,
+    "gallery":
+        [
+            {
+                "src": "/media/activities/pk1.jpg",
+                "alt": "Pk",
+                "caption": "Participated in the parade.",
+                "demo": true,
+            },
+            {
+                "src": "/media/activities/pk2.jpg",
+                "alt": "Pk",
+                "caption": "Submitting the daily report after a full day at camp.",
+                "demo": true,
+            },
+            {
+                "src": "/media/activities/pk3.jpg",
+                "alt": "Pk",
+                "caption": "Awarded Best Delegate among 300+ participants.",
+                "demo": true,
+            },
+        ],
 }
 ---
 
