@@ -15,6 +15,7 @@ const { Content } = await render(note);
 const next = (await notes()).find((item) => item.id !== note.id);
 ---
 <Layout title={note.data.title} description={note.data.summary} article={{ published: note.data.date, updated: note.data.updated, genre: note.data.genre }}>
+  <div class="reading-progress" data-reading-progress aria-hidden="true" hidden><span/></div>
   <article class:list={['container article-page', { 'personal-essay': note.data.genre === 'Essay' }]}>
     <a class="back-link text-link" href="/notes/"><span aria-hidden="true">←</span> All writing</a>
     <header class="article-heading"><p class="eyebrow">{note.data.genre} · {readingMinutes(note)} min read</p><h1>{note.data.title}</h1><p class="article-deck">{note.data.summary}</p><div class="article-byline"><span>By {profile.name}</span><span>Posted <time datetime={note.data.date}>{formatDate(note.data.date)}</time></span>{note.data.updated && note.data.updated !== note.data.date && <span>Updated <time datetime={note.data.updated}>{formatDate(note.data.updated)}</time></span>}</div></header>

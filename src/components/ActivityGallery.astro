@@ -5,5 +5,5 @@ interface Props { activity: CollectionEntry<'activities'> }
 const { activity } = Astro.props;
 ---
 {activity.data.gallery.length > 0 && <div class="activity-gallery" role="group" aria-label={`${activity.data.title} photos`}>
-  <div class:list={['activity-photo-grid', { 'single-photo': activity.data.gallery.length === 1 }]}>{activity.data.gallery.map((photo) => <ActivityPhoto photo={photo} activityTitle={activity.data.title}/>)}</div>
+  <div class:list={['activity-photo-grid', { 'single-photo': activity.data.gallery.length === 1, 'photo-pair': activity.data.gallery.length === 2, 'photo-story': activity.data.gallery.length >= 3 }]}>{activity.data.gallery.map((photo) => <ActivityPhoto photo={photo} activityTitle={activity.data.title}/>)}</div>
 </div>}

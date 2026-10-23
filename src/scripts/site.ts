@@ -1,3 +1,5 @@
+import './motion';
+
 const root = document.documentElement;
 const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
 const updateThemeLabel = () => {
@@ -90,12 +92,28 @@ if (photoViewer && typeof photoViewer.showModal === 'function' && photoLinks.len
   const demoLabel = photoViewer.querySelector<HTMLElement>('[data-photo-demo-label]')!;
   const controls = photoViewer.querySelector<HTMLElement>('[data-photo-controls]')!;
   let active = 0;
+  let imageVersion = 0;
+  const photoMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const imageAnimations = new Set<Animation>();
+  const stopImageAnimations = () => { imageAnimations.forEach((animation) => animation.cancel()); imageAnimations.clear(); };
+  photoMotion.addEventListener('change', () => { if (photoMotion.matches) stopImageAnimations(); });
   let opener: HTMLAnchorElement | undefined;
   const showPhoto = (index: number) => {
     active = (index + photoLinks.length) % photoLinks.length;
     const link = photoLinks[active];
     image.src = link.href;
     image.alt = link.querySelector('img')?.alt ?? link.dataset.photoCaption ?? '';
+    const version = ++imageVersion;
+    stopImageAnimations();
+    // Decode before animating; a rapid next/previous action always wins.
+    image.decode().then(() => {
+      if (version !== imageVersion || !photoViewer.open || photoMotion.matches || typeof image.animate !== 'function') return;
+      [image, caption, meta].forEach((element) => {
+        const animation = element.animate([{ opacity: .35, transform: 'translateY(5px)' }, { opacity: 1, transform: 'none' }], { duration: 220, easing: 'ease-out' });
+        imageAnimations.add(animation);
+        animation.finished.then(() => imageAnimations.delete(animation), () => imageAnimations.delete(animation));
+      });
+    }).catch(() => {});
     title.textContent = link.dataset.photoActivity ?? 'Activity photos';
     caption.textContent = link.dataset.photoCaption ?? '';
     const demo = link.dataset.photoDemo === 'true';
@@ -134,6 +152,8 @@ if (photoViewer && typeof photoViewer.showModal === 'function' && photoLinks.len
     if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) photoViewer.close();
   });
   photoViewer.addEventListener('close', () => {
+    imageVersion++;
+    stopImageAnimations();
     root.classList.remove('photo-viewer-open');
     opener?.focus({ preventScroll: true });
   });

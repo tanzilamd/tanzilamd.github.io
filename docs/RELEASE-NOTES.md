@@ -4,6 +4,14 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 24 motion and photo-story refinement
+
+- Added one brief Home opening per tab: a wordmark underline, portrait entrance and a single typing pass for “Still learning. Still exploring.” Both strings remain in `profile.json`; full text and the accessible heading name are always in the HTML. Interaction skips the opening, a bounded timeout handles failed scripts, and reduced-motion users see the complete text immediately.
+- Added grouped, once-only scroll entrances and restrained project, button, filter and mobile-menu feedback, without an animation dependency or a blocking loading screen. Keyboard focus and live reduced-motion changes cancel relevant effects.
+- Reworked Activities into full-width photographic spreads: a larger lead image and supporting frames on desktop, sequential photos on mobile. Photo order, captions and Home preview still come from the same activity record; the owner’s captions and original essay remain unchanged.
+- Smoothed decoded gallery-image/caption changes while preserving fast navigation, focus restoration and no-JavaScript image links. Added a native-article reading-progress line and refined featured-writing/essay opening details.
+- Refreshed README dark/light and Activities previews, the Bengali maintenance guide and UI documentation. Added motion behavior checks for repeat visits, layout stability, reduced motion, failure/storage/API fallbacks, reading progress and rapid gallery navigation.
+
 ## October 24 activity photo optimization
 
 - Replaced the seven large gallery JPG/JPEG files with proportionally resized WebP images, at most 1600px wide. Combined image payload fell from 28.89 MB to 1.01 MB (96.5% smaller); the Home stage image fell from 13.49 MB to 104 KB. Updated gallery references so Home, thumbnails and the full-image viewer share the optimized assets.

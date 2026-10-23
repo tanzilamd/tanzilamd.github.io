@@ -34,6 +34,17 @@ const [firstName, ...restName] = profile.name.split(' ');
     <script is:inline>
       (() => { let theme = 'dark'; try { const saved = localStorage.getItem('offscript-theme'); if (saved === 'light' || saved === 'dark') theme = saved; } catch {} document.documentElement.dataset.theme = theme; const meta = document.querySelector('meta[name="theme-color"]'); if (meta) meta.setAttribute('content', theme === 'dark' ? '#0a191d' : '#f5f4ef'); })();
     </script>
+    {path === '/' && <script is:inline>
+      (() => {
+        try {
+          if (matchMedia('(prefers-reduced-motion: reduce)').matches || sessionStorage.getItem('offscript-intro-seen')) return;
+          sessionStorage.setItem('offscript-intro-seen', 'true');
+          document.documentElement.dataset.intro = 'pending';
+          // The complete headline remains available if the enhancement fails to load.
+          setTimeout(() => { document.documentElement.dataset.intro = 'done'; }, 2200);
+        } catch {}
+      })();
+    </script>}
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
