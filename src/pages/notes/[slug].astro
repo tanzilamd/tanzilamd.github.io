@@ -1,0 +1,26 @@
+---
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import WritingCard from '../../components/WritingCard.astro';
+import profile from '../../data/profile.json';
+import { notes } from '../../lib/content';
+import { formatDate, readingMinutes } from '../../lib/writing';
+export async function getStaticPaths() {
+  return (await notes()).filter((note) => note.data.kind === 'post').map((note) => ({ params: { slug: note.id }, props: { note } }));
+}
+const { note } = Astro.props;
+if (note.data.kind !== 'post') throw new Error('Only original posts have local article pages.');
+const { Content } = await render(note);
+const next = (await notes()).find((item) => item.id !== note.id);
+---
+<Layout title={note.data.title} description={note.data.summary} article={{ published: note.data.date, updated: note.data.updated, genre: note.data.genre }}>
+  <article class:list={['container article-page', { 'personal-essay': note.data.genre === 'Essay' }]}>
+    <a class="back-link text-link" href="/notes/"><span aria-hidden="true">←</span> All writing</a>
+    <header class="article-heading"><p class="eyebrow">{note.data.genre} · {readingMinutes(note)} min read</p><h1>{note.data.title}</h1><p class="article-deck">{note.data.summary}</p><div class="article-byline"><span>By {profile.name}</span><span>Posted <time datetime={note.data.date}>{formatDate(note.data.date)}</time></span>{note.data.updated && note.data.updated !== note.data.date && <span>Updated <time datetime={note.data.updated}>{formatDate(note.data.updated)}</time></span>}</div></header>
+    {(note.data.dateWritten || note.data.context) && <aside class="article-context" aria-label="About this piece">{note.data.dateWritten && <p class="eyebrow">Written <time datetime={note.data.dateWritten}>{formatDate(note.data.dateWritten)}</time></p>}{note.data.context && <p>{note.data.context}</p>}</aside>}
+    <div class="article-prose prose"><Content/></div>
+    <footer class="article-end"><a class="text-link" href="/notes/">All writing<Icon name="arrow" size={17}/></a><div><button type="button" class="text-link copy-link" data-copy-link hidden><Icon name="copy" size={16}/>Copy link</button><span class="copy-link-status" data-link-copy-status role="status"/></div></footer>
+  </article>
+  {next && <section class="container article-next" aria-labelledby="next-writing-heading"><h2 class="eyebrow" id="next-writing-heading">More writing</h2><WritingCard note={next} compact/></section>}
+</Layout>

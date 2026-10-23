@@ -1,5 +1,6 @@
 ---
 {
+  "kind": "external",
   "title": "An evidence-first answer to “one more thing”",
   "summary": "The problem, product decisions and limitations behind ScopeProof: a small assistant for freelance scope-change conversations.",
   "date": "2026-10",

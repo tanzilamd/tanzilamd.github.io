@@ -1,0 +1,18 @@
+---
+{
+  "kind": "post",
+  "title": "My new article",
+  "summary": "A short introduction that appears in Writing and search previews.",
+  "date": "2026-10-23",
+  "genre": "Article",
+  "tags": ["Learning"],
+  "featured": false,
+  "draft": true
+}
+---
+
+Write your article here. Each empty line starts a new paragraph.
+
+## A section heading
+
+You can add **bold text**, *emphasis*, [links](https://example.com), lists, and code.

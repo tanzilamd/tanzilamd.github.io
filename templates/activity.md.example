@@ -1,0 +1,13 @@
+---
+{
+  "title": "My activity",
+  "label": "A short category or organization label",
+  "summary": "The same short description will appear on Home and Activities.",
+  "art": "community",
+  "featured": true,
+  "order": 4,
+  "draft": true
+}
+---
+
+Describe your role, what you did, and what you learned.

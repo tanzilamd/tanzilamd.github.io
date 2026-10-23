@@ -7,7 +7,10 @@ export async function contributions() {
   return (await getCollection('contributions', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title));
 }
 export async function notes() {
-  return (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => b.data.date.localeCompare(a.data.date));
+  return (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => b.data.date.localeCompare(a.data.date) || a.data.order - b.data.order || a.data.title.localeCompare(b.data.title));
+}
+export async function activities() {
+  return (await getCollection('activities', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title));
 }
 export async function experience() {
   return (await getCollection('experience', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);

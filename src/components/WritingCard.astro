@@ -1,0 +1,14 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+import { writingHref, formatDate, readingMinutes } from '../lib/writing';
+interface Props { note: CollectionEntry<'notes'>; compact?: boolean; filterable?: boolean }
+const { note, compact = false, filterable = false } = Astro.props;
+const external = note.data.kind === 'external';
+const source = note.data.kind === 'external' ? note.data.platform : note.data.genre;
+const Heading = compact ? 'h3' : 'h2';
+---
+<article class:list={['writing-card', { 'writing-featured': note.data.featured, 'writing-compact': compact }]} data-item={filterable || undefined} data-category={external ? 'Elsewhere' : 'On this site'}>
+  <div class="writing-card-meta"><p class="eyebrow">{external ? 'External article' : `${source} · On this site`}</p><span>{external ? 'Published' : 'Posted'} <time datetime={note.data.date}>{formatDate(note.data.date)}</time></span>{note.data.kind === 'post' && note.data.dateWritten && <span>Written {formatDate(note.data.dateWritten)}</span>}{!external && <span>{readingMinutes(note)} min read</span>}</div>
+  <div class="writing-card-copy"><Heading><a href={writingHref(note)} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>{note.data.title}<Icon name={external ? 'diagonal' : 'arrow'} size={22}/></a></Heading><p>{note.data.summary}</p><div class="writing-card-bottom"><a class="text-link" href={writingHref(note)} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>{external ? `Read on ${source}` : note.data.kind === 'post' && note.data.genre === 'Essay' ? 'Read essay' : 'Read article'}<Icon name={external ? 'diagonal' : 'arrow'} size={17}/></a>{!compact && <div class="tags">{note.data.tags.map((tag) => <span>{tag}</span>)}</div>}</div></div>
+</article>

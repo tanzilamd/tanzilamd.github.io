@@ -67,3 +67,13 @@ if (copyEmail && navigator.clipboard) {
     catch { if (feedback) feedback.textContent = 'Copy is unavailable. Select the email address to copy it.'; }
   });
 }
+const copyLink = document.querySelector<HTMLButtonElement>('[data-copy-link]');
+if (copyLink && navigator.clipboard) {
+  copyLink.hidden = false;
+  copyLink.addEventListener('click', async () => {
+    const feedback = document.querySelector('[data-link-copy-status]');
+    const url = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.href ?? location.href;
+    try { await navigator.clipboard.writeText(url); if (feedback) feedback.textContent = 'Link copied.'; }
+    catch { if (feedback) feedback.textContent = 'Copy is unavailable. Copy the address from your browser.'; }
+  });
+}

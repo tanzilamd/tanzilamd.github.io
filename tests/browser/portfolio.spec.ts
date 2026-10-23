@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const routes = ['/', '/work/', '/open-source/', '/about/', '/beyond/', '/notes/', '/contact/', '/work/tuktak/', '/work/choreseed/'];
+const routes = ['/', '/work/', '/open-source/', '/about/', '/beyond/', '/notes/', '/notes/grandmas-xbox/', '/contact/', '/work/tuktak/', '/work/choreseed/'];
 for (const theme of ['dark', 'light']) {
   for (const route of routes) {
     test(`${theme}: ${route} is accessible and renders without failed local assets`, async ({ page }) => {
@@ -49,14 +49,12 @@ test('work filters are shareable and survive navigation back from a case study',
   await expect(page.locator('[data-item]:visible')).toHaveCount(6);
 });
 
-test('contribution filters distinguish organization and personal-fork work', async ({ page }) => {
+test('contribution filters distinguish resource work and personal-fork infrastructure', async ({ page }) => {
   await page.goto('/open-source/');
   await page.getByRole('button', { name: 'Infrastructure', exact: true }).click();
   await expect(page.locator('[data-item]:visible')).toHaveCount(1);
   await expect(page.locator('[data-item]:visible')).toContainText('Personal fork');
   await expect(page.locator('[data-item]:visible .pr-link')).toHaveAttribute('href', 'https://github.com/tanzilamd/tabbycat/pull/1');
-  await page.getByRole('button', { name: 'Code', exact: true }).click();
-  await expect(page.locator('[data-item]:visible')).toContainText('Organization');
   await page.getByRole('button', { name: 'Resources', exact: true }).click();
   await expect(page.locator('[data-item]:visible')).toHaveCount(8);
 });
@@ -100,7 +98,7 @@ test('responsive layouts fit both themes at representative widths', async ({ pag
   for (const width of [360, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const theme of ['dark', 'light']) {
-      for (const route of ['/', '/work/', '/open-source/', '/work/scopeproof/', '/about/', '/beyond/', '/notes/', '/contact/']) {
+      for (const route of ['/', '/work/', '/open-source/', '/work/scopeproof/', '/about/', '/beyond/', '/notes/', '/notes/grandmas-xbox/', '/contact/']) {
         await page.goto(route);
         await page.evaluate((value) => { document.documentElement.dataset.theme = value; }, theme);
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `${route} at ${width}px in ${theme}`).toBe(true);
@@ -117,7 +115,7 @@ test('essential mobile navigation and all work remain usable without JavaScript'
   await expect(page.locator('[data-filter-bar]')).toBeHidden();
   await expect(page.locator('.fallback-nav')).toBeVisible();
   await page.locator('.fallback-nav').getByRole('link', { name: 'Open source' }).click();
-  await expect(page.locator('[data-item]:visible')).toHaveCount(12);
+  await expect(page.locator('[data-item]:visible')).toHaveCount(11);
   await expect(page.locator('h1')).toContainText('contributions');
   await context.close();
 });
@@ -136,4 +134,34 @@ test('the error page offers a route back to the work', async ({ page }) => {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
   await page.getByRole('link', { name: 'View projects', exact: true }).click();
   await expect(page).toHaveURL('/work/');
+});
+
+test('writing distinguishes local posts and external articles and preserves the list filter', async ({ page }) => {
+  await page.goto('/notes/');
+  await page.getByRole('button', { name: 'On this site', exact: true }).click();
+  await expect(page.locator('[data-item]:visible')).toHaveCount(1);
+  await page.getByRole('link', { name: 'Read essay', exact: true }).click();
+  await expect(page).toHaveURL('/notes/grandmas-xbox/');
+  await expect(page.locator('.article-byline time')).toHaveAttribute('datetime', '2026-10-23');
+  await expect(page.getByRole('complementary', { name: 'About this piece' })).toContainText('2024');
+  await expect(page.locator('.article-prose')).toContainText('Grandma’s Xbox and an old PC.');
+  await page.goBack();
+  await expect(page.getByRole('button', { name: 'On this site', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await page.getByRole('button', { name: 'Elsewhere', exact: true }).click();
+  const external = page.locator('[data-item]:visible');
+  await expect(external).toHaveCount(1);
+  await expect(external.getByRole('link', { name: 'Read on DEV Community', exact: true })).toHaveAttribute('target', '_blank');
+  await expect(external.getByRole('link', { name: 'Read on DEV Community', exact: true })).toHaveAttribute('href', /dev\.to\//);
+});
+
+test('original writing remains readable without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  await page.goto('/notes/');
+  await expect(page.locator('[data-item]:visible')).toHaveCount(2);
+  await page.getByRole('link', { name: 'Read essay', exact: true }).click();
+  await expect(page.locator('h1')).toHaveText('Grandma’s Xbox');
+  await expect(page.locator('.article-prose')).toContainText('console.log');
+  await expect(page.locator('[data-copy-link]')).toBeHidden();
+  await context.close();
 });

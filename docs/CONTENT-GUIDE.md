@@ -1,69 +1,119 @@
-# Content update guide
+# সহজে website-এর content update
 
-এই portfolio database ছাড়াই চলে। প্রতিটি item-এর আলাদা file থাকবে; build-এর সময় page ও list update হবে। Layout code বদলাতে হবে না।
+এই website static এবং database ছাড়া চলে। প্রতিটি বিষয় একবার লিখবেন; সেই file থেকেই Home, list এবং detail page তৈরি হবে। **একটি বিশাল file নয়—প্রতিটি item-এর একটি file**, তাই একটি লেখা বদলাতে অন্য কিছুর মধ্যে খুঁজতে হবে না। Dark/light mode-এর জন্য আলাদা content লাগে না।
 
-## Projects
+## GitHub থেকেই edit করুন
 
-1. Copy `templates/project.md.example` to `src/content/projects/my-project.md`.
-2. Use a unique lowercase filename with hyphens. It becomes `/work/my-project/`.
-3. Fill in title, summary, actual role/status, category, tools and real links.
-4. Write the story below `---`: problem, contribution, decisions, current result and learning.
-5. Set `draft: false` when ready. Use `featured: true` and `order` to choose up to four Home entries (lowest order first).
-6. Run checks, inspect the page, then commit the content.
+1. Repository খুলুন: https://github.com/tanzilamd/tanzilamd.github.io । Branch হিসেবে **master** রাখুন।
+2. নিচের তালিকা থেকে প্রয়োজনীয় file খুলুন। Pencil / **Edit this file** চাপুন।
+3. লেখা বদলে **Commit changes** করুন। আপনি চাইলে সরাসরি master-এ commit করতে পারেন।
+4. **Actions → Check and deploy portfolio** খুলে সর্বশেষ run দেখুন। Build ও deploy সবুজ হলে নতুন version প্রকাশিত হয়েছে। Workflow চলাকালে পুরোনো version দেখা স্বাভাবিক।
+5. Live page refresh করুন। দরকার হলে hard refresh দিন। লাল হলে failed step-এর error দেখুন; একই commit বারবার push করার প্রয়োজন নেই।
 
-The templates use JSON inside YAML-compatible frontmatter for predictable quoting. Ordinary YAML also works; the body is normal Markdown, with no JSX needed.
+| কী বদলাবেন | কোথায় বদলাবেন | কোথায় দেখা যাবে |
+| --- | --- | --- |
+| নাম, headline, পরিচিতি, About bio, email, GitHub/LinkedIn | `src/data/profile.json` | Home, About, Contact, footer, author ও metadata-তে প্রযোজ্য অংশ |
+| Project | `src/content/projects/প্রজেক্টের-নাম.md` | Work, নিজের detail page; featured হলে Home |
+| Open-source contribution | `src/content/contributions/একটি-item.md` | Open source; featured হলে Home |
+| নিজের article/essay বা বাইরের article link | `src/content/notes/একটি-লেখা.md` | Writing; featured লেখা Home ও personal essay About-এ |
+| চাকরি / কাজের experience | `src/content/experience/একটি-item.md` | About |
+| Award / recognition | `src/content/milestones/একটি-item.md` | About; featured হলে Home; Hacktoberfest হলে Open source-ও |
+| Debate, theatre, teaching, volunteering | `src/content/activities/একটি-item.md` | Activities এবং featured হলে Home |
+| নিজের ছবি | `src/assets/tanzil.jpg` | Home ও About |
+| Article/project-এর ছবি | `public/media/` | যেখানে সেই ছবির path ব্যবহার করবেন |
 
-`cover: "custom"` uses your new project's own title in a reusable typographic cover. No component change is needed. For a real screenshot, add the file to `public/media/` and these frontmatter fields:
+উদাহরণ: Scouts-এর তথ্য বদলাতে শুধু `src/content/activities/teaching.md` edit করুন। তার `summary` Home ও Activities দুই জায়গাতেই বদলাবে। “Grandma’s Xbox”-এর সব লেখা ও date আছে `src/content/notes/grandmas-xbox.md`-তে।
+
+## নিজের নতুন article / essay প্রকাশ করুন
+
+1. `templates/post.md.example` খুলে পুরো লেখা copy করুন।
+2. `src/content/notes/` folder-এ **Add file → Create new file** চাপুন। নাম দিন যেমন `my-first-article.md`। ছোট ইংরেজি অক্ষর ও hyphen ব্যবহার করুন; space নয়।
+3. Template paste করুন। `title`, `summary`, `date`, `tags` বদলান। `date` হলো এই site-এ প্রথম প্রকাশের দিন: **YYYY-MM-DD**, যেমন `2026-10-23`।
+4. দ্বিতীয় `---`-এর নিচে আপনার পুরো লেখা লিখুন। প্রতিটি paragraph-এর মাঝে একটি খালি line রাখুন।
+5. Essay হলে `genre` দিন `Essay`; অন্য লেখা `Article` বা `Note` হতে পারে।
+6. প্রস্তুত হলে `draft: true`-এর জায়গায় `draft: false` দিন। JSON-style template হলে উদ্ধৃতি ও comma ঠিক রাখুন। `featured: true` দিলে featured selection-এ আসবে।
+7. Commit করুন। Deploy শেষ হলে `https://tanzilahmed.tech/notes/my-first-article/` খুলুন। Writing list, RSS feed ও sitemap নিজে থেকেই update হবে।
+
+নিজের article-এর জন্য আলাদা `url` দরকার নেই। একই file-এ title, card summary, date এবং পুরো body থাকবে। নতুন article-এর জন্য page বা component বানাতে হবে না।
+
+### আগে লেখা essay ও পরে edit করার date
+
+পুরোনো লেখা প্রকাশ করলে `date` এখনকার publication date রাখুন। চাইলে আরও field যোগ করুন:
 
 ```json
-"coverImage": "/media/my-project.webp",
-"coverAlt": "The project interface showing its main workflow"
+"dateWritten": "2024",
+"context": "Originally written for university admission applications.",
+"updated": "2026-10-24"
 ```
 
-Use optimized images, ideally around 1200×675. Check screenshots for private information. Paths omit `public`. Missing images fail generated-link checks. Omit both fields to use the typographic cover.
+এগুলো অন্য field-এর সঙ্গে প্রথম `---` ও দ্বিতীয় `---`-এর মাঝের `{ ... }`-তে থাকবে। Field-এর মাঝে comma দিন; শেষ field-এর পরে comma নয়। `dateWritten` শুধু year অথবা পূর্ণ date হতে পারে। `updated` প্রকাশের দিনের আগে হতে পারবে না। ছোট বানান সংশোধনে date বদলানো জরুরি নয়; বড় update হলে `updated` দিন, মূল `date` রেখে দিন।
 
-Categories: `Product`, `Tool`, `Experiment`, `Earlier work`. Illustration styles: `custom`, `tuktak`, `scopeproof`, `engjatra`, `choreseed`, `cargotab`, `tanzilbot`. Use custom or a screenshot for a new unrelated project. Lifecycle `status` is separate from publication `draft`.
+“Grandma’s Xbox”-এ **Written 2024** এবং **Posted 23 October 2026** আলাদা দেখায়। ২০২৪ সালের essay-এর বক্তব্যকে নতুন বর্তমান achievement হিসেবে আলাদাভাবে যোগ করা হয়নি।
 
-## Contributions
+### অন্য website-এর article link
 
-Copy the contribution template into `src/content/contributions/`. Keep one record per PR, with the original URL/number and an accurate summary. For a published website contribution, use `templates/website-contribution.md.example`; no PR number is needed.
+`templates/note.md.example` copy করে একই `src/content/notes/` folder-এ নতুন `.md` file বানান। এখানে `kind` হবে `external`; `platform`, আসল `url`, `title`, `summary`, আসল publication `date` দিন। পুরো দিন না জানলে `YYYY-MM` চলবে। `draft: false` দিয়ে publish করুন। Writing-এ দুটো filter আছে: **On this site** ও **Elsewhere**।
 
-- `type`: `Resources`, `Code`, `Infrastructure`, `Learning`, `Website`.
-- `relationship`: `Upstream`, `Organization`, `Personal fork`.
-- `status`: `Merged`, `Open`, `Closed` (closed without merge), `Published` (published work without a PR).
-- `mergedAt`: optional `YYYY-MM-DD`, only for a real merge.
-- `event`: optional confirmed event/year label.
-- `featured` and `order`: select up to three homepage highlights.
-- `spotlight: true`: প্রথম published/non-draft spotlight entry Open source page-এর উপরে বিস্তারিত দেখাবে। নিচে Markdown-এ project কী এবং নিজের contribution লিখুন।
-- `projectUrl`: optional live website link; `evidenceUrl`: optional original integration/source evidence. এগুলো spotlight-এর links হবে। Homepage-এ `projectUrl` থাকলে সেটিই খুলবে।
+### Writing-এর ক্রম ও highlight
 
-A fork merge is not an upstream acceptance. Resource curation is not a core software feature. Do not duplicate PRs to inflate counts.
+Writing list-এ নতুন publication date আগে আসে। একই date হলে ছোট `order` আগে। Home-এ প্রথম featured লেখা দেখায়; featured না থাকলে সর্বশেষ লেখা। About-এ প্রথম featured personal essay দেখায়। একাধিক লেখা থাকলে কেবল পছন্দের লেখাটিতে `featured: true` রাখতে পারেন।
 
-## Notes, experience and recognition
+## Markdown-এর প্রয়োজনীয় কিছু নিয়ম
 
-Copy the matching template into `src/content/notes/`, `experience/` or `milestones/`.
+```md
+একটি paragraph।
 
-Notes link to the original published article and use a short excerpt, platform, tags and real date (`YYYY-MM` or `YYYY-MM-DD`). Newest dates appear first. Unpublished DEV drafts should stay draft here too; do not copy an entire external article by default.
+আরেকটি paragraph।
 
-Experience and milestones appear on About automatically. Awards/recognition and Hacktoberfest milestones have separate sections. Milestone filenames starting with `hacktoberfest` also appear on the Open source timeline. Use `featured: true` and `order` on milestones to choose up to three homepage recognition entries. Preserve exact award wording: nomination is not a win, participation is not a prize, and stickers are not PR totals. Omit unknown years. Keep private evidence outside the public content folder.
+## একটি subheading
 
-## Profile and contact
+**Bold**, *italic*, [link](https://example.com)
 
-Edit `src/data/profile.json`: `siteTitle` browser/search title, `label` ছোট পরিচয়, `headline` ও `headlineAccent` hero title, `intro` পরিচিতি, আর `description` search/social description। Put only the email you want public in `email`; the Contact page then adds email and copy actions. An empty string keeps them hidden. Do not add a phone field.
+- প্রথম item
+- দ্বিতীয় item
 
-Replace `src/assets/tanzil.jpg` to update the photo. Astro generates local optimized WebP variants. The current image is the newly attached patterned-shirt portrait; the older picture is not bundled.
+![ছবির অর্থপূর্ণ বর্ণনা](/media/my-photo.webp)
+```
 
-Theme choice stays in the visitor's browser. Content exists once for both themes; no database is required.
+ছবি আগে `public/media/`-তে upload করুন; লেখায় path হবে `/media/...`—`public` লিখবেন না। ছোট, optimized image ব্যবহার করুন। Private document বা original application PDF এখানে upload করবেন না।
 
-## Check and publish
+## অন্য item যোগ করার নিয়ম
+
+Matching template copy করে matching folder-এ নতুন `.md` file বানান। প্রতিটি filename আলাদা হতে হবে। প্রথম দুই `---`-এর মধ্যে structured information, নিচে সাধারণ Markdown body। Template-এ JSON ব্যবহার করা হয়েছে, ordinary YAML-ও চলে।
+
+- **Project:** `templates/project.md.example`। Category: `Product`, `Tool`, `Experiment`, `Earlier work`। `featured: true` ও ছোট `order` দিয়ে Home-এর প্রথম চারটি project বেছে নিন। নতুন project-এ `cover: "custom"` দিন, অথবা `/media/`-এর ছবি `coverImage` এবং বর্ণনা `coverAlt` দিন। নতুন file-এর নামই `/work/file-name/` URL হবে।
+- **Contribution:** সাধারণ PR-এর জন্য `templates/contribution.md.example`; published website-এর জন্য `templates/website-contribution.md.example`। একটি PR একবারই যোগ করুন। `Merged`, `Open`, `Closed`, `Published` সঠিকভাবে দিন। Personal fork merge-কে upstream contribution বলবেন না। `featured` দিয়ে Home-এর তিনটি highlight; `spotlight: true` দিয়ে Open source-এর বিস্তারিত highlight বাছাই হয়।
+- **Activity:** `templates/activity.md.example`। `summary` Home ও Activities-এ একই source থেকে আসে। নিচে বিস্তারিত লিখুন। Illustration-এর `art`: `debate`, `theatre`, `community`। `featured: false` করলে শুধু Activities-এ থাকবে।
+- **Experience / recognition:** `templates/experience.md.example` বা `templates/milestone.md.example`। Award-এর সঠিক নাম, year এবং সহজ summary দিন। Nomination-কে win লিখবেন না। Unknown year বাদ রাখুন। Milestone-এর `featured: true` Home-এর প্রথম তিনটি recognition-এ বাছাই করে।
+
+সব collection-এ `draft: true` দিলে public page, list, feed ও sitemap থেকে item বাদ যায়। তবে source repository public হলে committed draft-এর source অন্য কেউ দেখতে পারে। ব্যক্তিগত draft নিজের কাছে রাখুন। `order` ছোট হলে আগে আসে; Writing-এর ক্ষেত্রে date আগে বিবেচিত হয়।
+
+## পরিচিতি ও contact বদলানো
+
+`src/data/profile.json` খুলে প্রয়োজনীয় text বদলান:
+
+- `siteTitle`: browser/search title; `description`: search/social preview।
+- `headline`, `headlineAccent`, `intro`: Home-এর পরিচিতি।
+- `about.heading`, `about.paragraphs`: About-এর bio; প্রতিটি paragraph আলাদা string।
+- `email`: public contact email। খালি string রাখলে email actions লুকাবে।
+- `socialLinks`: GitHub/LinkedIn-এর URL, label ও contact description। একই তালিকা Contact, footer এবং profile metadata-তে ব্যবহৃত হয়।
+- `portraitAlt`, `portraitCaption`: ছবির বর্ণনা ও caption। ছবি বদলাতে একই নামে `src/assets/tanzil.jpg` replace করুন; optimized images নিজে তৈরি হবে।
+
+JSON-এ text double quote-এর মধ্যে রাখুন। লেখার মধ্যে double quote লাগলে `\"` ব্যবহার করুন। কোনো key-এর নাম অকারণে বদলাবেন না। About paragraph edit করলে component edit করার প্রয়োজন নেই।
+
+## ভুল হলে
+
+GitHub-এ file-এর **History** থেকে আগের version দেখতে পারবেন। Edit করে আগের text ফিরিয়ে নতুন commit দিন। এটি সরাসরি master edit করলেও কাজ করে। File rename করলে article/project-এর URL বদলে যাবে—পুরোনো link রাখার জন্য অকারণে rename করবেন না।
+
+নিজের computer থেকে চাইলে:
 
 ```sh
+npm ci
 npm run check
 npm run build
 npm test
+npm run test:authoring
 npm run test:browser
 ```
 
-Review phone/desktop and both themes, then commit through a branch/PR. With Pages set to GitHub Actions, merging to `master` runs checks and deployment. Revert a commit and rebuild to restore earlier content.
-
-Drafts are excluded from pages, lists and sitemap but still need valid frontmatter. `npm run test:authoring` adds temporary published/draft items, verifies rendering, images/status and draft exclusion, cleans up, then rebuilds the original site.
+Browser ও authoring tests একসঙ্গে চালাবেন না; authoring test সাময়িক fixture দিয়ে build করে, শেষে সেগুলো সরিয়ে আসল site rebuild করে। নতুন code না লিখে শুধু content edit করলেও GitHub Actions-এ checks নিজে চলে। Hosting-এর জন্য database বা paid service যোগ করতে হবে না।

@@ -1,11 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
+import Filters from '../components/Filters.astro';
+import WritingCard from '../components/WritingCard.astro';
 import { notes } from '../lib/content';
 const all = await notes();
 ---
-<Layout title="Writing" description="Articles by Tanzil Ahmed about software projects, technical decisions, and what he is learning.">
-  <div class="container page-body"><header class="page-heading"><p class="eyebrow">Project write-ups & lessons learned</p><h1>My <span class="serif-word">writing.</span></h1><p>Articles about my projects, the decisions behind them, and what I learned. Each link opens the original publication.</p></header>
-    <div class="notes-list">{all.map((note) => <article class="note-entry"><div class="note-date"><span class="eyebrow">{note.data.platform}</span><time datetime={note.data.date}>{new Intl.DateTimeFormat('en', {month: 'long', year: 'numeric', timeZone: 'UTC'}).format(new Date(note.data.date))}</time></div><div><div class="tags">{note.data.tags.map((tag) => <span>{tag}</span>)}</div><h2><a href={note.data.url} target="_blank" rel="noopener noreferrer">{note.data.title}<Icon name="diagonal" size={24}/></a></h2><p>{note.data.summary}</p><a class="text-link" href={note.data.url} target="_blank" rel="noopener noreferrer">Read the original on DEV<Icon name="diagonal" size={16}/></a></div></article>)}</div>
+<Layout title="Writing" description="Personal essays, project write-ups and articles by Tanzil Ahmed. Read original posts here and follow links to writing published elsewhere.">
+  <div class="container page-body"><header class="page-heading writing-index-heading"><div><p class="eyebrow">Personal essays, projects & things I’m learning</p><h1>My <span class="serif-word">writing.</span></h1><p>Some stories are published here; others link to the original article. A place for personal essays, project write-ups, and what I’m learning.</p></div><a class="text-link" href="/rss.xml">RSS feed<Icon name="diagonal" size={16}/></a></header>
+    <Filters options={['On this site', 'Elsewhere']} label="Filter writing by publication"/>
+    <div class="writing-list">{all.map((note) => <WritingCard note={note} filterable/>)}</div>
+    {all.length === 0 && <p class="archive-footnote">New writing will appear here.</p>}
   </div>
 </Layout>

@@ -7,7 +7,33 @@
   "headlineAccent": "Still exploring.",
   "intro": "I enjoy learning, trying new things, and discovering where I can contribute. So far, that has taken me through software, open source, debate, theatre, and teaching.",
   "email": "tanzilahmed.mail@gmail.com",
-  "github": "https://github.com/tanzilamd",
-  "linkedin": "https://www.linkedin.com/in/tanzilamd/",
-  "dev": "https://dev.to/tanzil_ahmed_e6a826eee8c4"
+  "about": {
+    "heading": "Hello, I’m Tanzil.",
+    "paragraphs": [
+      "I like learning new things and finding opportunities to put them into practice. I’m still exploring where that will take me.",
+      "Software has been one part of that experience. I’ve worked on websites and client projects, built my own tools, and contributed to open-source projects.",
+      "I’ve also founded and led a school debating club, performed in theatre and mime, taught introductory coding, and volunteered with community organizations. These experiences have given me practice in teamwork, communication, planning, and explaining unfamiliar ideas.",
+      "I enjoy trying something new, working through the parts I don’t understand, and sharing what I learn."
+    ],
+    "link": {
+      "label": "Debate, theatre & community activities",
+      "url": "/beyond/"
+    }
+  },
+  "portraitAlt": "Tanzil Ahmed seated by a window, wearing a patterned shirt and sunglasses.",
+  "portraitCaption": "Learning, projects & community.",
+  "socialLinks": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/tanzilamd",
+      "eyebrow": "Code, issues & collaboration",
+      "description": "Explore what I’m building"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/tanzilamd/",
+      "eyebrow": "Projects & professional conversations",
+      "description": "Connect with me"
+    }
+  ]
 }

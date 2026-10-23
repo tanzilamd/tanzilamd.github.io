@@ -1,5 +1,6 @@
 # Credits
 
+- “Grandma’s Xbox”: written and supplied by Tanzil Ahmed, originally for university applications in 2024; published here at his request.
 - Portrait: owner-supplied photograph, used at the owner’s request.
 - Manrope and Hind Siliguri: self-hosted through Fontsource, under their included SIL Open Font Licenses in public/licenses/.
 - Original CSS/SVG project artwork illustrates projects; it is not a screenshot or third-party product interface.

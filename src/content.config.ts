@@ -30,7 +30,31 @@ const contributions = defineCollection({
 });
 const notes = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/notes' }),
-  schema: z.object({ ...common, title: z.string(), summary: z.string(), date: z.string().regex(/^\d{4}-\d{2}(-\d{2})?$/), platform: z.string(), url: z.url(), tags: z.array(z.string()).default([]) }),
+  schema: z.discriminatedUnion('kind', [
+    z.object({
+      ...common, kind: z.literal('post'), title: z.string(), summary: z.string(),
+      date: z.iso.date(), updated: z.iso.date().optional(),
+      dateWritten: z.union([z.string().regex(/^\d{4}$/), z.iso.date()]).optional(),
+      context: z.string().optional(), genre: z.enum(['Article', 'Essay', 'Note']).default('Article'),
+      tags: z.array(z.string()).default([]), featured: z.boolean().default(false),
+    }),
+    z.object({
+      ...common, kind: z.literal('external'), title: z.string(), summary: z.string(),
+      date: z.union([z.iso.date(), z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/)]),
+      updated: z.iso.date().optional(), platform: z.string(), url: z.url(),
+      tags: z.array(z.string()).default([]), featured: z.boolean().default(false),
+    }),
+  ]).refine((data) => !data.updated || data.updated >= data.date, {
+    message: 'Updated date must be on or after the publication date.', path: ['updated'],
+  }),
+});
+const activities = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/activities' }),
+  schema: z.object({
+    ...common, title: z.string(), label: z.string(), summary: z.string(),
+    art: z.enum(['debate', 'theatre', 'community']).default('community'),
+    featured: z.boolean().default(true),
+  }),
 });
 const experience = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/experience' }),
@@ -40,4 +64,4 @@ const milestones = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/milestones' }),
   schema: z.object({ ...common, title: z.string(), year: z.string().optional(), summary: z.string(), kind: z.string(), url: z.url().optional(), featured: z.boolean().default(false) }),
 });
-export const collections = { projects, contributions, notes, experience, milestones };
+export const collections = { projects, contributions, notes, activities, experience, milestones };
