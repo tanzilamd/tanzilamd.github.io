@@ -48,7 +48,7 @@ Draft content is excluded from generated pages, RSS and sitemap. A public Git re
 
 Offscript uses a restrained editorial layout: consistent project cards, readable body text, serif accents, quiet surfaces, and one coral/terracotta accent across dark and light themes. Buttons, filters, navigation and focus states share the same rules. Activities are available in desktop, mobile and no-JavaScript navigation.
 
-The first Home visit in a tab has a brief wordmark/portrait entrance and a single typing pass for the two profile headlines. Grouped scroll reveals, project/button feedback, and smooth gallery changes add motion without blocking navigation. Reduced-motion settings show the complete headline immediately. Native articles have a thin reading-progress line, and activity photos form an asymmetric spread on desktop and a sequential story on mobile. Everything remains static and database-free; no animation dependency was added.
+The first Home visit in a tab has a brief wordmark/portrait entrance and a single typing pass for the two profile headlines. Brief desktop heading fades, project/button feedback, and smooth gallery changes add motion without blocking navigation. Reduced-motion settings show the complete headline immediately. Native articles have a thin reading-progress line, and activity photos use equal 3:2 frames in a consistent two-column desktop grid and a single column on mobile. Touch scrolling keeps sections static; large project/photo grids never animate into view. Everything remains static and database-free; no animation dependency was added.
 
 ![Theatre gallery with owner-supplied event photographs](docs/images/activities-dark.jpg)
 
@@ -60,7 +60,7 @@ The first Home visit in a tab has a brief wordmark/portrait entrance and a singl
 | Page composition and generated article/project routes | `src/pages/` |
 | Content field validation and draft/order rules | `src/content.config.ts`, `src/lib/` |
 | Theme/menu/filter/copy/gallery interactions | `src/scripts/site.ts` |
-| Headline typing, grouped reveals and article reading progress | `src/scripts/motion.ts` |
+| Headline typing, lightweight heading fades and article reading progress | `src/scripts/motion.ts` |
 | Reusable content examples | `templates/` |
 | Production-output, content-authoring and browser checks | `tests/`, `scripts/check-authoring.mjs` |
 

@@ -64,19 +64,21 @@ void typeHeadline().catch(finishIntro);
 window.addEventListener('pointerdown', finishIntro, { once: true, passive: true });
 window.addEventListener('keydown', finishIntro, { once: true });
 window.addEventListener('resize', finishIntro, { once: true, passive: true });
+window.addEventListener('scroll', finishIntro, { once: true, passive: true });
 
 function reveal(element: HTMLElement) {
-  if (preference.matches || element.contains(document.activeElement) || typeof element.animate !== 'function') return;
+  if (preference.matches || document.hidden || animations.size >= 2 || element.contains(document.activeElement) || typeof element.animate !== 'function') return;
   const animation = element.animate([
-    { opacity: .2, transform: 'translateY(18px)' },
-    { opacity: 1, transform: 'none' },
-  ], { duration: 520, easing: 'cubic-bezier(.2,.65,.3,1)' });
+    { opacity: .7 },
+    { opacity: 1 },
+  ], { duration: 220, easing: 'ease-out' });
   animations.add(animation);
   animation.finished.then(() => animations.delete(animation), () => animations.delete(animation));
 }
 
-// Observe groups, never hide content in CSS. Unsupported/failed JS stays readable.
-if (!preference.matches && 'IntersectionObserver' in window) {
+// Small desktop headings only; never composite an entire image grid during scroll.
+// Touch devices keep static sections, and content is never hidden before observation.
+if (!preference.matches && matchMedia('(hover: hover) and (pointer: fine)').matches && 'IntersectionObserver' in window) {
   revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
@@ -84,7 +86,7 @@ if (!preference.matches && 'IntersectionObserver' in window) {
       reveal(entry.target as HTMLElement);
     });
   }, { threshold: .08 });
-  document.querySelectorAll<HTMLElement>('.section-top, .featured-grid, .work-grid, .open-inner, .recognition-grid, .beyond-stories, .writing-card, .life-title, .activity-content, .activity-gallery, .experience-section, .contact-layout').forEach((element) => {
+  document.querySelectorAll<HTMLElement>('.section-top, .life-title, .open-intro').forEach((element) => {
     if (element.getBoundingClientRect().top >= innerHeight * .9) revealObserver!.observe(element);
   });
 }
@@ -109,11 +111,20 @@ const progress = document.querySelector<HTMLElement>('[data-reading-progress]');
 const prose = document.querySelector<HTMLElement>('.article-prose');
 if (progress && prose) {
   let scheduled = false;
+  let metricsDirty = true;
+  let proseStart = 0;
+  let distance = 1;
+  let viewportOffset = 0;
   function updateProgress() {
     scheduled = false;
-    const bounds = prose!.getBoundingClientRect();
-    const distance = Math.max(1, bounds.height - innerHeight * .65);
-    const value = Math.max(0, Math.min(1, (innerHeight * .25 - bounds.top) / distance));
+    if (metricsDirty) {
+      const bounds = prose!.getBoundingClientRect();
+      proseStart = bounds.top + scrollY;
+      distance = Math.max(1, bounds.height - innerHeight * .65);
+      viewportOffset = innerHeight * .25;
+      metricsDirty = false;
+    }
+    const value = Math.max(0, Math.min(1, (scrollY + viewportOffset - proseStart) / distance));
     progress!.style.setProperty('--reading-progress', String(value));
   }
   function scheduleProgress() {
@@ -121,10 +132,14 @@ if (progress && prose) {
     scheduled = true;
     requestAnimationFrame(updateProgress);
   }
+  function invalidateMetrics() {
+    metricsDirty = true;
+    scheduleProgress();
+  }
   progress.hidden = false;
   updateProgress();
   window.addEventListener('scroll', scheduleProgress, { passive: true });
-  window.addEventListener('resize', scheduleProgress, { passive: true });
-  if ('ResizeObserver' in window) new ResizeObserver(scheduleProgress).observe(prose);
-  void document.fonts.ready.then(scheduleProgress);
+  window.addEventListener('resize', invalidateMetrics, { passive: true });
+  if ('ResizeObserver' in window) new ResizeObserver(invalidateMetrics).observe(prose);
+  void document.fonts.ready.then(invalidateMetrics);
 }

@@ -65,6 +65,19 @@ test('reading progress follows the essay and remains hidden without JavaScript',
   expect(await progress.evaluate((element) => element.style.getPropertyValue('--reading-progress'))).toBe('0');
   await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }));
   await expect.poll(() => progress.evaluate((element) => Number(element.style.getPropertyValue('--reading-progress')))).toBe(1);
+  await page.setViewportSize({ width: 980, height: 700 });
+  await page.locator('.article-prose').evaluate((prose) => {
+    const bounds = prose.getBoundingClientRect();
+    scrollTo({ top: bounds.top + scrollY + (bounds.height - innerHeight * .65) / 2 - innerHeight * .25, behavior: 'instant' });
+  });
+  await expect.poll(() => progress.evaluate((element) => Number(element.style.getPropertyValue('--reading-progress')))).toBeCloseTo(.5, 2);
+  // Simulate content growing after load, such as an article image decoding.
+  await page.locator('.article-prose').evaluate((prose) => { (prose as HTMLElement).style.paddingBottom = '600px'; });
+  const expected = await page.locator('.article-prose').evaluate((prose) => {
+    const bounds = prose.getBoundingClientRect();
+    return Math.max(0, Math.min(1, (innerHeight * .25 - bounds.top) / Math.max(1, bounds.height - innerHeight * .65)));
+  });
+  await expect.poll(() => progress.evaluate((element) => Number(element.style.getPropertyValue('--reading-progress')))).toBeCloseTo(expected, 2);
   const context = await browser.newContext({ javaScriptEnabled: false });
   try {
     const noJs = await context.newPage();
@@ -92,9 +105,9 @@ test('rapid gallery navigation finishes on the latest photo and caption', async 
   await expect(links.first()).toBeFocused();
 });
 
-test('reaching a project with keyboard focus never fades the focused group', async ({ page }) => {
+test('reaching a section heading with keyboard focus never fades the focused group', async ({ page }) => {
   await page.goto('/');
-  const link = page.locator('.featured-grid .cover-link').first();
+  const link = page.locator('.section-top .text-link').first();
   await link.focus();
   await expect(link).toBeFocused();
   // Allow the viewport observer to process the scroll caused by focus.
@@ -105,3 +118,46 @@ test('reaching a project with keyboard focus never fades the focused group', asy
   }).length);
   expect(focusedAnimations).toBe(0);
 });
+
+test('activity photos share equal frames in both themes on desktop and mobile', async ({ page }) => {
+  for (const width of [320, 390, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const theme of ['dark', 'light']) {
+      await page.goto('/beyond/');
+      await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; }, theme);
+      const frames = await page.locator('.activity-photo-grid:not(.single-photo) .activity-photo-link').evaluateAll((links) => links.map((link) => {
+        const bounds = link.getBoundingClientRect();
+        return { width: bounds.width, height: bounds.height };
+      }));
+      expect(frames.length).toBeGreaterThan(1);
+      for (const frame of frames) {
+        expect(Math.abs(frame.width - frames[0].width), `${theme}, ${width}px: equal frame width`).toBeLessThan(1);
+        expect(Math.abs(frame.height - frames[0].height), `${theme}, ${width}px: equal frame height`).toBeLessThan(1);
+      }
+    }
+  }
+});
+
+for (const touch of [false, true]) {
+  test(`${touch ? 'touch' : 'desktop'}: project and photo grids stay fixed while scrolling into view`, async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: touch ? 390 : 1280, height: 844 }, isMobile: touch, hasTouch: touch });
+    try {
+      const page = await context.newPage();
+      for (const [route, selector] of [['/', '.featured-grid'], ['/work/', '.work-grid'], ['/beyond/', '.activity-gallery']]) {
+        await page.goto(`http://127.0.0.1:4321${route}`);
+        await page.evaluate(() => document.fonts.ready);
+        const grid = page.locator(selector).first();
+        const initialTop = await grid.evaluate((element) => element.getBoundingClientRect().top + scrollY);
+        await page.evaluate((top) => scrollTo({ top: top - 140, behavior: 'instant' }), initialTop);
+        await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+        const currentTop = await grid.evaluate((element) => element.getBoundingClientRect().top + scrollY);
+        expect(Math.abs(currentTop - initialTop), `${route}: no animation-driven position jump`).toBeLessThan(1);
+        const animated = await grid.evaluate((grid) => document.getAnimations().some((animation) => {
+          const target = (animation.effect as KeyframeEffect | null)?.target;
+          return target instanceof Element && target.contains(grid) && animation.playState === 'running';
+        }));
+        expect(animated, `${route}: no animated image-grid ancestor`).toBe(false);
+      }
+    } finally { await context.close(); }
+  });
+}

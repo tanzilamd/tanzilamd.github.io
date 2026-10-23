@@ -4,6 +4,13 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 24 equal photo frames and lighter scrolling
+
+- Replaced the asymmetric gallery with consistent two-column, equal-width 3:2 photo frames. Mobile remains one column; owner captions and gallery ordering are unchanged.
+- Removed viewport animations from large project/photo grids and content panels. Fine-pointer desktop devices retain only short 220ms opacity fades on small headings, capped at two concurrent effects; touch scrolling keeps sections static. No scroll hijacking or persistent animation layers were added.
+- Scrolling immediately finishes the Home intro. The portrait keeps its existing rounded frame with a simple opacity/transform entrance instead of an animated clipping mask.
+- Article reading progress uses cached prose measurements, refreshed on resize, font readiness and content-size changes, instead of measuring layout every scrolling frame. Updated UI/content guides and the gallery preview together.
+
 ## October 24 motion and photo-story refinement
 
 - Added one brief Home opening per tab: a wordmark underline, portrait entrance and a single typing pass for “Still learning. Still exploring.” Both strings remain in `profile.json`; full text and the accessible heading name are always in the HTML. Interaction skips the opening, a bounded timeout handles failed scripts, and reduced-motion users see the complete text immediately.

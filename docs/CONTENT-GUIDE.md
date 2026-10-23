@@ -110,7 +110,7 @@ Debate, theatre এবং teaching/volunteering-এর ছবিগুলো স
 ```
 
 3. `src` হবে upload করা ছবির path; শুরুতে `public` লিখবেন না। `alt`-এ ছবিতে কী হচ্ছে তার বর্ণনা, `caption`-এ ছোট কথা দিন। `event`, `year`, `role` optional—নিশ্চিত না হলে field বাদ রাখুন। `year` double quote-এর মধ্যে থাকবে।
-4. একাধিক ছবি দিতে `gallery`-র মধ্যে দ্বিতীয় `{ ... }` যোগ করুন, মাঝখানে comma দিন। Caption ও বড় viewer-এর photo count নিজে update হবে। প্রথম ছবিটি desktop-এ বড় frame পায়; তাই যে ছবিটি আগে দেখাতে চান, সেটি array-তে প্রথমে রাখুন। Mobile-এ সব ছবি ক্রমানুসারে দেখাবে। আলাদা layout file edit করতে হবে না। সব ছবি সরাতে `"gallery": []` রাখুন।
+4. একাধিক ছবি দিতে `gallery`-র মধ্যে দ্বিতীয় `{ ... }` যোগ করুন, মাঝখানে comma দিন। Caption ও বড় viewer-এর photo count নিজে update হবে। সব ছবির frame সমান থাকবে—desktop-এ দুই column, mobile-এ এক column। যে ছবিটি আগে দেখাতে চান, সেটি array-তে প্রথমে রাখুন। আলাদা layout file edit করতে হবে না। সব ছবি সরাতে `"gallery": []` রাখুন।
 5. আসল ছবি বসালে সংশ্লিষ্ট `demo` হবে **false**, এবং demo alt/caption-ও বাস্তব বর্ণনা দিয়ে বদলাবেন। বাকি demo ছবিতে label থাকবে।
 6. Activity-এর `"homePreview": true` থাকলে তার **প্রথম ছবিটি Home-এও দেখাবে**। বর্তমানে theatre-তে true আছে। অন্য activity বেছে নিতে পুরোনোটিতে false ও নতুনটিতে true দিন। Featured activity-গুলোর মধ্যে প্রথম নির্বাচিতটি ব্যবহার হবে; কোনোটি না বাছলে ছবি আছে এমন প্রথম featured activity বেছে নেবে।
 7. Commit করুন; Actions সফল হলে Home ও Activities-এ একই data থেকে update দেখা যাবে। Component edit লাগবে না।
