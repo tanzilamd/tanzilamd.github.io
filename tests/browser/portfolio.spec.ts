@@ -38,7 +38,7 @@ test('work filters are shareable and survive navigation back from a case study',
   await page.goto('/work/');
   await page.getByRole('button', { name: 'Tool', exact: true }).click();
   await expect(page).toHaveURL('/work/?category=Tool');
-  await expect(page.locator('[data-item]:visible h3')).toHaveText(['ScopeProof', 'Choreseed']);
+  await expect(page.locator('[data-item]:visible').getByRole('heading', { level: 2 })).toHaveText(['ScopeProof', 'Choreseed']);
   await page.getByRole('link', { name: 'Explore ScopeProof', exact: true }).click();
   await expect(page.locator('h1')).toContainText('ScopeProof');
   await page.goBack();
@@ -95,13 +95,22 @@ test('mobile menu supports keyboard, escape and route navigation', async ({ page
 });
 
 test('responsive layouts fit both themes at representative widths', async ({ page }) => {
-  for (const width of [360, 390, 768, 1024, 1440]) {
+  test.setTimeout(60_000);
+  const allRoutes = [...routes, '/work/scopeproof/', '/work/engjatra/', '/work/cargotab/', '/work/tanzilbot/', '/404.html'];
+  for (const width of [320, 360, 390, 768, 800, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const theme of ['dark', 'light']) {
-      for (const route of ['/', '/work/', '/open-source/', '/work/scopeproof/', '/about/', '/beyond/', '/notes/', '/notes/grandmas-xbox/', '/contact/']) {
+      for (const route of allRoutes) {
         await page.goto(route);
         await page.evaluate((value) => { document.documentElement.dataset.theme = value; }, theme);
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `${route} at ${width}px in ${theme}`).toBe(true);
+        const clipped = await page.locator('.tuktak-name, .scope-word, .eng-word, .chore-word, .archive-word').evaluateAll((nodes) => nodes.filter((node) => {
+          const range = document.createRange(); range.selectNodeContents(node);
+          const text = range.getBoundingClientRect();
+          const cover = node.closest('.project-art')!.getBoundingClientRect();
+          return text.left < cover.left - 1 || text.right > cover.right + 1;
+        }).map((node) => node.textContent));
+        expect(clipped, `Project title clipped on ${route} at ${width}px in ${theme}`).toEqual([]);
       }
     }
   }

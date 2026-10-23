@@ -10,7 +10,7 @@ const { title, description = profile.description, noindex = false, article } = A
 const pageTitle = title ? `${title} — ${profile.name}` : profile.siteTitle;
 const path = Astro.url.pathname;
 const canonical = new URL(path, Astro.site);
-const nav = [['Projects', '/work/'], ['Open source', '/open-source/'], ['About', '/about/'], ['Writing', '/notes/']];
+const nav = [['Projects', '/work/'], ['Open source', '/open-source/'], ['About', '/about/'], ['Activities', '/beyond/'], ['Writing', '/notes/']];
 const [firstName, ...restName] = profile.name.split(' ');
 ---
 <!doctype html>
@@ -32,7 +32,7 @@ const [firstName, ...restName] = profile.name.split(' ');
     <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'Person', name: profile.name, url: Astro.site, description: profile.description, sameAs: profile.socialLinks.map((link) => link.url) }).replace(/</g, '\\u003c')}/>
     {article && <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'BlogPosting', headline: title, description, genre: article.genre, datePublished: article.published, dateModified: article.updated ?? article.published, mainEntityOfPage: canonical.href, author: { '@type': 'Person', name: profile.name, url: new URL('/about/', Astro.site).href }, publisher: { '@type': 'Person', name: profile.name } }).replace(/</g, '\\u003c')}/>}
     <script is:inline>
-      (() => { let theme = 'dark'; try { const saved = localStorage.getItem('offscript-theme'); if (saved === 'light' || saved === 'dark') theme = saved; } catch {} document.documentElement.dataset.theme = theme; const meta = document.querySelector('meta[name="theme-color"]'); if (meta) meta.setAttribute('content', theme === 'dark' ? '#0a191d' : '#f0f1eb'); })();
+      (() => { let theme = 'dark'; try { const saved = localStorage.getItem('offscript-theme'); if (saved === 'light' || saved === 'dark') theme = saved; } catch {} document.documentElement.dataset.theme = theme; const meta = document.querySelector('meta[name="theme-color"]'); if (meta) meta.setAttribute('content', theme === 'dark' ? '#0a191d' : '#f5f4ef'); })();
     </script>
   </head>
   <body>
@@ -40,13 +40,13 @@ const [firstName, ...restName] = profile.name.split(' ');
     <header class="site-header container">
       <a class="wordmark" href="/">{firstName}<span>{restName.join(' ')}<span class="wordmark-dot">.</span></span></a>
       <nav class="desktop-nav" aria-label="Main navigation">{nav.map(([label, href]) => <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}</a>)}</nav>
-      <div class="header-actions"><button type="button" class="theme-toggle icon-button" data-theme-toggle aria-label="Switch to light theme" hidden><Icon name="sun" class="sun-icon"/><Icon name="moon" class="moon-icon"/></button><a class="header-contact" href="/contact/">Let’s talk <Icon name="diagonal" size={16}/></a><button type="button" class="menu-toggle icon-button" data-menu-toggle aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav" hidden><Icon name="menu" class="menu-icon"/><Icon name="close" class="close-icon"/></button></div>
-      <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" inert hidden>{nav.map(([label, href]) => <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}<Icon name="diagonal"/></a>)}<a href="/beyond/">Activities<Icon name="diagonal"/></a><a href="/contact/">Contact<Icon name="diagonal"/></a></nav>
+      <div class="header-actions"><button type="button" class="theme-toggle icon-button" data-theme-toggle aria-label="Switch to light theme" hidden><Icon name="sun" class="sun-icon"/><Icon name="moon" class="moon-icon"/></button><a class="header-contact" href="/contact/" aria-current={path === '/contact/' ? 'page' : undefined}>Let’s talk <Icon name="diagonal" size={16}/></a><button type="button" class="menu-toggle icon-button" data-menu-toggle aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav" hidden><Icon name="menu" class="menu-icon"/><Icon name="close" class="close-icon"/></button></div>
+      <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" inert hidden>{nav.map(([label, href]) => <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}<Icon name="diagonal"/></a>)}<a href="/contact/" aria-current={path === '/contact/' ? 'page' : undefined}>Contact<Icon name="diagonal"/></a></nav>
       <noscript><nav class="fallback-nav" aria-label="Navigation without JavaScript">{nav.map(([label, href]) => <a href={href}>{label}</a>)}<a href="/contact/">Contact</a></nav></noscript>
     </header>
     <main id="main" tabindex="-1"><slot/></main>
     <footer class="site-footer container">
-      <div class="footer-top"><a class="footer-heading" href="/contact/">Have a project or an idea?<br/><span>Let’s talk.</span><Icon name="diagonal" size={38}/></a><p>Open to collaborations,<br/>new ideas, and learning opportunities.</p></div>
+      {path !== '/contact/' && <div class="footer-top"><a class="footer-heading" href="/contact/">Have a project or an idea?<br/><span>Let’s talk.</span><Icon name="diagonal" size={32}/></a><p>Open to collaborations,<br/>new ideas, and learning opportunities.</p></div>}
       <div class="footer-bottom"><a class="wordmark footer-wordmark" href="/">{profile.name}<span class="wordmark-dot">.</span></a><div class="social-links">{profile.socialLinks.map((link) => <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label} <Icon name="diagonal" size={14}/></a>)}</div><span class="footer-signoff">Made with curiosity. © {new Date().getFullYear()}</span></div>
     </footer>
     <script src="../scripts/site.ts"></script>

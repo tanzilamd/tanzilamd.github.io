@@ -1,6 +1,6 @@
 # সহজে website-এর content update
 
-এই website static এবং database ছাড়া চলে। প্রতিটি বিষয় একবার লিখবেন; সেই file থেকেই Home, list এবং detail page তৈরি হবে। **একটি বিশাল file নয়—প্রতিটি item-এর একটি file**, তাই একটি লেখা বদলাতে অন্য কিছুর মধ্যে খুঁজতে হবে না। Dark/light mode-এর জন্য আলাদা content লাগে না।
+এই website static এবং database ছাড়া চলে। UI/layout-এর নিয়ম আছে [UI guide](UI-GUIDE.md)-এ। প্রতিটি বিষয় একবার লিখবেন; সেই file থেকেই Home, list এবং detail page তৈরি হবে। **একটি বিশাল file নয়—প্রতিটি item-এর একটি file**, তাই একটি লেখা বদলাতে অন্য কিছুর মধ্যে খুঁজতে হবে না। Dark/light mode-এর জন্য আলাদা content লাগে না।
 
 ## GitHub থেকেই edit করুন
 
@@ -83,7 +83,7 @@ Matching template copy করে matching folder-এ নতুন `.md` file ব
 
 - **Project:** `templates/project.md.example`। Category: `Product`, `Tool`, `Experiment`, `Earlier work`। `featured: true` ও ছোট `order` দিয়ে Home-এর প্রথম চারটি project বেছে নিন। নতুন project-এ `cover: "custom"` দিন, অথবা `/media/`-এর ছবি `coverImage` এবং বর্ণনা `coverAlt` দিন। নতুন file-এর নামই `/work/file-name/` URL হবে।
 - **Contribution:** সাধারণ PR-এর জন্য `templates/contribution.md.example`; published website-এর জন্য `templates/website-contribution.md.example`। একটি PR একবারই যোগ করুন। `Merged`, `Open`, `Closed`, `Published` সঠিকভাবে দিন। Personal fork merge-কে upstream contribution বলবেন না। `featured` দিয়ে Home-এর তিনটি highlight; `spotlight: true` দিয়ে Open source-এর বিস্তারিত highlight বাছাই হয়।
-- **Activity:** `templates/activity.md.example`। `summary` Home ও Activities-এ একই source থেকে আসে। নিচে বিস্তারিত লিখুন। Illustration-এর `art`: `debate`, `theatre`, `community`। `featured: false` করলে শুধু Activities-এ থাকবে।
+- **Activity:** `templates/activity.md.example`। `summary` Home ও Activities-এ একই source থেকে আসে। নিচে বিস্তারিত লিখুন। Icon-এর `art`: `debate`, `theatre`, `community`। `featured: false` করলে শুধু Activities-এ থাকবে।
 - **Experience / recognition:** `templates/experience.md.example` বা `templates/milestone.md.example`। Award-এর সঠিক নাম, year এবং সহজ summary দিন। Nomination-কে win লিখবেন না। Unknown year বাদ রাখুন। Milestone-এর `featured: true` Home-এর প্রথম তিনটি recognition-এ বাছাই করে।
 
 সব collection-এ `draft: true` দিলে public page, list, feed ও sitemap থেকে item বাদ যায়। তবে source repository public হলে committed draft-এর source অন্য কেউ দেখতে পারে। ব্যক্তিগত draft নিজের কাছে রাখুন। `order` ছোট হলে আগে আসে; Writing-এর ক্ষেত্রে date আগে বিবেচিত হয়।

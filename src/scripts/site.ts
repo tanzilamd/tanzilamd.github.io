@@ -3,7 +3,7 @@ const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggl
 const updateThemeLabel = () => {
   const dark = root.dataset.theme === 'dark';
   themeToggle?.setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} theme`);
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0a191d' : '#f0f1eb');
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0a191d' : '#f5f4ef');
 };
 if (themeToggle) {
   themeToggle.hidden = false;

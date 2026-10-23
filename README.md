@@ -1,50 +1,83 @@
 # Tanzil Ahmed — Offscript
 
-Static portfolio built with Astro and TypeScript. Database-free, self-hosted fonts, dark/light themes, responsive local images and Markdown content.
+Tanzil Ahmed’s portfolio: projects, open-source work, experience, recognition, community activities and writing. Built with **Astro + TypeScript**, fully static and database-free, with dark/light themes and local fonts/images.
 
-## Develop
+**Live:** https://tanzilahmed.tech/ · **Publishing branch:** `master` · **Deployment:** GitHub Pages Actions
 
-Use Node 24.19.0 (`.nvmrc`). Run `npm ci`, then `npm run dev`. The CLI prints the development address. `npm run build` generates the public site in `dist/`; `npm run preview` serves that output.
+| Dark | Light |
+| --- | --- |
+| ![Offscript homepage in dark mode](docs/images/home-dark.jpg) | ![Offscript homepage in light mode](docs/images/home-light.jpg) |
+
+## Content update / সহজে edit করুন
+
+GitHub থেকে সরাসরি `master`-এ edit করতে পারেন। প্রতিটি item-এর একটি source file; সেখান থেকে সংশ্লিষ্ট Home/list/detail views তৈরি হয়। Layout edit করতে হয় না।
+
+**[সহজ বাংলা content update manual →](docs/CONTENT-GUIDE.md)**
+
+| Update | Source |
+| --- | --- |
+| Name, headline, intro, About bio, email, GitHub/LinkedIn, photo caption | [`src/data/profile.json`](src/data/profile.json) |
+| Projects and case studies | [`src/content/projects/`](src/content/projects/) |
+| Open-source PRs and published website contributions | [`src/content/contributions/`](src/content/contributions/) |
+| Original posts/essays and external article links | [`src/content/notes/`](src/content/notes/) |
+| Debate, theatre, teaching and volunteering | [`src/content/activities/`](src/content/activities/) |
+| Work experience | [`src/content/experience/`](src/content/experience/) |
+| Awards, recognition and milestones | [`src/content/milestones/`](src/content/milestones/) |
+| Portrait | `src/assets/tanzil.jpg` |
+| Article/project images | `public/media/` |
+
+### Add an article
+
+Copy [`templates/post.md.example`](templates/post.md.example) to `src/content/notes/my-article.md`. Fill in the title, summary, publication `date` (`YYYY-MM-DD`) and Markdown body. Set `draft: false`, commit to `master`, and wait for the successful Actions deployment. The article appears at `/notes/my-article/`; Writing, RSS and sitemap update automatically.
+
+For an external publication, use [`templates/note.md.example`](templates/note.md.example): set `kind: "external"`, the real publication date, platform and URL. The Writing filters distinguish **On this site** from **Elsewhere**. Native posts support optional written/updated dates; “Grandma’s Xbox” preserves its 2024 admission context separately from its site publication date.
+
+Draft content is excluded from generated pages, RSS and sitemap. A public Git repository still exposes committed draft source, so keep private drafts outside the repository.
+
+### Choose Home highlights
+
+- Projects: first four published `featured: true` entries, sorted by `order`. Current selection: Tuktak, ScopeProof, EngJatra and Choreseed. Cargotab/Tanzilbot stay under Earlier work.
+- Contributions: up to three featured entries. A `spotlight: true` entry also receives a detailed Open source feature; Tabbycat’s published website work links to its source and upstream integration.
+- Recognition: up to three featured milestones. All awards and work experience appear on About; Hacktoberfest milestones also appear under Open source.
+- Activities: featured entries appear on Home; all published activities appear under Activities. Edit one activity’s summary once to update both views.
+- Writing: the first featured entry, or the latest entry when none is featured. About also shows the first featured personal essay. Writing itself sorts by publication date, then `order`.
+
+## UI and project structure
+
+Offscript uses a restrained editorial layout: consistent project cards, readable body text, serif accents, quiet surfaces, and one coral/terracotta accent across dark and light themes. Buttons, filters, navigation and focus states share the same rules. Activities are available in desktop, mobile and no-JavaScript navigation.
+
+| Responsibility | Location |
+| --- | --- |
+| Color/spacing tokens, typography, components and responsive layouts | `src/styles/global.css` |
+| Shared navigation, theme initialization, footer and metadata | `src/layouts/Layout.astro` |
+| Shared project, recognition, writing and filter components | `src/components/` |
+| Page composition and generated article/project routes | `src/pages/` |
+| Content field validation and draft/order rules | `src/content.config.ts`, `src/lib/` |
+| Theme/menu/filter/copy interactions | `src/scripts/site.ts` |
+| Reusable content examples | `templates/` |
+| Production-output, content-authoring and browser checks | `tests/`, `scripts/check-authoring.mjs` |
+
+Read [the UI guide](docs/UI-GUIDE.md) before changing shared components. Keep the implementation, README, content guide and relevant release/verification notes in sync; repository working instructions are in [AGENTS.md](AGENTS.md).
+
+## Local development and checks
+
+Use Node **24.19.0** (`.nvmrc`). Run `npm ci`, then `npm run dev`; the CLI prints the address. `npm run build` writes the static site to `dist/`, and `npm run preview` serves that output.
 
 ```sh
+npm ci
 npm run check
 npm run build
 npm test
-npm run test:browser
 npm run test:authoring
+npm run test:browser
 ```
 
-Browser tests use `/usr/bin/chromium` if available. Otherwise run `npx playwright install chromium`, or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE`. Tests start a production preview on port 4321 when needed.
+Run authoring tests before browser tests, not concurrently: authoring checks build temporary content, remove it, then rebuild the original site. Browser checks use `/usr/bin/chromium` when available; otherwise run `npx playwright install chromium` or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE`. The browser suite starts a production preview on port 4321 when needed. See [verification notes](docs/VERIFICATION.md) for recorded results and limits.
 
-## Update content / নতুন content যোগ করা
+## Publishing and domain
 
-GitHub-এর master branch থেকে সরাসরি edit করার ধাপসহ [সহজ বাংলা content guide](docs/CONTENT-GUIDE.md) দেখুন। প্রতিটি item একবার edit করলেই তার Home/list/detail view update হয়; component edit করতে হয় না। নতুন নিজের লেখা: `templates/post.md.example`; বাইরের article link: `templates/note.md.example`।
+Pushes to `master` run `.github/workflows/pages.yml`: install, type checks, static build, authoring/output/browser checks, then publish `dist/` through GitHub Pages. PRs run checks without deploying. The workflow is **Check and deploy portfolio** under Actions. Pages must use **GitHub Actions** as its source; the current site is already configured.
 
-| Change | Location |
-| --- | --- |
-| Bio, headline, professional links, optional public email | `src/data/profile.json` |
-| Projects and case studies | `src/content/projects/` |
-| Open-source PRs | `src/content/contributions/` |
-| Original posts/essays and external article links | `src/content/notes/` |
-| Debate, theatre, teaching and volunteering | `src/content/activities/` |
-| Experience | `src/content/experience/` |
-| Recognition and milestones | `src/content/milestones/` |
-| Current portrait | `src/assets/tanzil.jpg` |
-| Approved screenshots | `public/media/` |
-| Theme/layout styling | `src/styles/global.css` |
+Canonical origin: **https://tanzilahmed.tech**. See [custom-domain/DNS maintenance](docs/CUSTOM-DOMAIN.md). If the domain changes, update `astro.config.mjs`, `public/robots.txt` and `public/CNAME`; generated-link checks verify they agree. RSS is at `/rss.xml`, sitemap at `/sitemap.xml`.
 
-The first four published projects with `featured: true`, sorted by `order`, appear on Home. Current priority: Tuktak, ScopeProof, EngJatra, Choreseed. Cargotab and Tanzilbot remain in Earlier work. Up to three featured contributions appear on Home. Drafts are excluded from generated pages and sitemap.
-
-The homepage introduces learning and exploration across several interests. Selected recognition uses `featured: true` in `src/content/milestones/`; all recognition and work experience appear on About. Published website contributions can omit a PR number and use the website contribution template. Tabbycat’s website work is featured on Home and explained at the top of Open source.
-
-Writing supports dated native Markdown articles at `/notes/file-name/`, optional updated/written dates, reading time, external publications, filters and RSS at `/rss.xml`. The owner-supplied personal essay “Grandma’s Xbox” is highlighted on Home and About, with its 2024 admission context separated from the site's publication date. Bio, author identity and contact/footer links share `src/data/profile.json`.
-
-## Publish
-
-The GitHub Pages workflow checks PRs and prepares deployment on pushes to `master` or a manual run. Select **GitHub Actions** in repository Settings → Pages first. Offscript is merged into `master`. New content commits to `master` go through the same checks and deployment workflow.
-
-Canonical origin: `https://tanzilahmed.tech`. The custom domain is configured in GitHub Pages. See [the custom-domain guide](docs/CUSTOM-DOMAIN.md) for DNS maintenance.
-
-If the domain changes, update `astro.config.mjs`, `public/robots.txt` and `public/CNAME`; generated-link tests derive the origin from Astro configuration and check these files agree. Publish only `dist/`, not source attachments or research.
-
-The owner-approved public email is configured in `src/data/profile.json`; Contact provides email and copy actions alongside GitHub and LinkedIn. No phone number, original application PDF, private address or application IDs belong in content, metadata or downloads. See [release notes](docs/RELEASE-NOTES.md) for editorial decisions.
+The public contact email is configured once in `profile.json`; Contact provides email/copy actions, GitHub and LinkedIn. No phone number, source application PDF, private address or application IDs belong in the public build. Publish only `dist/`. The personal essay was supplied for publication by its author. See [release notes](docs/RELEASE-NOTES.md) and [credits](docs/CREDITS.md).

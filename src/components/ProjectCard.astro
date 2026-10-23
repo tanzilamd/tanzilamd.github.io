@@ -2,10 +2,11 @@
 import type { CollectionEntry } from 'astro:content';
 import Cover from './Cover.astro';
 import Icon from './Icon.astro';
-interface Props { project: CollectionEntry<'projects'>; large?: boolean }
-const { project, large = false } = Astro.props;
+interface Props { project: CollectionEntry<'projects'>; headingLevel?: 2 | 3 }
+const { project, headingLevel = 2 } = Astro.props;
+const Heading = headingLevel === 3 ? 'h3' : 'h2';
 ---
-<article class:list={['project-card', { 'project-large': large }]} data-item data-category={project.data.category}>
+<article class="project-card" data-item data-category={project.data.category}>
   <div class="cover-frame"><Cover kind={project.data.cover} title={project.data.title} image={project.data.coverImage} imageAlt={project.data.coverAlt}/><a class="cover-link" href={`/work/${project.id}/`} aria-label={`Explore ${project.data.title}`}><span class="cover-arrow"><Icon name="diagonal" size={24}/></span></a></div>
-  <div class="project-info"><div><p class="eyebrow">{project.data.category}</p><h3><a href={`/work/${project.id}/`}>{project.data.title}</a></h3><p>{project.data.summary}</p></div><span class="project-index"><Icon name="diagonal" /></span></div>
+  <div class="project-info"><p class="eyebrow">{project.data.category}</p><Heading><a href={`/work/${project.id}/`}>{project.data.title}</a></Heading><p>{project.data.summary}</p></div>
 </article>

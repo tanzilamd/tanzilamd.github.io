@@ -4,6 +4,14 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 23 UI refinement
+
+- Rebuilt shared spacing, type scales, surfaces, borders and responsive rules; retained dark teal/coral and warm light/terracotta themes. Removed obsolete styles and decorative controls.
+- Unified project-card proportions and heading hierarchy; simplified illustrative covers and added matching primary/secondary buttons.
+- Made Activities discoverable in desktop/mobile/no-JavaScript navigation. Replaced its large decorative panels with readable title/body layouts.
+- Simplified contribution previews, recognition cards, writing metadata, contact cards and footer hierarchy. Contact no longer repeats the footer contact invitation.
+- Updated README, the content guide, UI documentation and repository working instructions together. Content files and existing article/project URLs are preserved.
+
 ## October 23 content and writing update
 
 - Added native Markdown posts alongside external publications, with publication/written/updated dates, reading time, article metadata, RSS, filters and a responsive long-form reader in both themes.
