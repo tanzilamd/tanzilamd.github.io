@@ -6,5 +6,6 @@
 - Earlier demo assets (`public/media/activities/demo-*.webp`): generated with OpenAI image generation for the initial gallery preview. These fictional scenes are no longer referenced by the live galleries. If reused as placeholders, keep `demo: true`.
 - Manrope and Hind Siliguri: self-hosted through Fontsource, under their included SIL Open Font Licenses in public/licenses/.
 - Original CSS/SVG project artwork illustrates projects; it is not a screenshot or third-party product interface.
+- Play previews and the duck use local CSS/SVG artwork; drawing tools and physics use native browser APIs. Optional sound is synthesized with Web Audio; no third-party sound recordings or game assets are loaded.
 - Built with Astro and TypeScript. Development of this portfolio was assisted by OpenAI Codex under Tanzil Ahmed’s direction.
 - Tabbycat and other external projects retain their upstream authorship and licenses; original project/contribution links identify their sources.

@@ -4,6 +4,14 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 24 Play page
+
+- Added an optional `/play/` page through the footer's “Take a little break” link. Three illustrated cards open a single workspace, with direct hash links, back/forward navigation, focus restoration and readable no-JavaScript descriptions.
+- Added a bounded shape playground with drag/throw, keyboard movement, gravity, pause/resume, adding/resetting shapes and manual reduced-motion mode. Visible/active/background lifecycle handling keeps physics away from portfolio scrolling.
+- Added a responsive drawing pad with brush colors/size, eraser, mirror, undo/reversible clear, prompts, keyboard drawing, a star stamp and opaque PNG export. Vector artwork survives resizing and activity switching within the same page; instructions explain downloading before navigation/reload.
+- Added a stable “Do not press” button with bounded balloon/flip/confetti/duck effects, repeat-press messages, reset and opt-in synthesized sound. Reduced motion keeps the interaction readable without animated effects; rapid presses cancel older work.
+- Kept each engine lazy and route-specific, with no external assets, backend, uploads or new packages. Copy/palette/prompts/reactions live in one validated JSON file. Added the implementation plan, Bengali editing instructions, UI documentation and previews alongside the code.
+
 ## October 24 equal photo frames and lighter scrolling
 
 - Replaced the asymmetric gallery with consistent two-column, equal-width 3:2 photo frames. Mobile remains one column; owner captions and gallery ordering are unchanged.

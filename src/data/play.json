@@ -1,0 +1,35 @@
+{
+  "headline": "A little room",
+  "headlineAccent": "to play.",
+  "intro": "No particular purpose. Just a few things to move, make, and definitely not press.",
+  "activities": [
+    { "id": "playground", "number": "01", "label": "Move things around", "title": "Playground", "description": "A handful of shapes. A little gravity. Make a small, satisfying mess.", "action": "Make a little mess" },
+    { "id": "draw", "number": "02", "label": "Make something", "title": "Drawing pad", "description": "An empty page, a few good colors, and absolutely no need to be good at drawing.", "action": "Leave a little doodle" },
+    { "id": "button", "number": "03", "label": "You had one job", "title": "Do not press", "description": "One very clear instruction. You can probably guess how this goes.", "action": "What could go wrong?" }
+  ],
+  "palette": [
+    { "name": "Ink", "value": "#25383e" },
+    { "name": "Coral", "value": "#bd4633" },
+    { "name": "Ocean", "value": "#206a9a" },
+    { "name": "Moss", "value": "#397747" },
+    { "name": "Gold", "value": "#af741e" },
+    { "name": "Violet", "value": "#7754a4" }
+  ],
+  "prompts": [
+    "Draw a very tired robot.",
+    "A cat running a company.",
+    "A house that can walk.",
+    "The world's most unnecessary invention.",
+    "A tiny planet with one resident.",
+    "What does a good Tuesday look like?",
+    "A cloud with somewhere to be.",
+    "A surprisingly confident potato."
+  ],
+  "reactions": [
+    { "effect": "balloon", "message": "Well. That was predictable.", "caption": "A very inflated sense of importance." },
+    { "effect": "flip", "message": "A slightly different perspective.", "caption": "Everything is under control. Probably." },
+    { "effect": "confetti", "message": "Congratulations on following zero instructions.", "caption": "An entirely unnecessary celebration." },
+    { "effect": "balloon", "message": "We've discussed this.", "caption": "And yet, here we are." },
+    { "effect": "duck", "message": "Please direct further questions to the duck.", "caption": "Management has arrived." }
+  ]
+}

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const routes = ['/', '/work/', '/open-source/', '/about/', '/beyond/', '/notes/', '/notes/grandmas-xbox/', '/contact/', '/work/tuktak/', '/work/choreseed/'];
+const routes = ['/', '/work/', '/open-source/', '/about/', '/beyond/', '/notes/', '/notes/grandmas-xbox/', '/contact/', '/work/tuktak/', '/work/choreseed/', '/play/'];
 for (const theme of ['dark', 'light']) {
   for (const route of routes) {
     test(`${theme}: ${route} is accessible and renders without failed local assets`, async ({ page }) => {
@@ -95,7 +95,7 @@ test('mobile menu supports keyboard, escape and route navigation', async ({ page
 });
 
 test('responsive layouts fit both themes at representative widths', async ({ page }) => {
-  test.setTimeout(60_000);
+  test.setTimeout(90_000);
   const allRoutes = [...routes, '/work/scopeproof/', '/work/engjatra/', '/work/cargotab/', '/work/tanzilbot/', '/404.html'];
   for (const width of [320, 360, 390, 768, 800, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });

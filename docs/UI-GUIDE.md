@@ -29,6 +29,21 @@ The content container has a 1160px maximum width. Section spacing uses `--space-
 | `PhotoViewer.astro` | One native dialog for the activity photos, with contain-fit images, caption, optional metadata, counter and controls. |
 | `site.ts` | Theme persistence, mobile disclosure/Escape/outside click, shareable filters, copy feedback and photo-viewer interactions. |
 | `motion.ts` | Once-per-tab Home typing, lightweight desktop heading fades and native-article reading progress. |
+| `play.astro`, `play.css` | Optional Play page, illustrated choices, one workspace, responsive toolbars and isolated game surfaces. |
+| `scripts/play/` | Page-only selector and lazy playground/drawing/surprise controllers with explicit active/cleanup lifecycles. |
+| `lib/play.ts`, `data/play.json` | Build validation and the single editable source for Play copy, palette, prompts and reactions. |
+
+## Play page
+
+The footer's **Take a little break** link opens `/play/`. Keep Play out of the primary navigation and the Home hero. Its CSS and activity engines belong to that route; the shared entry never imports them. Three native choice links open one workspace, update the hash, focus its heading and support browser back/forward. Closing restores focus to the choice. Without JavaScript the descriptions and an honest fallback remain readable; unsupported activity initialization offers retry and the other choices.
+
+Physics uses at most 16 DOM shapes, bounded frame steps, batched transforms and sleeping settled objects. The loop stops when paused, offscreen, in a background tab, inactive or motion is reduced. In manual/reduced-motion mode, drag and keyboard positioning remain available. Repeated resets remove old listeners and shapes. Drag capture ends on pointer cancellation/deactivation; additional fingers do not terminate the active pointer.
+
+Drawing stores bounded vector strokes in logical 1000×750 coordinates and replays them on a capped, device-scaled 4:3 canvas. Resizing does not distort or clear the artwork. There is no idle rendering loop. Keep the paper light in both themes so ink colors and PNG exports stay consistent. Undo can reverse a clear; starting a new stroke after clearing discards that recovery snapshot. Brush, eraser and mirror settings apply to each new stroke. Keyboard users can focus the canvas and use arrows/Space/Escape, or add a star with a native button. Drawings survive activity changes only within the current page; the visible instructions explain download before leaving/reloading. PNG exports include an opaque paper background.
+
+The surprise button always stays in place. Animate only its face/decorations, never the actual portfolio or readable status message. Effects are bounded and replaced by rapid presses; offscreen/inactive/backgrounded states cancel them. Reduced-motion users get static reactions and messages. Sound is off initially, uses brief synthesized notes after opt-in and is stopped on deactivation. No drawing uploads, accounts, analytics or new dependencies are involved. Editable copy is validated during build; keep activity IDs and supported effect names stable.
+
+Inspect every workspace at mobile widths in both themes, including focus, disabled states, range/checkbox controls, actual touch input, resizing, exported PNGs and rapid repeated actions. README Play previews live in `docs/images/`.
 
 ## Motion
 
@@ -41,7 +56,7 @@ The content container has a 1160px maximum width. Section spacing uses `--space-
 
 ## Review shared UI changes
 
-Check every route: Home, Projects, all six project detail pages, Open source, About, Activities, Writing, the native essay, Contact and 404. Inspect desktop and mobile in both themes. The browser suite covers automated accessibility on representative pages, plus overflow and clipped project titles across all 15 HTML routes at 320, 360, 390, 768, 800, 1024 and 1440px. README previews live in `docs/images/`; refresh them when the design changes.
+Check every route: Home, Projects, all six project detail pages, Open source, About, Activities, Writing, the native essay, Contact, Play and 404. Inspect desktop and mobile in both themes. The browser suite covers automated accessibility on representative pages and each active Play workspace, plus overflow and clipped project titles across all 16 HTML routes at 320, 360, 390, 768, 800, 1024 and 1440px. README previews live in `docs/images/`; refresh them when the design changes.
 
 Also check the following manually when relevant:
 

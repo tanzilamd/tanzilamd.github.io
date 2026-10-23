@@ -438,6 +438,8 @@ h2 { font-size: clamp(30px, 3vw, 40px); font-weight: 600; line-height: 1.2; lett
 .social-links a { display: inline-flex; gap: 6px; align-items: center; min-height: 44px; font-size: 12px; color: var(--muted); }
 .social-links a:hover { color: var(--text); }
 .footer-signoff { color: var(--quiet); font-size: 11px; }
+.footer-play { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--accent); font-size: 12px; }
+.footer-play:hover { text-decoration: underline; }
 .not-found { padding-block: 96px 120px; }
 .not-found > .eyebrow { margin-bottom: 24px; }
 .not-found > p:not(.eyebrow) { max-width: 480px; margin-top: 24px; font-size: 16px; color: var(--muted); }

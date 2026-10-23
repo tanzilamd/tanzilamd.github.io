@@ -26,6 +26,7 @@
 
 ## নিজের নতুন article / essay প্রকাশ করুন
 
+
 1. `templates/post.md.example` খুলে পুরো লেখা copy করুন।
 2. `src/content/notes/` folder-এ **Add file → Create new file** চাপুন। নাম দিন যেমন `my-first-article.md`। ছোট ইংরেজি অক্ষর ও hyphen ব্যবহার করুন; space নয়।
 3. Template paste করুন। `title`, `summary`, `date`, `tags` বদলান। `date` হলো এই site-এ প্রথম প্রকাশের দিন: **YYYY-MM-DD**, যেমন `2026-10-23`।
@@ -148,3 +149,17 @@ npm run test:browser
 ```
 
 Browser ও authoring tests একসঙ্গে চালাবেন না; authoring test সাময়িক fixture দিয়ে build করে, শেষে সেগুলো সরিয়ে আসল site rebuild করে। নতুন code না লিখে শুধু content edit করলেও GitHub Actions-এ checks নিজে চলে। Hosting-এর জন্য database বা paid service যোগ করতে হবে না।
+
+## Play page বদলানো
+
+Footer-এর **Take a little break** থেকে `/play/` খুলবে। Play-এর content বদলাতে শুধু `src/data/play.json` edit করুন:
+
+- `headline`, `headlineAccent`, `intro`: page-এর শুরুর লেখা।
+- `activities`: তিনটি card-এর title, label, description ও action text। `id` (`playground`, `draw`, `button`) অপরিবর্তিত রাখুন—এগুলো shareable URL ও controls-এর সঙ্গে যুক্ত।
+- `prompts`: drawing-এর **Give me a prompt** button-এর লেখা। Array-তে নতুন quoted sentence যোগ করতে পারেন; অন্তত একটি রাখুন।
+- `palette`: drawing-এর রঙের নাম ও `#RRGGBB` value। অন্তত একটি রং রাখুন।
+- `reactions`: button-এর message, caption ও effect। সমর্থিত effect: `balloon`, `flip`, `confetti`, `duck`। অন্তত একটি reaction রাখুন; page-এর আসল লেখা বা portfolio নষ্ট হয় না।
+
+উদাহরণ: নতুন drawing prompt দিতে `prompts`-এ `"Draw a tiny moon with a garden."` যোগ করুন। প্রতিটি item-এর মাঝে comma লাগবে; JSON-এ শেষ item-এর পরে comma দেবেন না। Build-এ খালি list, ভুল color বা unsupported effect ধরা পড়বে; invalid content live হবে না। Commit করলে স্বাভাবিক master deployment চলবে।
+
+Drawing browser-এর চলতি page-এ থাকে; অন্য activity খুলে ফিরলে পাওয়া যায়। Reload বা page ছেড়ে গেলে রাখতে চাইলে আগে **Download PNG** ব্যবহার করুন। কোনো drawing server-এ পাঠানো বা gallery-তে প্রকাশ করা হয় না।

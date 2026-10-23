@@ -26,6 +26,7 @@ GitHub থেকে সরাসরি `master`-এ edit করতে পার�
 | Portrait | `src/assets/tanzil.jpg` |
 | Article/project images | `public/media/` |
 | Activity photos | `public/media/activities/`, referenced by the relevant activity's `gallery` |
+| Play page headlines, activity cards, colors, prompts and surprise messages | [`src/data/play.json`](src/data/play.json) |
 
 ### Add an article
 
@@ -52,6 +53,18 @@ The first Home visit in a tab has a brief wordmark/portrait entrance and a singl
 
 ![Theatre gallery with owner-supplied event photographs](docs/images/activities-dark.jpg)
 
+### A little room to play
+
+The footer's **Take a little break** link opens `/play/`: a shape playground, drawing pad and **Do not press** button. Each activity opens in its own workspace; hashes support direct links and browser back/forward. Activity engines load only after selection, and only on the Play page. Physics stops when paused, offscreen, inactive or backgrounded; reduced-motion users can arrange shapes manually.
+
+Drawing supports brush colors/size, erasing, mirrored strokes, undo/reversible clear, prompts, keyboard pen controls, a star stamp and an opaque PNG download. Artwork survives resizing and switching activities within the same page; download it before leaving or reloading. Drawings are not uploaded or persisted. Surprise effects stay inside their panel; synthesized sound is off until explicitly enabled. No new dependencies or backend were added.
+
+| Play — dark | Play — light |
+| --- | --- |
+| ![Play page in dark mode](docs/images/play-dark.jpg) | ![Play page in light mode](docs/images/play-light.jpg) |
+
+See the [drawing preview](docs/images/play-drawing.jpg) and [implementation plan](docs/PLAY-PLAN.md).
+
 | Responsibility | Location |
 | --- | --- |
 | Color/spacing tokens, typography, components and responsive layouts | `src/styles/global.css` |
@@ -61,6 +74,7 @@ The first Home visit in a tab has a brief wordmark/portrait entrance and a singl
 | Content field validation and draft/order rules | `src/content.config.ts`, `src/lib/` |
 | Theme/menu/filter/copy/gallery interactions | `src/scripts/site.ts` |
 | Headline typing, lightweight heading fades and article reading progress | `src/scripts/motion.ts` |
+| Route-only Play selection and lazy activity engines | `src/scripts/play/`, `src/pages/play.astro`, `src/styles/play.css` |
 | Reusable content examples | `templates/` |
 | Production-output, content-authoring and browser checks | `tests/`, `scripts/check-authoring.mjs` |
 
