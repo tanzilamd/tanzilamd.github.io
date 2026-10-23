@@ -2,7 +2,7 @@
 {
     "title": "Teaching & volunteering",
     "label": "Education, scouting & social work",
-    "summary": "More than five years with Bangladesh Scouts, alongside teaching and community work.",
+    "summary": "Community work through Phulkuri Ashar, alongside more than five years with Bangladesh Scouts.",
     "art": "community",
     "order": 3,
     "homePreview": false,

@@ -24,4 +24,4 @@
 }
 ---
 
-I performed with Duronto Cultural Academy and Gollachut Natyadol, and wrote scripts for original performances. Working with a cast taught me to prepare, collaborate, and communicate with an audience.
+I performed with Duronto Cultural Academy and Gollachut Natyadol. Working with a cast taught me to prepare, collaborate, and communicate with an audience.
