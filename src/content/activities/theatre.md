@@ -11,13 +11,13 @@
             {
                 "src": "/media/activities/n1.JPG",
                 "alt": "On stage",
-                "caption": "Antonogor Express",
+                "caption": "Performing on stage in Antarnagar Express.",
                 "demo": false,
             },
             {
-                "src": "/media/activities/n2.jpg",
+                "src": "/media/activities/f1.jpg",
                 "alt": "On stage",
-                "caption": "Antonogor Express",
+                "caption": "Managing sound for the stage production Fera-8.",
                 "demo": false,
             },
         ],

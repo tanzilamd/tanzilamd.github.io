@@ -12,19 +12,19 @@
                 "src": "/media/activities/pk1.jpg",
                 "alt": "Pk",
                 "caption": "Participated in the parade.",
-                "demo": true,
+                "demo": false,
             },
             {
                 "src": "/media/activities/pk2.jpg",
                 "alt": "Pk",
                 "caption": "Submitting the daily report after a full day at camp.",
-                "demo": true,
+                "demo": false,
             },
             {
                 "src": "/media/activities/pk3.jpg",
                 "alt": "Pk",
                 "caption": "Awarded Best Delegate among 300+ participants.",
-                "demo": true,
+                "demo": false,
             },
         ],
 }
