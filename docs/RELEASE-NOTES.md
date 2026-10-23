@@ -4,11 +4,16 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 23 gallery presentation cleanup
+
+- Removed the page-wide demo preview notice, repeated “Selected photos” headings and thumbnail counts at the owner’s request. Photos now follow each activity’s description directly; captions, small Demo labels and the viewer counter remain.
+- Preserved accessible gallery group labels, full-image navigation and the content-only photo update workflow. Refreshed the README gallery preview and related guides.
+
 ## October 23 activity galleries
 
 - Added data-driven activity galleries with captions, optional event/year/role, and a single selected Home preview. Activity information and images still share one content record.
 - Added a native full-image dialog with previous/next controls, arrow keys, Escape, backdrop closing, focus restoration and mobile layouts. Without JavaScript, thumbnails remain direct image links.
-- Used three local, optimized AI-generated demo scenes for debate, theatre and community learning at the owner's request. Every thumbnail and viewer image is explicitly labelled Demo; the page explains that these are not personal event photographs. No event dates or participation claims were invented.
+- Used three local, optimized AI-generated demo scenes for debate, theatre and community learning at the owner's request. Every thumbnail and viewer image is explicitly labelled Demo. No event dates or participation claims were invented.
 - Updated the activity template, Bengali photo-replacement instructions, README previews, UI guide and credits together.
 
 ## October 23 UI refinement

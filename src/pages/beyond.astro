@@ -6,12 +6,10 @@ import ActivityGallery from '../components/ActivityGallery.astro';
 import PhotoViewer from '../components/PhotoViewer.astro';
 import { activities } from '../lib/content';
 const all = await Promise.all((await activities()).map(async (activity) => ({ activity, ...(await render(activity)) })));
-const hasDemo = all.some(({ activity }) => activity.data.gallery.some((photo) => photo.demo));
 const hasPhotos = all.some(({ activity }) => activity.data.gallery.length > 0);
 ---
 <Layout title="Activities & community" description="Tanzil Ahmed’s experience in debate, club leadership, theatre, teaching, scouting and community service.">
   <div class="container page-body"><header class="page-heading"><p class="eyebrow">Leadership, performance & volunteering</p><h1>Activities &<br/><span class="serif-word">community.</span></h1><p>Alongside software, I’ve spent time organizing debates, performing on stage, teaching, and volunteering. Here’s what that involved.</p></header>
-    {hasDemo && <aside class="gallery-preview-note" aria-label="About the demo photos"><span class="eyebrow">Gallery preview</span><p>The images marked “Demo” are illustrative placeholders, not photos of my own events. Personal activity photos will be added here.</p></aside>}
     <div class="life-stories">{all.map(({ activity, Content }, index) => <section class="life-story" id={activity.id} aria-labelledby={`activity-${activity.id}`}><div class="life-title"><span class="life-number">{String(index + 1).padStart(2, '0')}</span><p class="eyebrow">{activity.data.label}</p><h2 id={`activity-${activity.id}`}>{activity.data.title}</h2><span class="activity-icon" aria-hidden="true"><Icon name={activity.data.art === 'debate' ? 'branch' : activity.data.art === 'theatre' ? 'spark' : 'sprout'} size={26}/></span></div><div class="activity-content"><p class="activity-summary">{activity.data.summary}</p><div class="activity-prose"><Content/></div><ActivityGallery activity={activity}/></div></section>)}</div>
   </div>
   {hasPhotos && <PhotoViewer/>}

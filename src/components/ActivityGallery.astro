@@ -4,7 +4,6 @@ import ActivityPhoto from './ActivityPhoto.astro';
 interface Props { activity: CollectionEntry<'activities'> }
 const { activity } = Astro.props;
 ---
-{activity.data.gallery.length > 0 && <div class="activity-gallery" aria-label={`${activity.data.title} photos`}>
-  <div class="activity-gallery-heading"><h3>Selected photos</h3><span>{activity.data.gallery.length} {activity.data.gallery.length === 1 ? 'photo' : 'photos'}</span></div>
+{activity.data.gallery.length > 0 && <div class="activity-gallery" role="group" aria-label={`${activity.data.title} photos`}>
   <div class:list={['activity-photo-grid', { 'single-photo': activity.data.gallery.length === 1 }]}>{activity.data.gallery.map((photo) => <ActivityPhoto photo={photo} activityTitle={activity.data.title}/>)}</div>
 </div>}

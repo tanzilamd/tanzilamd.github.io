@@ -256,7 +256,6 @@ test('activity photo captions and full-image links work without JavaScript', asy
   const caption = await links.first().getAttribute('data-photo-caption');
   const destination = await links.first().getAttribute('href');
   await expect(page.locator('.activity-photo figcaption').first()).toContainText(caption!);
-  if (await page.locator('.gallery-preview-note').count()) await expect(page.locator('.gallery-preview-note')).toContainText('not photos of my own events');
   await links.first().click();
   await expect(page).toHaveURL(destination!);
   await context.close();
