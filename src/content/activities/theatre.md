@@ -9,14 +9,14 @@
     "gallery":
         [
             {
-                "src": "/media/activities/n1.JPG",
-                "alt": "On stage",
+                "src": "/media/activities/n1.webp",
+                "alt": "Actors performing Antarnagar Express, with a suspended tyre as part of the stage set.",
                 "caption": "Performing on stage in Antarnagar Express.",
                 "demo": false,
             },
             {
-                "src": "/media/activities/f1.jpg",
-                "alt": "On stage",
+                "src": "/media/activities/f1.webp",
+                "alt": "A sound mixing console overlooking the stage during the production Fera-8.",
                 "caption": "Managing sound for the stage production Fera-8.",
                 "demo": false,
             },

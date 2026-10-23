@@ -9,20 +9,20 @@
     "gallery":
         [
             {
-                "src": "/media/activities/pk1.jpg",
-                "alt": "Pk",
+                "src": "/media/activities/pk1.webp",
+                "alt": "A participant being presented with a medal and sash at a Phulkuri Ashar gathering.",
                 "caption": "Participated in the parade.",
                 "demo": false,
             },
             {
-                "src": "/media/activities/pk2.jpg",
-                "alt": "Pk",
+                "src": "/media/activities/pk2.webp",
+                "alt": "Camp participants standing in formation and saluting on an outdoor field.",
                 "caption": "Submitting the daily report after a full day at camp.",
                 "demo": false,
             },
             {
-                "src": "/media/activities/pk3.jpg",
-                "alt": "Pk",
+                "src": "/media/activities/pk3.webp",
+                "alt": "A participant receiving a framed award at a Phulkuri Ashar ceremony.",
                 "caption": "Awarded Best Delegate among 300+ participants.",
                 "demo": false,
             },

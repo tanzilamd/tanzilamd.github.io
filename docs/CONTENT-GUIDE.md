@@ -90,9 +90,9 @@ Matching template copy করে matching folder-এ নতুন `.md` file ব
 
 ## Activity photos / আসল ছবি বসানো
 
-Debate, theatre এবং teaching/volunteering-এর ছবিগুলো সংশ্লিষ্ট activity file থেকেই আসে। **এখনকার Demo ছবিগুলো কল্পিত preview; তোমার কোনো বাস্তব event-এর ছবি নয়।**
+Debate, theatre এবং teaching/volunteering-এর ছবিগুলো সংশ্লিষ্ট activity file থেকেই আসে। বর্তমান gallery-তে তোমার নিজের event-এর ছবি আছে; এগুলো optimized WebP হিসেবে রাখা হয়েছে।
 
-1. GitHub-এ `public/media/activities/` folder খুলে **Add file → Upload files** দিয়ে নিজের ছবি upload করুন। নাম দিন যেমন `debate-final-2023.webp`। ছোট ইংরেজি অক্ষর ও hyphen ব্যবহার করুন। সম্ভব হলে optimized WebP/JPG, প্রায় 1200–1600px চওড়া ছবি রাখুন।
+1. GitHub-এ `public/media/activities/` folder খুলে **Add file → Upload files** দিয়ে নিজের ছবি upload করুন। নাম দিন যেমন `debate-final-2023.webp`। ছোট ইংরেজি অক্ষর ও hyphen ব্যবহার করুন। সম্ভব হলে 1200–1600px চওড়া optimized WebP ছবি রাখুন। Camera-এর 10–15 MB original সরাসরি upload না করে ছোট web copy ব্যবহার করুন; সম্ভব হলে প্রতি ছবি কয়েকশ KB-এর মধ্যে রাখুন। শুধু filename-এর extension বদলালে ছবি ছোট বা WebP হবে না—image converter দিয়ে export করতে হবে।
 2. যেমন debate-এর জন্য `src/content/activities/debate.md` খুলুন। প্রথম `{ ... }`-এর মধ্যে `gallery` array-তে ছবির তথ্য বদলান:
 
 ```json

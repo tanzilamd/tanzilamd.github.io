@@ -9,14 +9,14 @@
     "gallery":
         [
             {
-                "src": "/media/activities/butex.jpg",
-                "alt": "Debate",
+                "src": "/media/activities/butex.webp",
+                "alt": "Group photograph with debate trophies at the BUTEXDC National Debate Festival 2022.",
                 "caption": "Runners-up at BUTEXDC National Debate Festival 2022.",
                 "demo": false,
             },
             {
-                "src": "/media/activities/iut.JPEG",
-                "alt": "Debate",
+                "src": "/media/activities/iut.webp",
+                "alt": "Tab team members receiving crests on stage at IUT Interclub 2025.",
                 "caption": "Receiving a crest in recognition of my role as Tab Director at IUT Interclub 2025.",
                 "demo": false,
             },

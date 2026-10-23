@@ -4,6 +4,13 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 24 activity photo optimization
+
+- Replaced the seven large gallery JPG/JPEG files with proportionally resized WebP images, at most 1600px wide. Combined image payload fell from 28.89 MB to 1.01 MB (96.5% smaller); the Home stage image fell from 13.49 MB to 104 KB. Updated gallery references so Home, thumbnails and the full-image viewer share the optimized assets.
+- Preserved all existing captions and gallery ordering. Added descriptive alternative text based on the photos.
+- Removed the unused `n2.jpg`. Original uploads remain in Git history; no article/project routes or gallery ordering changed.
+- Updated README, photo instructions, credits and gallery previews to reflect the owner-supplied photographs rather than the earlier demos.
+
 ## October 23 gallery presentation cleanup
 
 - Removed the page-wide demo preview notice, repeated “Selected photos” headings and thumbnail counts at the owner’s request. Photos now follow each activity’s description directly; captions, small Demo labels and the viewer counter remain.
