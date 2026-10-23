@@ -174,3 +174,90 @@ test('original writing remains readable without JavaScript', async ({ browser })
   await expect(page.locator('[data-copy-link]')).toBeHidden();
   await context.close();
 });
+
+for (const theme of ['dark', 'light']) {
+  test(`${theme}: activity photos have an accessible keyboard viewer and return focus`, async ({ page }) => {
+    await page.addInitScript((value) => localStorage.setItem('offscript-theme', value), theme);
+    await page.goto('/beyond/');
+    const photos = await page.locator('[data-photo-link]').evaluateAll((links) => links.map((link) => ({ caption: (link as HTMLElement).dataset.photoCaption, demo: (link as HTMLElement).dataset.photoDemo === 'true' })));
+    test.skip(photos.length === 0, 'No activity photos are published.');
+    const opener = page.locator('[data-photo-link]').first();
+    await opener.click();
+    const viewer = page.getByRole('dialog');
+    await expect(viewer).toBeVisible();
+    await expect(viewer.locator('[data-photo-counter]')).toHaveText(`Photo 1 of ${photos.length}`);
+    if (photos[0].demo) await expect(viewer.locator('[data-photo-demo-label]')).toBeVisible();
+    else await expect(viewer.locator('[data-photo-demo-label]')).toBeHidden();
+    await expect(page.getByRole('button', { name: 'Close photo', exact: true })).toBeFocused();
+    await page.keyboard.press('Shift+Tab');
+    await expect(page.getByRole('button', { name: photos.length > 1 ? 'Next photo' : 'Close photo', exact: true })).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(page.getByRole('button', { name: 'Close photo', exact: true })).toBeFocused();
+    const accessibility = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22a', 'wcag22aa']).analyze();
+    expect(accessibility.violations).toEqual([]);
+    if (photos.length > 1) {
+      await page.getByRole('button', { name: 'Next photo', exact: true }).click();
+      await expect(viewer.locator('[data-photo-caption]')).toHaveText(photos[1].caption!);
+      await expect(viewer.locator('[data-photo-counter]')).toHaveText(`Photo 2 of ${photos.length}`);
+      await page.keyboard.press('ArrowLeft');
+      await expect(viewer.locator('[data-photo-counter]')).toHaveText(`Photo 1 of ${photos.length}`);
+      await page.getByRole('button', { name: 'Previous photo', exact: true }).click();
+      await expect(viewer.locator('[data-photo-counter]')).toHaveText(`Photo ${photos.length} of ${photos.length}`);
+    } else await expect(viewer.locator('[data-photo-controls]')).toBeHidden();
+    for (let i = 0; i < 5; i++) {
+      await page.keyboard.press('Tab');
+      expect(await page.evaluate(() => !!document.activeElement?.closest('dialog'))).toBe(true);
+    }
+    await page.keyboard.press('Escape');
+    await expect(viewer).toBeHidden();
+    await expect(opener).toBeFocused();
+    await expect(page.locator('html')).not.toHaveClass(/photo-viewer-open/);
+  });
+}
+
+test('Home activity preview leads to its selected photo section', async ({ page }) => {
+  await page.goto('/');
+  const preview = page.locator('.activity-photo-preview');
+  test.skip(await preview.count() === 0, 'No Home photo preview is selected.');
+  const link = preview.getByRole('link');
+  const destination = (await link.getAttribute('href'))!;
+  if (await preview.locator('.photo-demo-badge').count()) await expect(link).toHaveAccessibleName(/demo/i);
+  await link.click();
+  await expect(page).toHaveURL(destination);
+  await expect(page.locator(`${new URL(destination, 'https://example.com').hash} .activity-gallery`)).toBeVisible();
+});
+
+test('mobile photo viewer fits the screen and closes with its button or backdrop', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await page.goto('/beyond/');
+  const count = await page.locator('[data-photo-link]').count();
+  test.skip(count === 0, 'No activity photos are published.');
+  await page.locator('[data-photo-link]').first().click();
+  const viewer = page.getByRole('dialog');
+  await expect(viewer).toBeVisible();
+  expect(await viewer.evaluate((node) => { const bounds = node.getBoundingClientRect(); return bounds.left >= 0 && bounds.top >= 0 && bounds.right <= window.innerWidth && bounds.bottom <= window.innerHeight; })).toBe(true);
+  if (count > 1) {
+    await page.getByRole('button', { name: 'Next photo', exact: true }).click();
+    await expect(viewer.locator('[data-photo-counter]')).toHaveText(`Photo 2 of ${count}`);
+  }
+  await page.getByRole('button', { name: 'Close photo', exact: true }).click();
+  await expect(viewer).toBeHidden();
+  await page.locator('[data-photo-link]').first().click();
+  await page.mouse.click(2, 2);
+  await expect(viewer).toBeHidden();
+});
+
+test('activity photo captions and full-image links work without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  await page.goto('/beyond/');
+  const links = page.locator('[data-photo-link]');
+  test.skip(await links.count() === 0, 'No activity photos are published.');
+  const caption = await links.first().getAttribute('data-photo-caption');
+  const destination = await links.first().getAttribute('href');
+  await expect(page.locator('.activity-photo figcaption').first()).toContainText(caption!);
+  if (await page.locator('.gallery-preview-note').count()) await expect(page.locator('.gallery-preview-note')).toContainText('not photos of my own events');
+  await links.first().click();
+  await expect(page).toHaveURL(destination!);
+  await context.close();
+});

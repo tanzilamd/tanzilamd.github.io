@@ -25,7 +25,9 @@ The content container has a 1160px maximum width. Section spacing uses `--space-
 | `RecognitionList.astro` | Same award content as a Home grid or About list. |
 | `WritingCard.astro` | Shared native/external publication, dates, reading time and destination labels. |
 | `Filters.astro` | Accessible button group; `site.ts` handles URL state, count announcements and empty states. Hidden without JS so all content remains visible. |
-| `site.ts` | Theme persistence, mobile disclosure/Escape/outside click, shareable filters and copy feedback. |
+| `ActivityPhoto.astro`, `ActivityGallery.astro` | Shared activity photos, captions, demo labels and a selected Home preview, driven by each activity's `gallery` data. |
+| `PhotoViewer.astro` | One native dialog for the activity photos, with contain-fit images, caption, optional metadata, counter and controls. |
+| `site.ts` | Theme persistence, mobile disclosure/Escape/outside click, shareable filters, copy feedback and photo-viewer interactions. |
 
 ## Review shared UI changes
 
@@ -39,5 +41,7 @@ Also check the following manually when relevant:
 4. Email/article copy success and failure feedback; canonical article URL, not the preview URL.
 5. JavaScript disabled, blocked storage, reduced motion, and browser zoom.
 6. README/content guide/template descriptions still match the current implementation.
+
+Activity thumbnails crop to a consistent 3:2 frame; the viewer contains the whole image. Keep the Demo label and page explanation while generated placeholders remain. Replace the source, alt text and captions and set `demo: false` only for real event photos. The Home preview links to its activity section; it does not open a separate Home dialog. Native `<dialog>` makes the background inert; explicit Tab/Shift+Tab wrapping keeps keyboard focus on the viewer controls, and closing restores the triggering link. Arrow keys and previous/next controls browse the published photos; plain image links remain functional without JavaScript. Check the single-photo/empty-gallery states when changing gallery data.
 
 Automated accessibility results do not establish complete WCAG conformance. Record actual checks in `docs/VERIFICATION.md`, and keep historical Lighthouse scores explicitly separate from current results.

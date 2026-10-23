@@ -54,6 +54,13 @@ const activities = defineCollection({
     ...common, title: z.string(), label: z.string(), summary: z.string(),
     art: z.enum(['debate', 'theatre', 'community']).default('community'),
     featured: z.boolean().default(true),
+    homePreview: z.boolean().default(false),
+    gallery: z.array(z.object({
+      src: z.string().regex(/^\/media\/activities\/[a-zA-Z0-9/_.-]+$/, 'Keep activity images under /media/activities/.'),
+      alt: z.string().trim().min(1), caption: z.string().trim().min(1),
+      event: z.string().optional(), year: z.string().regex(/^\d{4}$/).optional(),
+      role: z.string().optional(), demo: z.boolean().default(false),
+    })).default([]),
   }),
 });
 const experience = defineCollection({

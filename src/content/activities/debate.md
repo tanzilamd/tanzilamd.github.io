@@ -4,7 +4,16 @@
   "label": "Club leadership & competitions",
   "summary": "Founded and led my school’s debating club and organized two inter-school tournaments.",
   "art": "debate",
-  "order": 1
+  "order": 1,
+  "homePreview": false,
+  "gallery": [
+    {
+      "src": "/media/activities/demo-debate.webp",
+      "alt": "Fictional demo of a speaker at a debating event, with judges and an audience.",
+      "caption": "Debate & discussion",
+      "demo": true
+    }
+  ]
 }
 ---
 

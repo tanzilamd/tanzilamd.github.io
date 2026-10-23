@@ -25,6 +25,7 @@ GitHub থেকে সরাসরি `master`-এ edit করতে পার�
 | Awards, recognition and milestones | [`src/content/milestones/`](src/content/milestones/) |
 | Portrait | `src/assets/tanzil.jpg` |
 | Article/project images | `public/media/` |
+| Activity photos | `public/media/activities/`, referenced by the relevant activity's `gallery` |
 
 ### Add an article
 
@@ -40,11 +41,14 @@ Draft content is excluded from generated pages, RSS and sitemap. A public Git re
 - Contributions: up to three featured entries. A `spotlight: true` entry also receives a detailed Open source feature; Tabbycat’s published website work links to its source and upstream integration.
 - Recognition: up to three featured milestones. All awards and work experience appear on About; Hacktoberfest milestones also appear under Open source.
 - Activities: featured entries appear on Home; all published activities appear under Activities. Edit one activity’s summary once to update both views.
+- Activity photos: add `gallery` entries to the same activity file. Set `homePreview: true` to choose its first photo for the Home preview. Captions support event/year/role; the full-image viewer supports keyboard navigation and works with direct image links without JavaScript. Current images are clearly labelled AI-generated **Demo** placeholders, not personal event photographs. [Replace them using the photo guide](docs/CONTENT-GUIDE.md#activity-photos--আসল-ছবি-বসানো).
 - Writing: the first featured entry, or the latest entry when none is featured. About also shows the first featured personal essay. Writing itself sorts by publication date, then `order`.
 
 ## UI and project structure
 
 Offscript uses a restrained editorial layout: consistent project cards, readable body text, serif accents, quiet surfaces, and one coral/terracotta accent across dark and light themes. Buttons, filters, navigation and focus states share the same rules. Activities are available in desktop, mobile and no-JavaScript navigation.
+
+![Demo theatre photo gallery in the Activities layout](docs/images/activities-dark.jpg)
 
 | Responsibility | Location |
 | --- | --- |

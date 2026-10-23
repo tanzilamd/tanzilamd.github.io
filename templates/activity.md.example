@@ -6,7 +6,19 @@
   "art": "community",
   "featured": true,
   "order": 4,
-  "draft": true
+  "draft": true,
+  "homePreview": false,
+  "gallery": [
+    {
+      "src": "/media/activities/my-photo.webp",
+      "alt": "Describe what is happening in this photo.",
+      "caption": "A short caption for this moment.",
+      "event": "Event name",
+      "year": "2026",
+      "role": "My role",
+      "demo": false
+    }
+  ]
 }
 ---
 

@@ -12,6 +12,8 @@ function files(dir) { return readdirSync(dir, { withFileTypes: true }).flatMap((
 try {
   mkdirSync('public/media', { recursive: true });
   create('public/media/authoring-check.svg', '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675"><rect width="1200" height="675" fill="#173238"/></svg>');
+  mkdirSync('public/media/activities', { recursive: true });
+  create('public/media/activities/authoring-check.svg', '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="#173238"/></svg>');
   const project = { title: 'Authoring check project', summary: 'A temporary content-only authoring check.', category: 'Experiment', role: 'Test fixture', status: 'Test', featured: true, order: 0, tools: [], links: [], coverImage: '/media/authoring-check.svg', coverAlt: 'Temporary authoring check artwork' };
   content('src/content/projects/authoring-check.md', project, '## A content-only addition\n\nNo component changes were needed.');
   content('src/content/projects/authoring-draft.md', { ...project, title: 'PRIVATE_DRAFT_MARKER_7d7fb', draft: true }, 'PRIVATE_DRAFT_MARKER_7d7fb');
@@ -20,7 +22,7 @@ try {
   content('src/content/notes/authoring-check.md', post, '## An original post\n\nORIGINAL_WRITING_BODY_81a2');
   content('src/content/notes/authoring-draft.md', { ...post, draft: true, title: 'PRIVATE_DRAFT_MARKER_7d7fb' }, 'PRIVATE_DRAFT_MARKER_7d7fb');
   content('src/content/notes/authoring-external.md', { kind: 'external', title: 'External writing fixture', summary: 'An external A & B article.', date: '2026-10-22', platform: 'Example publication', url: 'https://example.com/article?source=portfolio&lang=en' });
-  const activity = { title: 'Authoring check activity', label: 'Community', summary: 'SINGLE_SOURCE_ACTIVITY_V1', featured: true, order: 0 };
+  const activity = { title: 'Authoring check activity', label: 'Community', summary: 'SINGLE_SOURCE_ACTIVITY_V1', featured: true, homePreview: true, order: 0, gallery: [{ src: '/media/activities/authoring-check.svg', alt: 'Temporary gallery artwork', caption: 'SINGLE_SOURCE_PHOTO_V1', event: 'Authoring event', year: '2024', role: 'Volunteer', demo: false }] };
   content('src/content/activities/authoring-check.md', activity, 'An activity added without changing a component.');
   content('src/content/activities/authoring-draft.md', { ...activity, draft: true, title: 'PRIVATE_DRAFT_MARKER_7d7fb' }, 'PRIVATE_DRAFT_MARKER_7d7fb');
   build();
@@ -45,14 +47,19 @@ try {
   assert.ok(!existsSync('dist/notes/authoring-draft/index.html'));
   assert.ok(!readFileSync('dist/sitemap.xml', 'utf8').includes('/notes/authoring-external/'));
   for (const path of ['dist/index.html', 'dist/beyond/index.html']) assert.ok(readFileSync(path, 'utf8').includes('SINGLE_SOURCE_ACTIVITY_V1'));
-  writeFileSync('src/content/activities/authoring-check.md', `---\n${JSON.stringify({ ...activity, summary: 'SINGLE_SOURCE_ACTIVITY_V2' })}\n---\n\nUpdated in one content file.\n`);
+  for (const path of ['dist/index.html', 'dist/beyond/index.html']) assert.ok(readFileSync(path, 'utf8').includes('/media/activities/authoring-check.svg'));
+  assert.ok(readFileSync('dist/beyond/index.html', 'utf8').includes('SINGLE_SOURCE_PHOTO_V1'));
+  assert.ok(readFileSync('dist/beyond/index.html', 'utf8').includes('Authoring event · 2024 · Volunteer'));
+  writeFileSync('src/content/activities/authoring-check.md', `---\n${JSON.stringify({ ...activity, summary: 'SINGLE_SOURCE_ACTIVITY_V2', gallery: [{ ...activity.gallery[0], caption: 'SINGLE_SOURCE_PHOTO_V2' }] })}\n---\n\nUpdated in one content file.\n`);
   build();
   for (const path of ['dist/index.html', 'dist/beyond/index.html']) {
     const html = readFileSync(path, 'utf8');
     assert.ok(html.includes('SINGLE_SOURCE_ACTIVITY_V2') && !html.includes('SINGLE_SOURCE_ACTIVITY_V1'));
   }
+  assert.ok(readFileSync('dist/beyond/index.html', 'utf8').includes('SINGLE_SOURCE_PHOTO_V2'));
+  assert.ok(!readFileSync('dist/beyond/index.html', 'utf8').includes('SINGLE_SOURCE_PHOTO_V1'));
   for (const path of files('dist').filter((file) => /\.(html|xml|js|json)$/.test(file))) assert.ok(!readFileSync(path, 'utf8').includes('PRIVATE_DRAFT_MARKER_7d7fb'), `Draft leaked into ${path}`);
-  console.log('PASS: projects, original/external writing, dates, metadata, feed, shared activity edits, homepage, sitemap and draft exclusion.');
+  console.log('PASS: projects, writing, dates, metadata, feed, shared activity/photo edits, captions, homepage previews, sitemap and draft exclusion.');
 } catch (error) {
   console.error(error);
   process.exitCode = 1;

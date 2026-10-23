@@ -1,0 +1,8 @@
+---
+import Icon from './Icon.astro';
+---
+<dialog class="photo-viewer" data-photo-viewer aria-labelledby="photo-viewer-title">
+  <div class="photo-viewer-toolbar"><h2 id="photo-viewer-title">Activity photos</h2><button class="icon-button" type="button" data-photo-close aria-label="Close photo" autofocus><Icon name="close" size={20}/></button></div>
+  <figure><div class="photo-viewer-image"><img data-photo-image alt="" width="1200" height="800"/><span class="photo-demo-badge" data-photo-demo-label hidden>Demo image</span></div><figcaption><p data-photo-caption></p><p data-photo-meta class="photo-caption-meta"></p></figcaption></figure>
+  <div class="photo-viewer-bottom"><p data-photo-counter role="status" aria-live="polite"></p><div class="photo-viewer-controls" data-photo-controls><button type="button" class="icon-button photo-previous" data-photo-previous aria-label="Previous photo"><Icon name="arrow" size={20}/></button><button type="button" class="icon-button" data-photo-next aria-label="Next photo"><Icon name="arrow" size={20}/></button></div></div>
+</dialog>

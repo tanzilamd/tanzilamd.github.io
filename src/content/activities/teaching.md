@@ -4,7 +4,16 @@
   "label": "Education, scouting & social work",
   "summary": "More than five years with Bangladesh Scouts, alongside teaching and community work.",
   "art": "community",
-  "order": 3
+  "order": 3,
+  "homePreview": false,
+  "gallery": [
+    {
+      "src": "/media/activities/demo-community.webp",
+      "alt": "Fictional demo of adults learning together at a community workshop.",
+      "caption": "Learning together",
+      "demo": true
+    }
+  ]
 }
 ---
 

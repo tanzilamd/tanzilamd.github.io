@@ -88,6 +88,35 @@ Matching template copy করে matching folder-এ নতুন `.md` file ব
 
 সব collection-এ `draft: true` দিলে public page, list, feed ও sitemap থেকে item বাদ যায়। তবে source repository public হলে committed draft-এর source অন্য কেউ দেখতে পারে। ব্যক্তিগত draft নিজের কাছে রাখুন। `order` ছোট হলে আগে আসে; Writing-এর ক্ষেত্রে date আগে বিবেচিত হয়।
 
+## Activity photos / আসল ছবি বসানো
+
+Debate, theatre এবং teaching/volunteering-এর ছবিগুলো সংশ্লিষ্ট activity file থেকেই আসে। **এখনকার Demo ছবিগুলো কল্পিত preview; তোমার কোনো বাস্তব event-এর ছবি নয়।**
+
+1. GitHub-এ `public/media/activities/` folder খুলে **Add file → Upload files** দিয়ে নিজের ছবি upload করুন। নাম দিন যেমন `debate-final-2023.webp`। ছোট ইংরেজি অক্ষর ও hyphen ব্যবহার করুন। সম্ভব হলে optimized WebP/JPG, প্রায় 1200–1600px চওড়া ছবি রাখুন।
+2. যেমন debate-এর জন্য `src/content/activities/debate.md` খুলুন। প্রথম `{ ... }`-এর মধ্যে `gallery` array-তে ছবির তথ্য বদলান:
+
+```json
+"gallery": [
+  {
+    "src": "/media/activities/debate-final-2023.webp",
+    "alt": "Tanzil speaking at the lectern during a debate.",
+    "caption": "A moment from the final round.",
+    "event": "Your actual event name",
+    "year": "2023",
+    "role": "Debater",
+    "demo": false
+  }
+]
+```
+
+3. `src` হবে upload করা ছবির path; শুরুতে `public` লিখবেন না। `alt`-এ ছবিতে কী হচ্ছে তার বর্ণনা, `caption`-এ ছোট কথা দিন। `event`, `year`, `role` optional—নিশ্চিত না হলে field বাদ রাখুন। `year` double quote-এর মধ্যে থাকবে।
+4. একাধিক ছবি দিতে `gallery`-র মধ্যে দ্বিতীয় `{ ... }` যোগ করুন, মাঝখানে comma দিন। Caption ও photo count নিজে update হবে। সব ছবি সরাতে `"gallery": []` রাখুন।
+5. আসল ছবি বসালে সংশ্লিষ্ট `demo` হবে **false**, এবং demo alt/caption-ও বাস্তব বর্ণনা দিয়ে বদলাবেন। বাকি demo ছবিতে label থাকবে। সব demo বদলানো হলে page-এর preview notice নিজে সরে যাবে।
+6. Activity-এর `"homePreview": true` থাকলে তার **প্রথম ছবিটি Home-এও দেখাবে**। বর্তমানে theatre-তে true আছে। অন্য activity বেছে নিতে পুরোনোটিতে false ও নতুনটিতে true দিন। Featured activity-গুলোর মধ্যে প্রথম নির্বাচিতটি ব্যবহার হবে; কোনোটি না বাছলে ছবি আছে এমন প্রথম featured activity বেছে নেবে।
+7. Commit করুন; Actions সফল হলে Home ও Activities-এ একই data থেকে update দেখা যাবে। Component edit লাগবে না।
+
+ছবিতে click করলে বড় viewer খুলবে। আগের/পরের button অথবা keyboard-এর arrow দিয়ে browse করা যাবে; Escape বা Close দিয়ে বন্ধ হবে। JavaScript বন্ধ থাকলেও ছবির link খুলবে। Thumbnail-এ crop হলেও বড় viewer-এ পুরো ছবি দেখা যায়। Portrait ও landscape—দুটিই ব্যবহার করতে পারবেন। নতুন real photos-এর জন্য পুরোনো demo filename ব্যবহার না করে নিজের বর্ণনামূলক filename দিন।
+
 ## পরিচিতি ও contact বদলানো
 
 `src/data/profile.json` খুলে প্রয়োজনীয় text বদলান:

@@ -4,7 +4,16 @@
   "label": "Stage performance",
   "summary": "Took part in five stage performances.",
   "art": "theatre",
-  "order": 2
+  "order": 2,
+  "homePreview": true,
+  "gallery": [
+    {
+      "src": "/media/activities/demo-stage.webp",
+      "alt": "Fictional demo of performers on a warmly lit stage in front of a teal curtain.",
+      "caption": "On stage",
+      "demo": true
+    }
+  ]
 }
 ---
 

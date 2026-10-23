@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+interface Props {
+  photo: CollectionEntry<'activities'>['data']['gallery'][number];
+  activityTitle: string;
+  previewHref?: string;
+}
+const { photo, activityTitle, previewHref } = Astro.props;
+const meta = [photo.event, photo.year, photo.role].filter(Boolean).join(' · ');
+---
+<figure class:list={['activity-photo', { 'activity-photo-preview': !!previewHref }]}>
+  <a class="activity-photo-link" href={previewHref ?? photo.src} aria-label={previewHref ? `View ${photo.demo ? 'demo ' : ''}${activityTitle} photos` : `View ${photo.demo ? 'demo ' : ''}photo: ${photo.caption}`}
+    data-photo-link={!previewHref || undefined} data-photo-caption={!previewHref ? photo.caption : undefined}
+    data-photo-meta={!previewHref ? meta : undefined} data-photo-activity={!previewHref ? activityTitle : undefined}
+    data-photo-demo={!previewHref ? String(photo.demo) : undefined}>
+    <img src={photo.src} alt={photo.alt} width="1200" height="800" loading="lazy" decoding="async"/>
+    {photo.demo && <span class="photo-demo-badge">Demo</span>}
+    <span class="photo-open-icon" aria-hidden="true"><Icon name={previewHref ? 'arrow' : 'expand'} size={18}/></span>
+  </a>
+  <figcaption><span>{previewHref ? activityTitle : photo.caption}</span>{!previewHref && (meta || photo.demo) && <span class="photo-caption-meta">{meta || 'Illustrative preview'}</span>}</figcaption>
+</figure>
