@@ -9,5 +9,6 @@
 - Original CSS/SVG project artwork illustrates projects; it is not a screenshot or third-party product interface.
 - Page-specific social cards use original local vector illustrations, existing page metadata and the self-hosted fonts above. Sharp (Apache-2.0) rasterizes them during builds; no remote image-generation service or third-party game screenshots are used.
 - Play previews, game decorations and corner duck/bubble/star surprises use local CSS/SVG artwork; the original Snake/Dino/Aim artwork, drawing tools, Tic-tac-toe, Stack Tower and physics use native browser APIs with locally implemented game rules. Optional sound is synthesized with Web Audio; no third-party sound recordings or game assets are loaded.
+- PlayPiku cover: the project’s existing public share artwork from `tanzilamd/playpiku`, copied unchanged for its portfolio entry.
 - Built with Astro and TypeScript. Development of this portfolio was assisted by OpenAI Codex under Tanzil Ahmed’s direction.
 - Tabbycat and other external projects retain their upstream authorship and licenses; original project/contribution links identify their sources.

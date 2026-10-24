@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const routes = ['/', '/work/', '/open-source/', '/about/', '/beyond/', '/notes/', '/notes/grandmas-xbox/', '/contact/', '/work/tuktak/', '/work/choreseed/', '/play/'];
+const routes = ['/', '/work/', '/open-source/', '/about/', '/beyond/', '/notes/', '/notes/grandmas-xbox/', '/contact/', '/work/tuktak/', '/work/choreseed/', '/work/playpiku/', '/play/'];
 for (const theme of ['dark', 'light']) {
   for (const route of routes) {
     test(`${theme}: ${route} is accessible and renders without failed local assets`, async ({ page }) => {
@@ -23,7 +23,9 @@ for (const theme of ['dark', 'light']) {
 
 test('the selected-work journey preserves theme and shows the right priorities', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.featured-grid h3')).toHaveText(['Tuktak', 'ScopeProof', 'EngJatra', 'Choreseed']);
+  await expect(page.locator('.featured-grid h3')).toHaveText(['Tuktak', 'ScopeProof', 'EngJatra', 'PlayPiku']);
+  await expect(page.locator('.featured-grid .project-card')).toHaveCount(4);
+  await expect(page.locator('.featured-grid')).not.toContainText('Choreseed');
   await expect(page.locator('.hero')).not.toContainText('Cargotab');
   await page.getByRole('button', { name: 'Switch to light theme' }).click();
   await page.getByRole('link', { name: 'Explore Tuktak', exact: true }).click();
@@ -32,6 +34,10 @@ test('the selected-work journey preserves theme and shows the right priorities',
   await expect(page.getByRole('link', { name: 'Visit Tuktak' })).toHaveAttribute('href', 'https://tuktakbd.vercel.app/');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await page.goto('/work/playpiku/');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('PlayPiku');
+  await expect(page.getByRole('link', { name: 'Visit PlayPiku', exact: true })).toHaveAttribute('href', 'https://tanzilahmed.tech/playpiku/');
+  await expect(page.getByRole('link', { name: 'Source on GitHub', exact: true })).toHaveAttribute('href', 'https://github.com/tanzilamd/playpiku');
 });
 
 test('work filters are shareable and survive navigation back from a case study', async ({ page }) => {
@@ -46,7 +52,7 @@ test('work filters are shareable and survive navigation back from a case study',
   await expect(page.locator('[data-item]:visible')).toHaveCount(2);
   await page.goto('/work/?category=not-a-category');
   await expect(page.getByRole('button', { name: 'All', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.locator('[data-item]:visible')).toHaveCount(6);
+  await expect(page.locator('[data-item]:visible')).toHaveCount(7);
 });
 
 test('contribution filters distinguish resource work and personal-fork infrastructure', async ({ page }) => {
@@ -120,7 +126,7 @@ test('essential mobile navigation and all work remain usable without JavaScript'
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto('/work/');
-  await expect(page.locator('[data-item]:visible')).toHaveCount(6);
+  await expect(page.locator('[data-item]:visible')).toHaveCount(7);
   await expect(page.locator('[data-filter-bar]')).toBeHidden();
   await expect(page.locator('.fallback-nav')).toBeVisible();
   await page.locator('.fallback-nav').getByRole('link', { name: 'Open source' }).click();

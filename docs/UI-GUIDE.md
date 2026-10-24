@@ -86,7 +86,7 @@ Inspect every workspace at mobile widths in both themes, including focus, disabl
 
 ## Review shared UI changes
 
-Check every route: Home, Projects, all six project detail pages, Open source, About, Activities, Writing, the native essay, Contact, Play, all eight activity pages and 404. Inspect desktop and mobile in both themes. The browser suite covers automated accessibility on representative pages and each active Play workspace, plus overflow and clipped project titles across all 24 HTML routes at 320, 360, 390, 768, 800, 1024 and 1440px. README previews live in `docs/images/`; refresh them when the design changes.
+Check every route: Home, Projects, all seven project detail pages, Open source, About, Activities, Writing, the native essay, Contact, Play, all eight activity pages and 404. Inspect desktop and mobile in both themes. The browser suite covers automated accessibility on representative pages and each active Play workspace, plus overflow and clipped project titles across all 25 HTML routes at 320, 360, 390, 768, 800, 1024 and 1440px. README previews live in `docs/images/`; refresh them when the design changes.
 
 Also check the following manually when relevant:
 

@@ -4,6 +4,11 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 24 PlayPiku selected project
+
+- Replaced Choreseed in the four Home highlights with PlayPiku, using one project record, the supplied live/source links and its existing project artwork. Added the PlayPiku detail page and automatic share preview.
+- Kept Choreseed published on All projects and at its existing URL; the other three Home highlights and current portfolio design are unchanged. Updated documentation, screenshots and project-journey checks.
+
 ## October 24 Game Zone expansion
 
 - Added Snake, Dino Run and Aim Trainer at dedicated static URLs with original local artwork, keyboard/touch controls, explicit countdown/start, pause/resume/replay, focused result screens and unique share previews.

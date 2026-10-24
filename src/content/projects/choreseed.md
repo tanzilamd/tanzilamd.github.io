@@ -5,8 +5,8 @@
   "category": "Tool",
   "role": "Product direction & development",
   "status": "Limited preview",
-  "featured": true,
-  "order": 4,
+  "featured": false,
+  "order": 5,
   "cover": "choreseed",
   "tools": [
     "TypeScript",

@@ -213,3 +213,8 @@ Game-এর নিয়ম বদলানো content edit নয়: UI আছে `s
 - **Surprise me** পাঁচটি scored game-এর একটি খোলে; drawing/toys বেছে নেয় না। আগে ready screen আসে, তারপর নিজে শুরু করতে হয়।
 
 Game rules বা daily seed-এর অর্থ বদলালে `RULES_VERSION` ও প্রয়োজনমতো progress compatibility দেখুন। `src/lib/game-zone.ts`, `src/scripts/play/games/` ও shared arcade shell সংশ্লিষ্ট files। নতুন backend ছাড়া public/global ranking দেখাবেন না।
+
+
+### Home-এর চারটি selected project
+
+বর্তমানে Tuktak, ScopeProof, EngJatra ও PlayPiku দেখায়। PlayPiku-এর তথ্য/links/image বদলাতে শুধু `src/content/projects/playpiku.md` edit করুন। `featured: true` এবং `order: 4` এটিকে চতুর্থ card রাখে। Choreseed-এর `featured: false`; All projects ও পুরোনো `/work/choreseed/` link সচল আছে। Home সর্বোচ্চ চারটি published featured item দেখায়।

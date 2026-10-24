@@ -6,7 +6,7 @@ import { projects } from '../../lib/content';
 const all = await projects();
 const categories = [...new Set(all.map((project) => project.data.category))];
 ---
-<Layout title="Projects" description="Software projects and earlier work by Tanzil Ahmed. Explore Tuktak, ScopeProof, EngJatra and Choreseed.">
+<Layout title="Projects" description="Software projects and earlier work by Tanzil Ahmed. Explore Tuktak, ScopeProof, EngJatra and PlayPiku.">
   <div class="container page-body"><header class="page-heading"><p class="eyebrow">Products, tools & experiments</p><h1>My <span class="serif-word">projects.</span></h1><p>Software I’ve worked on, with the problem each project addresses, my role, and links to the source code or demo.</p></header>
   <Filters options={categories} label="Filter projects by category"/>
   <div class="work-grid">{all.map((project) => <ProjectCard project={project}/>)}</div>
