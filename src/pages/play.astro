@@ -1,24 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
+import GameCard from '../components/GameCard.astro';
 import copy from '../lib/play';
 import '../styles/play.css';
-import { playRoutes } from '../lib/play-routes';
 ---
-<Layout title="Play" description="Play Tic-tac-toe, build a Stack Tower, draw a little, or try a small surprise. Five free browser activities, just for fun.">
-  <div class="container page-body play-page" data-play-page>
-    <header class="page-heading play-heading"><p class="eyebrow">A little break</p><h1>{copy.headline}<br/><span class="serif-word">{copy.headlineAccent}</span></h1><p>{copy.intro}</p></header>
-    <div class="play-choices" aria-label="Choose an activity">
-      {copy.activities.map((activity) => <a class={`play-choice choice-${activity.id}`} href={playRoutes[activity.id]} id={activity.id} data-play-choice={activity.id}>
-        <div class={`play-choice-art preview-${activity.id}`} aria-hidden="true">
-          {activity.id === 'tic-tac-toe' ? <div class="preview-tic-board"><span class="preview-tic-x"/><span/><span class="preview-tic-o"/><span/><span class="preview-tic-x"/><span/><span class="preview-tic-o"/><span/><span class="preview-tic-x"/></div> : activity.id === 'stack-tower' ? <div class="preview-tower-blocks">{[0, 1, 2, 3, 4].map((level) => <span style={`--level:${level}`}/>)}<i/></div> : activity.id === 'playground' ? <><span class="preview-circle"/><span class="preview-square"/><span class="preview-star"/><span class="preview-orbit"/></> : activity.id === 'draw' ? <><svg viewBox="0 0 300 180" fill="none"><path d="M35 125C60 25 95 150 125 72S170 40 170 92s55 42 80-42" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path d="m233 112 7 14 16 3-12 11 2 16-13-7-15 7 3-16-11-11 16-3Z" stroke-width="3" stroke="currentColor"/></svg><span class="preview-pencil"/></> : <><span class="preview-press">DO NOT<br/>PRESS<span/></span><span class="preview-warning">!</span></>}
-          <span class="play-choice-number">{activity.number}</span>
-        </div>
-        <div class="play-choice-copy"><p class="eyebrow">{activity.label}</p><h2>{activity.title}</h2><p>{activity.description}</p><span class="text-link">{activity.action}<Icon name="arrow" size={18}/></span></div>
-      </a>)}
-    </div>
-    <p class="play-page-note">Small experiments, just for fun. Nothing to sign up for.</p>
+<Layout title="Game zone" description="Play Snake, Dino Run, Aim Trainer, Tic-tac-toe and Stack Tower. Daily challenges, personal records and three creative breaks. Free browser games, no account needed.">
+  <div class="container page-body play-page zone-page" data-play-page>
+    <header class="page-heading play-heading zone-heading"><div><p class="eyebrow">Game zone / Offscript</p><h1>{copy.headline} <span class="serif-word">{copy.headlineAccent}</span></h1><p>{copy.intro}</p></div><button class="button button-secondary" type="button" data-random-game hidden>Surprise me <Icon name="shuffle" size={18}/></button></header>
+    <aside class="zone-daily" data-zone-daily hidden aria-label="Today's challenge"><div class="daily-mark" aria-hidden="true">↗</div><div><p class="eyebrow">Today’s challenge <span data-daily-date></span></p><h2 data-daily-title></h2><p data-daily-description></p><small data-daily-note>New challenge at midnight, Bangladesh time.</small></div><a class="button button-primary" data-daily-link href="/play/">Play today’s challenge <Icon name="arrow" size={17}/></a></aside>
+    <section class="zone-section" aria-labelledby="zone-games-title"><div class="zone-section-heading"><h2 id="zone-games-title">Pick your game<span class="serif-word">.</span></h2><p>A quick round. Or a few.</p></div><div class="play-choices zone-grid" aria-label="Choose a game">{copy.activities.filter(a => a.group === 'game').map(activity => <GameCard activity={activity}/>)}</div></section>
+    <section class="zone-section zone-creative" aria-labelledby="zone-creative-title"><div class="zone-section-heading"><h2 id="zone-creative-title">Follow your curiosity<span class="serif-word">.</span></h2><p>No scores. No hurry.</p></div><div class="play-choices zone-grid" aria-label="Choose a creative activity">{copy.activities.filter(a => a.group === 'creative').map(activity => <GameCard activity={activity}/>)}</div></section>
+    <details class="zone-progress" data-zone-progress hidden><summary><span>Your progress<small>Personal records, little milestones.</small></span><span aria-hidden="true">+</span></summary><div class="progress-body"><div class="progress-topline"><p data-progress-streak></p><p class="game-storage-note" data-progress-note></p></div><h2 class="eyebrow">Little milestones</h2><ul class="zone-badges">{copy.zone.achievements.map(badge => <li data-badge={badge.id}><span class="badge-mark" aria-hidden="true">✦</span><div><strong>{badge.title}</strong><p>{badge.description}</p><span class="badge-state" data-badge-state>Not yet</span></div></li>)}</ul><div class="record-heading"><h2>Personal records</h2><label class="tower-mode">Show <select data-record-filter aria-label="Filter personal records"><option value="all">All games</option>{copy.activities.filter(a => a.group === 'game').map(a => <option value={a.id}>{a.title}</option>)}</select></label></div><p class="game-storage-note">Best and last five results for each pace and input. Daily runs have their own records. No public rankings.</p><div class="zone-records" data-zone-records></div><p class="game-storage-note">Progress belongs to this browser. Clearing its data resets progress; records do not sync across devices. Existing game-specific scores are kept.</p></div></details>
+    <p class="play-page-note">Made for a little break. Nothing to sign up for.</p>
     <noscript><p class="play-fallback">These interactive activities need JavaScript. You can still explore the <a href="/work/">projects</a>, <a href="/beyond/">photos</a> and <a href="/notes/">writing</a>.</p></noscript>
   </div>
+  <script src="../scripts/play/hub.ts"></script>
   <script src="../scripts/play/legacy.ts"></script>
 </Layout>

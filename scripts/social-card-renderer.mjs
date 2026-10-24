@@ -14,6 +14,15 @@ function spark(x, y, size = 20) {
 }
 function artwork(pathname) {
   const { coral, mint, gold, blue, line, surface } = palette;
+  if (pathname === '/play/snake/') {
+    return `<g transform="translate(760 150)"><rect width="350" height="350" rx="22" fill="${surface}" stroke="${line}"/><path d="M55 80h100v95H85v110h190V160" fill="none" stroke="${mint}" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/><circle cx="281" cy="154" r="3" fill="#0a191d"/><circle cx="269" cy="154" r="3" fill="#0a191d"/><circle cx="270" cy="65" r="14" fill="${coral}"/></g>`;
+  }
+  if (pathname === '/play/dino-run/') {
+    return `<g transform="translate(750 200)"><path d="M0 267h380" stroke="${line}" stroke-width="3"/><g transform="translate(30 65) scale(2.1)" fill="${mint}"><path d="M16 0h42v25H39v14H17v15H8V31H0V15h10v17h8V18h-2Z"/><path d="M17 48h9v16h-9zm19-10h9v18h-9Z"/></g><rect x="290" y="207" width="23" height="60" rx="4" fill="${coral}"/>${spark(220,55,20)}</g>`;
+  }
+  if (pathname === '/play/aim-trainer/') {
+    return `<g fill="none" transform="translate(940 325)"><circle r="166" stroke="${line}"/><circle r="115" stroke="${mint}" stroke-width="3"/><circle r="62" stroke="${coral}" stroke-width="8"/><circle r="13" fill="${coral}"/><path d="M-190 0h45M145 0h45M0-190v45M0 145v45" stroke="${mint}" stroke-width="4"/></g>`;
+  }
   if (pathname === '/play/tic-tac-toe/') {
     return `<g transform="translate(742 140) rotate(5 185 185)"><rect width="370" height="370" rx="20" fill="${surface}" stroke="${line}"/><path d="M123 12v346M247 12v346M12 123h346M12 247h346" stroke="${line}" stroke-width="3"/><g stroke="${coral}" stroke-width="12" stroke-linecap="round"><path d="m36 36 54 54m0-54L36 90M158 158l54 54m0-54-54 54M281 281l54 54m0-54-54 54"/><path d="M42 42 328 328" stroke-width="5" opacity=".5"/></g><g fill="none" stroke="${mint}" stroke-width="10"><circle cx="309" cy="62" r="33"/><circle cx="62" cy="185" r="33"/></g></g>`;
   }

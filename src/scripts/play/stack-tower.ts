@@ -1,3 +1,4 @@
+import { recordRound } from './games/progress';
 import type { Activity } from './types';
 import { advanceTower, BASE_WIDTH, BLOCK_HEIGHT, createTower, dropTower, shiftTower, STAGE_HEIGHT as H, STAGE_WIDTH as W, type Block, type TowerMode } from './games/tower-rules';
 import { loadLocal, saveLocal, validScore } from './games/storage';
@@ -114,6 +115,7 @@ export function mount(panel: HTMLElement): Activity {
     if (state.phase !== 'playing' || !active || (mode !== 'step' && !visible) || performance.now() < lockUntil) return;
     lockUntil = performance.now() + 130;
     const result = dropTower(state); state = result.state;
+    if (state.phase === 'over') recordRound({ game: 'stack-tower', mode, input: 'mixed', score: state.score });
     if (result.cutoff && !preference.matches && mode !== 'step') {
       pieces = [...pieces.slice(-5), { ...result.cutoff, y: baseY - result.cutoff.level * BLOCK_HEIGHT, vx: result.cutoff.x < W / 2 ? -55 : 55, vy: 20, angle: 0, age: 0 }];
     }

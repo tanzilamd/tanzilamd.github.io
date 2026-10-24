@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 export const SOCIAL_WIDTH = 1200;
 export const SOCIAL_HEIGHT = 630;
 // Bump when changing the renderer so cached image URLs pick up new artwork.
-export const SOCIAL_VERSION = 'offscript-share-1';
+export const SOCIAL_VERSION = 'offscript-share-2';
 
 export function socialImage(pathname: string, title: string, description: string, author: string) {
   if (pathname === '/') return '/social-card.png';

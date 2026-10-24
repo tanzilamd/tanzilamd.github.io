@@ -9,6 +9,9 @@ const loaders = {
   button: () => import('./surprise'),
   'tic-tac-toe': () => import('./tic-tac-toe'),
   'stack-tower': () => import('./stack-tower'),
+  snake: () => import('./snake'),
+  'dino-run': () => import('./dino-run'),
+  'aim-trainer': () => import('./aim-trainer'),
 };
 const key = workspace.dataset.gameId as keyof typeof loaders;
 let activity: Activity | undefined;

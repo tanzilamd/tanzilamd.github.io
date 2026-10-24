@@ -182,7 +182,7 @@ Browser ও authoring tests একসঙ্গে চালাবেন না; 
 Footer-এর খোলা **Take a little break** link থেকে `/play/` খুলবে। পাঁচটি activity-র আলাদা page আছে: `/play/tic-tac-toe/`, `/play/stack-tower/`, `/play/playground/`, `/play/drawing-pad/`, `/play/do-not-press/`। Play-এর content বদলাতে শুধু `src/data/play.json` edit করুন:
 
 - `headline`, `headlineAccent`, `intro`: page-এর শুরুর লেখা।
-- `activities`: পাঁচটি card-এর title, label, description ও action text। `id` (`tic-tac-toe`, `stack-tower`, `playground`, `draw`, `button`) অপরিবর্তিত রাখুন—এগুলো shareable URL ও controls-এর সঙ্গে যুক্ত।
+- `activities`: পাঁচটি card-এর title, label, description ও action text। `id` (`snake`, `dino-run`, `aim-trainer`, `tic-tac-toe`, `stack-tower`, `playground`, `draw`, `button`) অপরিবর্তিত রাখুন—এগুলো shareable URL ও controls-এর সঙ্গে যুক্ত।
 - `prompts`: drawing-এর **Give me a prompt** button-এর লেখা। Array-তে নতুন quoted sentence যোগ করতে পারেন; অন্তত একটি রাখুন।
 - `palette`: drawing-এর রঙের নাম ও `#RRGGBB` value। অন্তত একটি রং রাখুন।
 - `pocket.label`: fixed **✦** button-এর screen-reader label। Click করলে visible screen জুড়ে প্রায় 5.5 সেকেন্ডের effect হয়; কোনো popup text বা tooltip নেই। পুরোনো `pocket.messages` সরানো হয়েছে।
@@ -193,8 +193,23 @@ Footer-এর খোলা **Take a little break** link থেকে `/play/` �
 Drawing চলতি browser tab-এর `sessionStorage`-এ থাকে; একই tab-এ game বদলে বা normal reload করে ফিরলে পাওয়া যাবে। Tab/session শেষ হলে browser এটি সরিয়ে দিতে পারে; স্থায়ীভাবে রাখতে **Download PNG** ব্যবহার করুন। Browser storage বন্ধ থাকলে reminder দেখাবে, drawing/export তবুও কাজ করবে। Undo/Redo buttons বা Ctrl/Cmd+Z ও Ctrl/Cmd+Shift+Z ব্যবহার করা যায়। History সীমিত এবং reload-এ পুরো undo history রাখা হয় না। কোনো drawing server-এ পাঠানো বা gallery-তে প্রকাশ করা হয় না।
 
 
-Tic-tac-toe-তে **Computer** (Easy/Hard) বা **A friend** বেছে নিন। A friend একই screen-এ দুজনের খেলা। Computer-এর বিরুদ্ধে X/O বদলালেও নিজের win/loss নিজেরই থাকে; Easy, Hard ও local two-player scores আলাদা। **Reset scores** শুধু চলতি mode-এর score মুছে দেয়; **New round** বোর্ড নতুন করে।
+Tic-tac-toe-তে **Computer** (Easy/Hard) বা **A friend** বেছে নিন। A friend একই screen-এ দুজনের খেলা। Computer-এর বিরুদ্ধে X/O বদলালেও নিজের win/loss নিজেরই থাকে; Easy, Hard ও local two-player scores আলাদা। **Reset scores** চলতি mode-এর score, win streak ও সংশ্লিষ্ট hub records মুছে দেয়; অর্জিত badges থাকে। **New round** বোর্ড নতুন করে।
 
 Stack Tower-এর **Chill** একটু ধীর, **Classic** দ্রুত, আর **Step mode**-এ timer নেই। Start stacking দিয়ে শুরু করে tap/click/Space/Enter দিয়ে drop করুন। Step mode-এ Left/Right button বা arrow key দিয়ে block সরানো যায়; Shift+arrow ছোট adjustment করে। তিনটি perfect landing-এ কিছু width ফেরত পাওয়া যায়। Pause/Resume ও New game আছে। Scroll করে play area ছেড়ে গেলে বা অন্য tab-এ গেলে game pause হবে; Resume করে ফিরতে হবে। Reduced motion থাকলে শুরুতেই Step mode বেছে নেওয়া হয়। প্রতিটি pace-এর best score device-এ থাকে; clear site data করলে মুছে যাবে। Browser storage বন্ধ থাকলেও দুটো game খেলা যায়।
 
 Game-এর নিয়ম বদলানো content edit নয়: UI আছে `src/components/games/`, controllers ও rules আছে `src/scripts/play/` ও `src/scripts/play/games/`-এ। শুধু title/description/card text বদলাতে JSON-ই যথেষ্ট; নতুন engine ছাড়া নতুন game ID যোগ করবেন না।
+
+
+### Game Zone: daily challenge ও progress
+
+সব editable game/card text আগের মতো `src/data/play.json`-এ। `activities[].group`-এ `game` বা `creative` আছে; প্রথম পাঁচটি game, বাকি তিনটি creative break। ID বদলাবেন না।
+
+- `zone.daily`: Snake-এর food target, Dino-এর seconds target, Aim-এর hit target ও accuracy percentage। প্রতিটি game-এর entry একবার রাখুন। `accuracy` শুধু Aim-এর জন্য প্রযোজ্য। Goal অনেক কঠিন/সহজ করার আগে খেলেই পরীক্ষা করুন।
+- Daily challenge নিজে Bangladesh time রাত ১২টায় ঘোরে; প্রতিদিন file edit, build বা deploy লাগে না। খোলা hub-ও নতুন দিনে বদলায়। পুরোনো দিনের link খেলা যাবে, তবে আজকের streak বাড়াবে না।
+- `zone.achievements`: badge-এর `title` ও `description` বদলানো যায়। ID/earned হওয়ার নিয়ম code-এর সঙ্গে যুক্ত—শুধু description edit করে threshold বদলায় না।
+- **Your progress**-এ personal best, শেষ পাঁচটি result, daily streak ও achievements থাকে। এটি এই browser-এর; public leaderboard নয়। Clearing site data করলে মুছে যায়, অন্য device-এ sync হয় না। পুরোনো Tic-tac-toe/Stack scores রাখা হয়েছে।
+- Snake: Classic-এ wall collision, Chill-এ wraparound; keyboard/swipe/direction controls। Dino: tap/Space/Jump দিয়ে jump। Aim: ৩০ সেকেন্ডের round বা keyboard-friendly untimed practice। Mode/input/daily records আলাদা থাকে।
+- **Challenge a friend** একই seed/mode-এর link ও নিজের result share করে; বন্ধু আলাদা সময়ে খেলতে পারবে। এটি live multiplayer নয়। Browser share/copy না পারলে manual copy field আসে। পুরোনো একই screen-এর Tic-tac-toe আছে।
+- **Surprise me** পাঁচটি scored game-এর একটি খোলে; drawing/toys বেছে নেয় না। আগে ready screen আসে, তারপর নিজে শুরু করতে হয়।
+
+Game rules বা daily seed-এর অর্থ বদলালে `RULES_VERSION` ও প্রয়োজনমতো progress compatibility দেখুন। `src/lib/game-zone.ts`, `src/scripts/play/games/` ও shared arcade shell সংশ্লিষ্ট files। নতুন backend ছাড়া public/global ranking দেখাবেন না।

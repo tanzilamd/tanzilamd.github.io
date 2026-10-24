@@ -1,3 +1,4 @@
+import { recordRound, readProgress, resetTicProgress } from './games/progress';
 import type { Activity } from './types';
 import { computerMove, other, outcome, type Board, type Mark } from './games/tic-rules';
 import { loadLocal, saveLocal, validScore } from './games/storage';
@@ -53,12 +54,14 @@ export function mount(panel: HTMLElement): Activity {
     panel.querySelector('[data-tic-draw]')!.textContent = String(book.draw);
     panel.querySelector('[data-tic-note]')!.textContent = mode === 'local' ? 'Two players. One screen. Take turns as X and O.' : difficulty === 'hard' ? 'Hard plays perfectly. A draw is a good result.' : 'Easy leaves a little room for luck.';
     panel.querySelector('[data-tic-storage]')!.textContent = canSave ? 'Scores stay on this device, separately for each mode.' : 'Scores stay for this visit. Device saving is unavailable.';
+    const streak = readProgress().value.wins[difficulty];
+    panel.querySelector<HTMLElement>('[data-tic-streak]')!.textContent = mode === 'computer' ? `Win streak: ${streak?.current ?? 0} · Best: ${streak?.longest ?? 0}. A draw or loss breaks the streak.` : '';
     panel.querySelector<HTMLFieldSetElement>('[data-tic-computer-options]')!.disabled = mode === 'local';
     panel.querySelector<HTMLFieldSetElement>('[data-tic-mark-options]')!.disabled = mode === 'local';
   }
   function finishTurn() {
     const result = outcome(board);
-    if (result && !recorded) { const book = bucket(); const key = result.winner === 'draw' ? 'draw' : mode === 'local' ? result.winner : result.winner === human ? 'you' : 'computer'; book[key] = Math.min(999999, book[key] + 1); recorded = true; store(); }
+    if (result && !recorded) { const book = bucket(); const key = result.winner === 'draw' ? 'draw' : mode === 'local' ? result.winner : result.winner === human ? 'you' : 'computer'; book[key] = Math.min(999999, book[key] + 1); recorded = true; store(); recordRound({ game: 'tic-tac-toe', mode: mode === 'local' ? 'local' : difficulty, input: 'mixed', score: mode === 'local' ? result.winner === 'draw' ? 0 : 1 : key === 'you' ? 1 : 0, result: mode === 'local' ? undefined : result.winner === 'draw' ? 'draw' : key === 'you' ? 'win' : 'loss' }); }
     render(); scheduleComputer();
   }
   function scheduleComputer() {
@@ -91,7 +94,7 @@ export function mount(panel: HTMLElement): Activity {
     newRound();
   }, { signal });
   panel.querySelector('[data-tic-new]')!.addEventListener('click', newRound, { signal });
-  panel.querySelector('[data-tic-reset-scores]')!.addEventListener('click', () => { Object.assign(bucket(), fresh()); store(); render(); }, { signal });
+  panel.querySelector('[data-tic-reset-scores]')!.addEventListener('click', () => { Object.assign(bucket(), fresh()); store(); resetTicProgress(mode === 'local' ? 'local' : difficulty); render(); }, { signal });
   panel.querySelectorAll<HTMLFieldSetElement>('[data-play-controls]').forEach((fieldset) => { fieldset.disabled = false; });
   cells.forEach((cell) => { cell.disabled = false; });
   panel.querySelector<HTMLButtonElement>('[data-tic-new]')!.disabled = false;

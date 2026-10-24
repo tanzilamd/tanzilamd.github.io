@@ -1,5 +1,7 @@
 # Games, surprises and footer implementation plan
 
+Current expansion: see [Game Zone implementation plan](GAME-ZONE-PLAN.md) for Snake, Dino Run, Aim Trainer, daily challenges and local progress. The sections below describe the earlier five-activity revision.
+
 ## Scope
 
 Add polished Tic-tac-toe and Stack Tower games to the existing Play area, expand silent ✦ effects across the visible screen with no text, and replace the boxed footer card with an open layout. Preserve owner content, media/captions, Offscript themes, existing URLs and the three original activities. No new packages, backend, accounts or uploads.

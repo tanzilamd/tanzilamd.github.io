@@ -16,6 +16,7 @@ async function alphaAt(page: Page, x: number, y: number) {
 
 for (const theme of ['dark', 'light']) {
   test(`${theme}: all active Play workspaces have accessible controls`, async ({ page }) => {
+    test.setTimeout(60_000);
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
     await page.addInitScript((theme) => localStorage.setItem('offscript-theme', theme), theme);
@@ -240,10 +241,10 @@ test('Play remains readable without JavaScript and handles an unavailable canvas
 
 test('only the current game engine loads, with none on Home or the Play list', async ({ page }) => {
   const requests: string[] = []; page.on('request', (request) => requests.push(request.url()));
-  const engine = /\/(?:physics|drawing|surprise|tic-tac-toe|stack-tower)\.[^/]+\.js/;
+  const engine = /\/(?:physics|drawing|surprise|tic-tac-toe|stack-tower|snake|dino-run|aim-trainer)\.[^/]+\.js/;
   await page.goto('/'); expect(requests.filter((url) => engine.test(url))).toEqual([]);
   await page.goto('/play/'); expect(requests.filter((url) => engine.test(url))).toEqual([]);
-  for (const [id, filename] of [['draw', 'drawing'], ['playground', 'physics'], ['button', 'surprise'], ['tic-tac-toe', 'tic-tac-toe'], ['stack-tower', 'stack-tower']]) {
+  for (const [id, filename] of [['draw', 'drawing'], ['playground', 'physics'], ['button', 'surprise'], ['tic-tac-toe', 'tic-tac-toe'], ['stack-tower', 'stack-tower'], ['snake', 'snake'], ['dino-run', 'dino-run'], ['aim-trainer', 'aim-trainer']]) {
     requests.length = 0;
     await open(page, id);
     const loaded = requests.filter((url) => engine.test(url));

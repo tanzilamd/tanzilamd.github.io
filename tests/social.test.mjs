@@ -53,5 +53,5 @@ test('every built page exposes its own valid social PNG in initial HTML', () => 
     if (page.pathname.startsWith('/play/') && page.pathname !== '/play/') gameImages.add(createHash('sha256').update(png).digest('hex'));
   }
   assert.ok(urls.size >= 21);
-  assert.equal(gameImages.size, 5, 'Each game needs different artwork');
+  assert.equal(gameImages.size, 8, 'Each game needs different artwork');
 });

@@ -95,8 +95,8 @@ test('mobile menu supports keyboard, escape and route navigation', async ({ page
 });
 
 test('responsive layouts fit both themes at representative widths', async ({ page }) => {
-  test.setTimeout(180_000);
-  const allRoutes = [...routes, '/play/playground/', '/play/drawing-pad/', '/play/do-not-press/', '/play/tic-tac-toe/', '/play/stack-tower/', '/work/scopeproof/', '/work/engjatra/', '/work/cargotab/', '/work/tanzilbot/', '/404.html'];
+  test.setTimeout(240_000);
+  const allRoutes = [...routes, '/play/playground/', '/play/drawing-pad/', '/play/do-not-press/', '/play/tic-tac-toe/', '/play/stack-tower/', '/play/snake/', '/play/dino-run/', '/play/aim-trainer/', '/work/scopeproof/', '/work/engjatra/', '/work/cargotab/', '/work/tanzilbot/', '/404.html'];
   for (const width of [320, 360, 390, 768, 800, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const theme of ['dark', 'light']) {
@@ -193,6 +193,9 @@ for (const theme of ['dark', 'light']) {
     await expect(page.getByRole('button', { name: photos.length > 1 ? 'Next photo' : 'Close photo', exact: true })).toBeFocused();
     await page.keyboard.press('Tab');
     await expect(page.getByRole('button', { name: 'Close photo', exact: true })).toBeFocused();
+    // Decode first: the viewer starts its caption transition after the image resolves.
+    await viewer.locator('[data-photo-image]').evaluate((image) => (image as HTMLImageElement).decode());
+    await viewer.evaluate(async (dialog) => { await Promise.all(dialog.getAnimations({ subtree: true }).map(animation => animation.finished.catch(() => {}))); });
     const accessibility = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22a', 'wcag22aa']).analyze();
     expect(accessibility.violations).toEqual([]);
     if (photos.length > 1) {

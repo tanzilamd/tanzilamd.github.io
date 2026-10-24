@@ -1,47 +1,79 @@
 {
-  "headline": "A little room",
-  "headlineAccent": "to play.",
-  "intro": "No particular purpose. Just a few things to move, make, and definitely not press.",
+  "headline": "A little more",
+  "headlineAccent": "play.",
+  "intro": "Five games to find your rhythm. Three small distractions to follow your curiosity.",
   "activities": [
     {
-      "id": "tic-tac-toe",
+      "id": "snake",
       "number": "01",
+      "label": "Find your way",
+      "title": "Snake",
+      "description": "A familiar little snake. A growing appetite. Try not to get tangled.",
+      "action": "Play Snake",
+      "group": "game"
+    },
+    {
+      "id": "dino-run",
+      "number": "02",
+      "label": "One more jump",
+      "title": "Dino Run",
+      "description": "A little dinosaur with somewhere to be. Jump, land, go again.",
+      "action": "Go for a run",
+      "group": "game"
+    },
+    {
+      "id": "aim-trainer",
+      "number": "03",
+      "label": "Make it count",
+      "title": "Aim Trainer",
+      "description": "Thirty seconds. One target at a time. Find your focus.",
+      "action": "Test your aim",
+      "group": "game"
+    },
+    {
+      "id": "tic-tac-toe",
+      "number": "04",
       "label": "One more round",
       "title": "Tic-tac-toe",
       "description": "Your move. Play the computer or challenge someone beside you.",
-      "action": "Pick a side"
+      "action": "Pick a side",
+      "group": "game"
     },
     {
       "id": "stack-tower",
-      "number": "02",
+      "number": "05",
       "label": "Find your rhythm",
       "title": "Stack Tower",
       "description": "One tap. One more block. How high can you go?",
-      "action": "Start stacking"
+      "action": "Start stacking",
+      "group": "game"
     },
     {
       "id": "playground",
-      "number": "03",
+      "number": "06",
       "label": "Move things around",
       "title": "Playground",
       "description": "A handful of shapes. A little gravity. Make a small, satisfying mess.",
-      "action": "Make a little mess"
+      "action": "Make a little mess",
+      "group": "creative"
     },
     {
       "id": "draw",
-      "number": "04",
+      "number": "07",
       "label": "Make something",
       "title": "Drawing pad",
       "description": "An empty page, a few good colors, and absolutely no need to be good at drawing.",
-      "action": "Leave a little doodle"
+      "action": "Leave a little doodle",
+      "group": "creative"
     },
     {
       "id": "button",
-      "number": "05",
+      "number": "08",
       "label": "You had one job",
       "title": "Do not press",
       "description": "One very clear instruction. You can probably guess how this goes.",
-      "action": "What could go wrong?"
+      "action": "What could go wrong?",
+      "group": "creative"
     }
   ],
   "palette": [
@@ -119,5 +151,66 @@
   ],
   "pocket": {
     "label": "A little surprise"
+  },
+  "zone": {
+    "daily": [
+      {
+        "game": "snake",
+        "target": 8,
+        "accuracy": 0
+      },
+      {
+        "game": "dino-run",
+        "target": 30,
+        "accuracy": 0
+      },
+      {
+        "game": "aim-trainer",
+        "target": 20,
+        "accuracy": 80
+      }
+    ],
+    "achievements": [
+      {
+        "id": "first",
+        "title": "First round",
+        "description": "Finish your first scored round."
+      },
+      {
+        "id": "snake",
+        "title": "Growing appetite",
+        "description": "Collect 10 food in one Classic Snake run."
+      },
+      {
+        "id": "dino",
+        "title": "Going places",
+        "description": "Survive 45 seconds in Classic Dino Run."
+      },
+      {
+        "id": "aim",
+        "title": "On target",
+        "description": "Hit 20 targets at 90% accuracy in a timed round."
+      },
+      {
+        "id": "tower",
+        "title": "Room at the top",
+        "description": "Build a tower 20 blocks tall."
+      },
+      {
+        "id": "draw",
+        "title": "Hold the line",
+        "description": "Draw against Hard Tic-tac-toe."
+      },
+      {
+        "id": "daily",
+        "title": "A good little habit",
+        "description": "Complete daily challenges on 3 consecutive days."
+      },
+      {
+        "id": "explorer",
+        "title": "Curious by nature",
+        "description": "Finish a round in all 5 scored games."
+      }
+    ]
   }
 }

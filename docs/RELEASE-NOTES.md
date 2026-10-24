@@ -4,6 +4,14 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 24 Game Zone expansion
+
+- Added Snake, Dino Run and Aim Trainer at dedicated static URLs with original local artwork, keyboard/touch controls, explicit countdown/start, pause/resume/replay, focused result screens and unique share previews.
+- Reorganized the hub into five equal-card games and three creative breaks. Daily Challenge stays prominent; records and eight achievements sit inside a compact expandable panel. Random Game chooses scored games only.
+- Added automatic Dhaka-midnight challenges for the three new games, deterministic seeds, historical challenge links, local daily streaks, per-input/mode/daily records and human Tic-tac-toe win streaks. Shared friend links are asynchronous, with native share/clipboard/manual fallback.
+- Kept previous game URLs, gameplay and stores, and expose existing tower bests. Bounded validated local progress falls back safely without storage; no account, backend, public leaderboard, live network multiplayer or package was added.
+- Added rule/timezone/progress/browser checks and updated maintenance guides, plan, README and screenshots together.
+
 ## October 24 page-specific link previews
 
 - Replaced the shared homepage image on other URLs with automatic 1200 × 630 PNG cards using each page's existing title/description. All five games have distinct artwork; projects and original writing inherit the same system, including new content-only additions. Kept the homepage image and existing URLs.

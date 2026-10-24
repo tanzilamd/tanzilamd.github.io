@@ -4,11 +4,13 @@ import copy from '../lib/play';
 import type { PlayKey } from '../lib/play-routes';
 import TicTacToe from './games/TicTacToe.astro';
 import StackTower from './games/StackTower.astro';
+import ArcadeGame from './games/ArcadeGame.astro';
 interface Props { id: PlayKey }
 const { id } = Astro.props;
 ---
       {id === 'tic-tac-toe' && <TicTacToe/>}
       {id === 'stack-tower' && <StackTower/>}
+      {(id === 'snake' || id === 'dino-run' || id === 'aim-trainer') && <ArcadeGame id={id} title={copy.activities.find(item => item.id === id)!.title}/>}
       {id === 'playground' && <div class="play-panel" id="playground" data-play-panel="playground">
         <fieldset class="play-toolbar" disabled data-play-controls><legend class="sr-only">Playground controls</legend><button class="play-control" type="button" data-physics-add>Add a shape <span aria-hidden="true">+</span></button><button class="play-control" type="button" data-physics-gravity aria-pressed="true">Gravity <span data-gravity-label>on</span></button><button class="play-control" type="button" data-physics-pause aria-pressed="false">Pause</button><button class="play-control" type="button" data-physics-shuffle>Shuffle <Icon name="shuffle" size={16}/></button><button class="play-control" type="button" data-physics-reset>Reset</button><span class="play-toolbar-note" data-physics-count></span></fieldset>
         <div class="physics-stage" data-physics-stage role="group" aria-label="Interactive shapes" aria-describedby="physics-help"></div>

@@ -245,3 +245,101 @@
   .tower-step-controls { gap: 6px; }
 }
 @media (prefers-reduced-motion: reduce) { .tic-mark, .tic-win-line line { animation: none; } }
+
+/* Game zone: a small arcade, with room to breathe. */
+.zone-heading { max-width: none; display: flex; align-items: center; justify-content: space-between; gap: 28px; margin-bottom: 40px; }
+.zone-heading > div { max-width: 690px; }
+.zone-heading h1 { margin-top: 18px; }
+.zone-heading > div > p:last-child { color: var(--muted); margin-top: 22px; font-size: 15px; max-width: 570px; }
+.zone-heading > .button { flex-shrink: 0; font-size: 12px; }
+.zone-daily { display: flex; align-items: center; gap: 26px; padding: 28px 32px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.daily-mark { font-family: Georgia, serif; font-size: 62px; line-height: 1; color: var(--accent); }
+.zone-daily h2 { font-size: 25px; margin: 8px 0 6px; letter-spacing: -.035em; }
+.zone-daily p:not(.eyebrow) { font-size: 13px; color: var(--muted); }
+.zone-daily small { font-size: 10px; color: var(--quiet); display: block; margin-top: 10px; }
+.zone-daily .eyebrow span { margin-left: 12px; color: var(--muted); }
+.zone-daily .button { margin-left: auto; flex-shrink: 0; font-size: 12px; }
+.zone-section { margin-top: 60px; }
+.zone-section-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 24px; }
+.zone-section-heading h2 { font-size: clamp(25px,3vw,34px); letter-spacing: -.04em; }
+.zone-section-heading h2 span { color: var(--accent); }
+.zone-section-heading > p { color: var(--quiet); font-size: 12px; }
+.zone-grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; }
+.zone-grid .play-choice { grid-column: auto; display: flex; flex-direction: column; }
+.zone-grid .play-choice-copy { display: flex; flex-direction: column; flex: 1; }
+.zone-grid h3 { font-size: 26px; letter-spacing: -.04em; margin: 10px 0 14px; }
+.zone-grid .play-choice-copy > p:not(.eyebrow) { min-height: 68px; }
+.zone-grid .text-link { margin-top: auto; padding-top: 18px; }
+.zone-grid .play-choice-art { flex-shrink: 0; height: 190px; min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+.preview-snake, .preview-dino-run, .preview-aim-trainer { background: #142e32; color: #dbe7df; }
+.preview-snake > svg, .preview-dino-run > svg, .preview-aim-trainer > svg { width: 100%; height: 100%; }
+.zone-creative .play-choice-art { height: 155px; }
+.zone-creative .play-choice-copy > p:not(.eyebrow) { min-height: 72px; }
+.zone-progress { margin-top: 60px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.zone-progress summary { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 28px 0; cursor: pointer; list-style: none; font-size: 22px; letter-spacing: -.025em; }
+.zone-progress summary::-webkit-details-marker { display: none; }
+.zone-progress summary small { display: block; font-size: 12px; color: var(--muted); margin-top: 8px; letter-spacing: 0; }
+.zone-progress summary > span:last-child { font-size: 30px; color: var(--accent); }
+.zone-progress[open] summary > span:last-child { transform: rotate(45deg); }
+.progress-body { padding-bottom: 28px; }
+.progress-topline { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin: 6px 0 32px; }
+.progress-topline > p:first-child { font-size: 13px; }
+.zone-badges { list-style: none; padding: 0; margin: 20px 0 40px; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 24px; }
+.zone-badges li { display: flex; gap: 12px; min-width: 0; }
+.badge-mark { color: var(--quiet); font-size: 24px; }
+.zone-badges li[data-unlocked='true'] .badge-mark { color: var(--accent); }
+.zone-badges strong { font-size: 12px; }
+.zone-badges p { font-size: 11px; color: var(--muted); line-height: 1.8; margin-top: 6px; }
+.badge-state { display: block; margin-top: 8px; font-size: 10px; color: var(--quiet); }
+.zone-badges li[data-unlocked='true'] .badge-state { color: var(--positive); }
+.record-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 14px; }
+.record-heading h2 { font-size: 20px; letter-spacing: -.03em; }
+.zone-records { margin: 18px 0; }
+.zone-record { display: grid; grid-template-columns: 1fr auto; gap: 8px 24px; border-bottom: 1px solid var(--line); padding: 16px 0; font-size: 12px; }
+.zone-record small { display: block; font-size: 10px; color: var(--muted); margin-top: 6px; }
+.zone-record > small { grid-column: 1 / -1; }
+/* Focused game controls. Canvas uses a bounded backing store, with no idle loop. */
+.arcade-game { max-width: 900px; margin-inline: auto; }
+.arcade-toolbar { border: 0; padding: 0; margin: 0 0 24px; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.arcade-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.arcade-actions .button { font-size: 12px; min-height: 44px; padding-inline: 20px; }
+.arcade-actions .button:disabled { opacity: .65; cursor: default; }
+.arcade-hud { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+.arcade-hud > div:nth-child(2) { text-align: center; }
+.arcade-hud > div:last-child { text-align: right; }
+.arcade-hud dt { font-size: 11px; color: var(--muted); }
+.arcade-hud dd { margin: 6px 0 0; font-size: clamp(24px,3vw,34px); letter-spacing: -.04em; line-height: 1.3; }
+.arcade-hud > div:last-child dd { font-size: clamp(15px,2vw,20px); padding-top: 6px; }
+.arcade-stage { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.arcade-stage:focus-within { outline: 2px solid var(--accent); outline-offset: 4px; }
+.arcade-stage canvas { display: block; width: 100%; height: auto; }
+.arcade-stage canvas:focus-visible { outline: none; }
+.arcade-snake { max-width: 600px; }
+.arcade-snake canvas { aspect-ratio: 1; touch-action: pan-y; }
+.arcade-snake[data-arcade-phase='playing'] canvas { touch-action: none; }
+.arcade-dino-run canvas { height: clamp(220px,32vw,350px); touch-action: pan-y; }
+.arcade-overlay { position: absolute; inset: 0; background: color-mix(in srgb,var(--surface) 93%,transparent); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 18px; padding: 24px; text-align: center; pointer-events: none; }
+.arcade-overlay strong { font-family: Georgia,serif; font-style: italic; font-size: clamp(27px,4vw,48px); font-weight: 400; line-height: 1.2; max-width: 420px; letter-spacing: -.035em; }
+.arcade-overlay > span:last-child { font-size: 11px; color: var(--muted); }
+.arcade-feedback { margin-top: 24px; }
+.arcade-feedback > [role='status'] { font-size: 16px; margin-bottom: 12px; min-height: 28px; }
+.arcade-feedback > .game-storage-note { margin-top: 10px; }
+.snake-directions { display: flex; justify-content: center; gap: 8px; margin: 18px 0 0; padding: 0; border: 0; }
+.snake-directions button { font-size: 22px; width: 52px; min-height: 48px; }
+.dino-jump { margin-top: 18px; min-width: 130px; }
+.aim-field { position: relative; height: clamp(320px,46vw,470px); background-image: radial-gradient(var(--line) 1px, transparent 1px); background-size: 24px 24px; touch-action: pan-y; }
+.aim-target { position: absolute; width: clamp(52px,9%,78px); aspect-ratio: 1; min-height: 52px; padding: 0; transform: translate(-50%,-50%); border-radius: 50%; border: 2px solid var(--accent); background: var(--surface); display: grid; place-items: center; touch-action: manipulation; }
+.aim-target > span:first-child { display: block; width: 52%; height: 52%; border-radius: 50%; border: 2px solid var(--accent); background: var(--accent); box-shadow: inset 0 0 0 6px var(--surface); }
+.aim-target:hover { background: var(--surface-raised); }
+.challenge-context { display: flex; justify-content: space-between; gap: 18px; align-items: center; border-left: 3px solid var(--accent); padding: 8px 0 8px 20px; margin-bottom: 28px; }
+.challenge-context p { font-size: 14px; margin-top: 8px; }
+.challenge-context a { flex-shrink: 0; font-size: 12px; }
+.arcade-results { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; margin-top: 26px; padding-top: 24px; border-top: 1px solid var(--line); }
+.arcade-results [data-arcade-result] { font-size: 18px; margin: 10px 0 8px; }
+.share-fallback { display: block; width: 100%; font-size: 12px; color: var(--muted); }
+.share-fallback input { display: block; width: 100%; min-height: 44px; font: inherit; padding: 10px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; margin-top: 10px; }
+@media (max-width: 1050px) { .zone-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .zone-badges { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 799px) { .zone-heading { align-items: flex-start; flex-direction: column; } .zone-daily { gap: 20px; flex-wrap: wrap; padding: 24px; } .zone-daily > div:nth-child(2) { flex: 1; min-width: 170px; } .zone-daily .button { margin-left: 0; } .zone-grid .play-choice-art { height: 175px; } }
+@media (max-width: 560px) { .zone-grid { grid-template-columns: 1fr; } .zone-section-heading { align-items: flex-start; flex-direction: column; gap: 6px; } .zone-section { margin-top: 44px; } .zone-grid .play-choice-art { height: 190px; } .zone-grid .play-choice-copy > p:not(.eyebrow) { min-height: 0; } .zone-badges { gap: 22px 14px; } .zone-badges li { gap: 8px; } .zone-hud { gap: 8px; } .challenge-context { align-items: flex-start; flex-direction: column; } .arcade-toolbar { gap: 18px; } .arcade-actions { width: 100%; } .arcade-actions .button { flex: 1; } .arcade-hud dt { font-size: 10px; } .daily-mark { font-size: 42px; } .zone-daily .button { width: 100%; } }
+@media (min-width: 800px) { .dino-jump { display: none; } }
+body:has([data-arcade-phase='playing'], [data-arcade-phase='countdown']) .pocket-surprise { visibility: hidden; }

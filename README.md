@@ -56,12 +56,15 @@ The first Home visit in a tab has a brief wordmark/portrait entrance and a singl
 
 ![Text-only recognition with YCPC result and a Completionist badge proof link](docs/images/recognition-dark.jpg)
 
-### A little room to play
+### Game zone
 
-The footer's unboxed **Take a little break** link opens `/play/`. Five illustrated choices lead to their own static pages, with the two games highlighted first:
+The footer's unboxed **Take a little break** link opens `/play/`. Five games and three creative breaks have their own static pages. A restrained daily challenge leads the hub; personal records and eight achievements sit inside the expandable **Your progress** panel:
 
 | Activity | What you can do |
 | --- | --- |
+| [Snake](https://tanzilahmed.tech/play/snake/) | Classic/Chill, keyboard, swipe/direction controls, growing snake, safe food spawning and per-mode records. |
+| [Dino Run](https://tanzilahmed.tech/play/dino-run/) | Original dinosaur artwork, jump with tap/Space, reachable obstacle courses, Classic/Chill and seconds-survived records. |
+| [Aim Trainer](https://tanzilahmed.tech/play/aim-trainer/) | 30-second pointer rounds or untimed keyboard practice; hits, misses, accuracy and separate input records. |
 | [Tic-tac-toe](https://tanzilahmed.tech/play/tic-tac-toe/) | Computer Easy/Hard or two players on one screen; choose X/O, use touch or keyboard, replay and keep device-local scores. Hard plays perfectly; computer scores follow you when changing sides. |
 | [Stack Tower](https://tanzilahmed.tech/play/stack-tower/) | Tap/click/Space to stack, trim overhangs and chase perfect landings. Chill/Classic offer timed play; Step mode uses Left/Right with no timer. Each pace has its own device-local best. |
 | [Playground](https://tanzilahmed.tech/play/playground/) | Drag/throw shapes, keyboard movement, gravity, pause, add/reset and Shuffle. |
@@ -69,6 +72,10 @@ The footer's unboxed **Take a little break** link opens `/play/`. Five illustrat
 | [Do not press](https://tanzilahmed.tech/play/do-not-press/) | A stable button, unexpected reactions, reset and optional sound. |
 
 Each page has native back/other-game links. Old `/play/#draw` and related bookmarks still work; only the selected engine loads. Scores stay in the browser, with a visit-only fallback when device storage is unavailable. Drawing is recovered from the current tab's session on normal navigation/reload; download PNG for a lasting copy. Nothing is uploaded. Physics sleeps when settled; timed tower play pauses offscreen/backgrounded and waits for explicit Resume. Reduced motion defaults the tower to untimed Step mode.
+
+Daily challenges rotate automatically between Snake, Dino Run and Aim Trainer at **midnight in Asia/Dhaka**, using the date and a rules version for reproducible seeds. An open hub also rolls over without a reload. Repeat attempts count once toward the daily streak; historical daily links remain playable without completing today. Game-specific achievements and Tic-tac-toe human win streaks are local. **Surprise me** opens one of the five games, avoiding its previous selection when possible. Completed new-game rounds can share a result and same-seed **Challenge a friend** link, with a manual copy fallback.
+
+This is asynchronous friendly play, not live online multiplayer. There is no global leaderboard or account: **Personal records** belongs to this browser. Modes/inputs/daily runs stay separate, recent history is bounded, blocked storage falls back to the page and existing game-specific scores are preserved. New games use an explicit start/countdown, pause while hidden/offscreen and require Resume; reduced motion removes decoration and defaults Snake/Dino to Chill. The daily mode remains fixed and is clearly identified. No backend or packages were added.
 
 The fixed **✦** button sends silent ducks, bubbles or stars across the visible screen for about **5.5 seconds**, with no popup text or tooltip. It never moves the page or intercepts clicks. Effects load only on first use, stay bounded, replace previous effects on repeat clicks and clean up automatically or with Escape/background/navigation. Reduced motion uses static decorations. The control hides during photo viewing, open mobile navigation and focused game interaction. The footer pairs open contact/Play links above a compact identity/social row. Desktop spacing is reduced and copyright sits at the center, independently of the wordmark/social widths; the mobile identity stack stays unchanged. No backend or packages were added.
 
@@ -79,6 +86,10 @@ The fixed **✦** button sends silent ducks, bubbles or stars across the visible
 | Tic-tac-toe | Stack Tower |
 | --- | --- |
 | ![Tic-tac-toe with local two-player scoring](docs/images/tic-tac-toe-dark.jpg) | ![Stack Tower with step controls and a five-block tower](docs/images/stack-tower-dark.jpg) |
+
+| Snake | Dino Run | Aim Trainer |
+| --- | --- | --- |
+| ![Snake game](docs/images/snake-dark.jpg) | ![Dino Run game](docs/images/dino-dark.jpg) | ![Aim Trainer game](docs/images/aim-dark.jpg) |
 
 See the [drawing preview](docs/images/play-drawing.jpg), [footer preview](docs/images/footer-dark.jpg) and [implementation plan](docs/PLAY-PLAN.md).
 
@@ -92,6 +103,7 @@ See the [drawing preview](docs/images/play-drawing.jpg), [footer preview](docs/i
 | Theme/menu/filter/copy/gallery interactions | `src/scripts/site.ts` |
 | Headline typing, lightweight heading fades and article reading progress | `src/scripts/motion.ts` |
 | Play landing/game routes and lazy activity engines | `src/scripts/play/`, `src/pages/play/`, `src/components/PlayWorkspace.astro`, `src/styles/play.css` |
+| Daily seeds/timezone, streaks and browser-local progress | `src/lib/game-zone.ts`, `src/scripts/play/hub.ts`, `src/scripts/play/games/progress.ts` |
 | Native game UI and independently testable rules | `src/components/games/`, `src/scripts/play/games/` |
 | On-page corner surprise, loaded on demand | `src/components/PocketSurprise.astro`, `src/scripts/pocket.ts`, `src/scripts/fun/` |
 | Reusable content examples | `templates/` |
