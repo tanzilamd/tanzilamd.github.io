@@ -218,10 +218,3 @@ Game rules বা daily seed-এর অর্থ বদলালে `RULES_VERSI
 ### Home-এর চারটি selected project
 
 বর্তমানে Tuktak, ScopeProof, EngJatra ও PlayPiku দেখায়। PlayPiku-এর তথ্য/links/image বদলাতে শুধু `src/content/projects/playpiku.md` edit করুন। `featured: true` এবং `order: 4` এটিকে চতুর্থ card রাখে। Choreseed-এর `featured: false`; All projects ও পুরোনো `/work/choreseed/` link সচল আছে। Home সর্বোচ্চ চারটি published featured item দেখায়।
-
-
-### Project thumbnail / homepage preview বদলানো
-
-চারটি selected project-এর preview এখন image file থেকে আসে। Tuktak, ScopeProof ও EngJatra-এর optimized preview আছে `public/media/tuktak-home.webp`, `scopeproof-home.webp`, `engjatra-home.webp`-এ। PlayPiku নিজের existing artwork ব্যবহার করে।
-
-নিজের নতুন homepage screenshot upload করে সংশ্লিষ্ট `src/content/projects/<name>.md`-এর `coverImage` path ও `coverAlt` description বদলান। Home, All projects ও detail cover একই source থেকে update হবে। সম্ভব হলে 1200 × 650px-এর কাছাকাছি image দিন; font ও page পুরো load হওয়ার পর capture করুন। Preview-তে demo/sample data থাকলে সেটার label রাখুন। Live site-এর screenshot না হলে alt/description-এ local preview বলুন। `coverImage`/`coverAlt` সরালে আগের `cover` artwork আবার দেখাবে।

@@ -23,9 +23,7 @@
       "label": "Source on GitHub",
       "url": "https://github.com/tanzilamd/tuktak"
     }
-  ],
-  "coverImage": "/media/tuktak-home.webp",
-  "coverAlt": "Local preview of Tuktak’s guest homepage, with its labelled sample feed."
+  ]
 }
 ---
 

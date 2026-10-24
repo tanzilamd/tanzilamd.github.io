@@ -39,7 +39,7 @@ Draft content is excluded from generated pages, RSS and sitemap. A public Git re
 
 ### Choose Home highlights
 
-- Projects: first four published `featured: true` entries, sorted by `order`. Current selection: Tuktak, ScopeProof, EngJatra and PlayPiku. Tuktak/ScopeProof/EngJatra use actual homepage/UI previews; PlayPiku keeps its own project artwork. Choreseed remains on All projects with its existing detail URL; Cargotab/Tanzilbot stay under Earlier work.
+- Projects: first four published `featured: true` entries, sorted by `order`. Current selection: Tuktak, ScopeProof, EngJatra and PlayPiku. Choreseed remains on All projects with its existing detail URL; Cargotab/Tanzilbot stay under Earlier work.
 - Contributions: up to three featured entries. A `spotlight: true` entry also receives a detailed Open source feature; Tabbycat’s published website work links to its source and upstream integration.
 - Recognition: up to four featured milestones in a two-column desktop grid. All awards and work experience appear on About; Hacktoberfest milestones also appear under Open source. Optional local badge artwork and proof-image links come from the same milestone file. Current highlights include YCPC Grand Finale 2k25 (3rd place) and Hacktoberfest 2026 Completionist. The Completionist entry uses the same text-only layout as other recognition, with a single **View badge** proof link.
 - Activities: featured entries appear on Home; all published activities appear under Activities. Edit one activity’s summary once to update both views.

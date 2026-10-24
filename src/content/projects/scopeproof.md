@@ -28,9 +28,7 @@
       "url": "https://dev.to/tanzil_ahmed_e6a826eee8c4/scopeproof-an-evidence-first-answer-to-one-more-thing-3odi"
     }
   ],
-  "note": "AI suggestions support a human decision. They are not legal advice or an automatic invoice.",
-  "coverImage": "/media/scopeproof-home.webp",
-  "coverAlt": "ScopeProof’s homepage, with its scope-review introduction and example illustration."
+  "note": "AI suggestions support a human decision. They are not legal advice or an automatic invoice."
 }
 ---
 
