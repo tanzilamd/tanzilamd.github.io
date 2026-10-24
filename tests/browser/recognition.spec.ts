@@ -7,12 +7,10 @@ test('recognition shares the real badge, contest proof and leadership session ac
     const badge = page.locator('[data-recognition="hacktoberfest-2026"]');
     await expect(badge.getByRole('heading')).toHaveText('Hacktoberfest 2026 — Completionist');
     await expect(badge).toContainText('all three Hacktoberfest 2026 milestones');
-    const image = badge.getByRole('img');
-    await expect(image).toHaveAttribute('alt', /Completionist badge, earned by Tanzil Ahmed/);
-    const source = await image.getAttribute('src');
-    if (badgeSource) expect(source).toBe(badgeSource); else badgeSource = source;
-    await expect(badge.getByRole('link', { name: 'DEV profile' })).toHaveAttribute('href', 'https://dev.to/tanzil_ahmed_e6a826eee8c4');
-    const proof = (await badge.getByRole('link', { name: 'View badge' }).getAttribute('href'))!;
+    await expect(badge.getByRole('img')).toHaveCount(0);
+    await expect(badge.getByRole('link')).toHaveCount(1);
+    const proof = (await badge.getByRole('link', { name: 'View badge', exact: true }).getAttribute('href'))!;
+    if (badgeSource) expect(proof).toBe(badgeSource); else badgeSource = proof;
     const response = await request.get(proof);
     expect(response.status()).toBe(200); expect(response.headers()['content-type']).toContain('image/webp');
     if (route !== '/open-source/') {

@@ -41,7 +41,7 @@ Draft content is excluded from generated pages, RSS and sitemap. A public Git re
 
 - Projects: first four published `featured: true` entries, sorted by `order`. Current selection: Tuktak, ScopeProof, EngJatra and Choreseed. Cargotab/Tanzilbot stay under Earlier work.
 - Contributions: up to three featured entries. A `spotlight: true` entry also receives a detailed Open source feature; Tabbycat’s published website work links to its source and upstream integration.
-- Recognition: up to four featured milestones in a two-column desktop grid. All awards and work experience appear on About; Hacktoberfest milestones also appear under Open source. Optional local badge artwork and proof-image links come from the same milestone file. Current highlights include YCPC Grand Finale 2k25 (3rd place) and the Hacktoberfest 2026 Completionist badge.
+- Recognition: up to four featured milestones in a two-column desktop grid. All awards and work experience appear on About; Hacktoberfest milestones also appear under Open source. Optional local badge artwork and proof-image links come from the same milestone file. Current highlights include YCPC Grand Finale 2k25 (3rd place) and Hacktoberfest 2026 Completionist. The Completionist entry uses the same text-only layout as other recognition, with a single **View badge** proof link.
 - Activities: featured entries appear on Home; all published activities appear under Activities. Edit one activity’s summary once to update both views.
 - Activity photos: add `gallery` entries to the same activity file. Set `homePreview: true` to choose its first photo for the Home preview. Photos follow each activity’s description directly, with captions; optional demo entries show a small Demo badge. Captions support event/year/role; the full-image viewer supports keyboard navigation and works with direct image links without JavaScript. The current gallery uses owner-supplied event photographs, optimized as local WebP images. [Update photos using the guide](docs/CONTENT-GUIDE.md#activity-photos--আসল-ছবি-বসানো).
 - Writing: the first featured entry, or the latest entry when none is featured. About also shows the first featured personal essay. Writing itself sorts by publication date, then `order`.
@@ -54,7 +54,7 @@ The first Home visit in a tab has a brief wordmark/portrait entrance and a singl
 
 ![Theatre gallery with owner-supplied event photographs](docs/images/activities-dark.jpg)
 
-![Selected recognition with YCPC result and the owner-supplied Completionist badge](docs/images/recognition-dark.jpg)
+![Text-only recognition with YCPC result and a Completionist badge proof link](docs/images/recognition-dark.jpg)
 
 ### A little room to play
 

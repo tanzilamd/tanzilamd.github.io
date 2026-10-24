@@ -4,6 +4,11 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 24 Completionist text-only presentation
+
+- Removed the inline Completionist artwork and DEV profile action from Home, About and Open source through the single milestone file. Retained the title, explanation and working View badge proof link.
+- Updated the recognition browser check, maintenance guidance and README previews. Shared image support remains available for future content; other entries and footer layout are unchanged.
+
 ## October 24 recognition evidence, leadership session and footer spacing
 
 - Added YCPC Grand Finale 2k25 — 3rd place, with the owner-supplied HackerRank leaderboard proof.

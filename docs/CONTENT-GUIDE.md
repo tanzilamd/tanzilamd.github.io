@@ -99,12 +99,10 @@ Matching template copy করে matching folder-এ নতুন `.md` file ব
 "image": "../../assets/recognition/hacktoberfest-completionist-2026.png",
 "imageAlt": "Hacktoberfest 2026 Completionist badge, earned by Tanzil Ahmed.",
 "imageLabel": "View badge",
-"imagePresentation": "badge",
-"url": "https://dev.to/tanzil_ahmed_e6a826eee8c4",
-"urlLabel": "DEV profile"
+"imagePresentation": "evidence"
 ```
 
-এগুলো বিদ্যমান JSON object-এর অন্য field-এর সঙ্গে comma দিয়ে যোগ করবেন। `imagePresentation: "badge"` হলে ছোট artwork ও full-image link দেখা যায়। `"evidence"` দিলে শুধু proof image-এর link থাকে—YCPC leaderboard-এর মতো screenshot-এর জন্য ভালো। Default `evidence`। ছবি থাকলে অর্থপূর্ণ `imageAlt` লাগবেই; `imageLabel` দিয়ে “View badge” বা “View leaderboard” লিখতে পারেন। Website link-এর লেখা `urlLabel` দিয়ে বদলানো যায়। Source path হলো milestone file থেকে relative; `/media/` path-এর সঙ্গে গুলিয়ে ফেলবেন না।
+এগুলো বিদ্যমান JSON object-এর অন্য field-এর সঙ্গে comma দিয়ে যোগ করবেন। `imagePresentation: "badge"` হলে ছোট artwork ও full-image link দেখা যায়। `"evidence"` দিলে শুধু proof image-এর link থাকে—YCPC leaderboard-এর মতো screenshot-এর জন্য ভালো। Default `evidence`। বর্তমান Completionist item-এ এটাই আছে: inline ছবি বা DEV profile option নেই, শুধু **View badge**। ছবি থাকলে অর্থপূর্ণ `imageAlt` লাগবেই; `imageLabel` দিয়ে “View badge” বা “View leaderboard” লিখতে পারেন। Website link-এর লেখা `urlLabel` দিয়ে বদলানো যায়। Source path হলো milestone file থেকে relative; `/media/` path-এর সঙ্গে গুলিয়ে ফেলবেন না।
 
 Build নিজে responsive WebP badge images ও full proof তৈরি করে। ছবি পাল্টালে শুধু নতুন file upload করে ওই milestone-এর path/alt বদলালেই হবে; Home/About/Open source আলাদা edit লাগে না। Email বা analytics-এর tracking parameters ছাড়া clean public URL দিন। Nomination, badge ও contest position-এর ভাষা আলাদা রাখুন।
 
