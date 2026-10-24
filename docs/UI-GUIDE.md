@@ -35,6 +35,14 @@ The content container has a 1160px maximum width. Section spacing uses `--space-
 | `PocketSurprise.astro`, `pocket.ts`, `fun/pocket-effects.ts` | Fixed corner control and on-demand, bounded same-page surprises. |
 | `lib/play.ts`, `data/play.json` | Build validation and the single editable source for Play copy, palette, prompts and reactions. |
 
+## Social previews
+
+`Layout.astro` emits page-specific OG/Twitter title, description, absolute image URL, alt and dimensions in the initial HTML. The homepage keeps its existing `/social-card.png`; `src/lib/social.ts` assigns other routes stable, collision-resistant filenames and content-version queries. A changed title/summary/author refreshes the query while old image URLs still resolve. Increment `SOCIAL_VERSION` when changing artwork.
+
+The `integrations/social-cards.mjs` build hook scans the completed HTML, so new projects/posts require no second registry. Its isolated build worker (`scripts/build-social-cards.mjs`, `scripts/social-card-renderer.mjs`) uses Sharp, local Manrope/Hind Siliguri fonts and original SVG geometry to write actual 1200 × 630 PNGs, including distinct art for each game. Long bilingual text is wrapped/bounded and markup escaped. The Fontconfig cache is scoped to the worker; inherited environment settings remain intact. Sharp was already an Astro dependency and is now pinned explicitly for this build feature.
+
+These assets are generated only during production builds and are fetched by sharing clients, not inserted into page bodies. They add no runtime JavaScript, game preload, server or external image service. Review the built images as well as metadata; external social caches can outlive deployment. README examples live in `docs/images/share-*.png`.
+
 ## Recognition images and hierarchy
 
 Home selects up to four featured milestones in a two-column desktop grid, retaining the Peace Prize nomination and Tech Diary writing result alongside YCPC 2025 third place and Hacktoberfest 2026 Completionist. Mobile uses one column. About lists all competition/recognition entries and separate open-source milestones. Open source reuses the same component rather than duplicating badge content.

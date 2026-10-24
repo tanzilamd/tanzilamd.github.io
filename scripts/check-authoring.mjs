@@ -2,12 +2,23 @@ import { existsSync, mkdirSync, writeFileSync, readFileSync, rmSync, readdirSync
 import { spawnSync } from 'node:child_process';
 import assert from 'node:assert/strict';
 import { join } from 'node:path';
+import { readMeta } from '../src/lib/social.ts';
 
 const created = [];
 function create(path, data) { assert.ok(!existsSync(path), `Refusing to overwrite ${path}`); writeFileSync(path, data); created.push(path); }
 function content(path, frontmatter, body = '') { create(path, `---\n${JSON.stringify(frontmatter)}\n---\n\n${body}\n`); }
 function build() { const result = spawnSync('npm', ['run', 'build'], { encoding: 'utf8' }); if (result.status !== 0) throw new Error(result.stdout + result.stderr); }
 function files(dir) { return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => entry.isDirectory() ? files(join(dir, entry.name)) : [join(dir, entry.name)]); }
+function shareCard(page) {
+  const meta = readMeta(readFileSync(page, 'utf8'));
+  assert.equal(meta['og:image'], meta['twitter:image']);
+  const url = new URL(meta['og:image']);
+  const png = readFileSync(join('dist', url.pathname));
+  assert.equal(png.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+  assert.equal(png.readUInt32BE(16), 1200);
+  assert.equal(png.readUInt32BE(20), 630);
+  return url;
+}
 
 try {
   mkdirSync('public/media', { recursive: true });
@@ -20,6 +31,7 @@ try {
   content('src/content/contributions/authoring-check.md', { title: 'Authoring check contribution', repository: 'example/project', summary: 'A temporary open PR.', type: 'Code', relationship: 'Upstream', status: 'Open', featured: true, pr: 1, url: 'https://github.com/example/project/pull/1', order: 0 });
   const post = { kind: 'post', title: 'Authoring check essay', summary: 'Temporary original writing.', date: '2026-10-23', updated: '2026-10-24', dateWritten: '2024', genre: 'Essay', featured: true, order: 0 };
   content('src/content/notes/authoring-check.md', post, '## An original post\n\nORIGINAL_WRITING_BODY_81a2');
+  content('src/content/notes/authoring-share.md', { ...post, title: 'বাংলা লেখা: "A & B > C" — ' + 'A longer title for automatic wrapping '.repeat(8), summary: 'বাংলা ও English: <testing> & "quoted" text. '.repeat(8), featured: false });
   content('src/content/notes/authoring-draft.md', { ...post, draft: true, title: 'PRIVATE_DRAFT_MARKER_7d7fb' }, 'PRIVATE_DRAFT_MARKER_7d7fb');
   content('src/content/notes/authoring-external.md', { kind: 'external', title: 'External writing fixture', summary: 'An external A & B article.', date: '2026-10-22', platform: 'Example publication', url: 'https://example.com/article?source=portfolio&lang=en' });
   const activity = { title: 'Authoring check activity', label: 'Community', summary: 'SINGLE_SOURCE_ACTIVITY_V1', featured: true, homePreview: true, order: 0, gallery: [{ src: '/media/activities/authoring-check.svg', alt: 'Temporary gallery artwork', caption: 'SINGLE_SOURCE_PHOTO_V1', event: 'Authoring event', year: '2024', role: 'Volunteer', demo: false }] };
@@ -43,6 +55,9 @@ try {
   assert.ok(readFileSync('dist/sitemap.xml', 'utf8').includes('/work/authoring-check/'));
   assert.ok(!existsSync('dist/work/authoring-draft/index.html'));
   const writing = readFileSync('dist/notes/authoring-check/index.html', 'utf8');
+  shareCard('dist/work/authoring-check/index.html');
+  shareCard('dist/notes/authoring-share/index.html');
+  const firstShare = shareCard('dist/notes/authoring-check/index.html');
   assert.ok(writing.includes('ORIGINAL_WRITING_BODY_81a2') && writing.includes('2024'));
   assert.ok(writing.includes('"datePublished":"2026-10-23"') && writing.includes('"dateModified":"2026-10-24"'));
   assert.ok(readFileSync('dist/index.html', 'utf8').includes('/notes/authoring-check/'));
@@ -60,7 +75,11 @@ try {
   assert.ok(readFileSync('dist/beyond/index.html', 'utf8').includes('Authoring event · 2024 · Volunteer'));
   writeFileSync('src/content/activities/authoring-check.md', `---\n${JSON.stringify({ ...activity, summary: 'SINGLE_SOURCE_ACTIVITY_V2', gallery: [{ ...activity.gallery[0], caption: 'SINGLE_SOURCE_PHOTO_V2' }] })}\n---\n\nUpdated in one content file.\n`);
   writeFileSync('src/content/milestones/hacktoberfest-authoring-check.md', `---\n${JSON.stringify({ ...milestone, summary: 'SINGLE_SOURCE_RECOGNITION_V2', imageAlt: 'SINGLE_SOURCE_BADGE_ALT_V2' })}\n---\n`);
+  writeFileSync('src/content/notes/authoring-check.md', `---\n${JSON.stringify({ ...post, summary: 'Updated share summary: A & B > C.' })}\n---\n\nORIGINAL_WRITING_BODY_81a2\n`);
   build();
+  const updatedShare = shareCard('dist/notes/authoring-check/index.html');
+  assert.equal(updatedShare.pathname, firstShare.pathname);
+  assert.notEqual(updatedShare.search, firstShare.search);
   for (const path of ['dist/index.html', 'dist/about/index.html', 'dist/open-source/index.html']) {
     const html = readFileSync(path, 'utf8');
     assert.ok(html.includes('SINGLE_SOURCE_RECOGNITION_V2') && !html.includes('SINGLE_SOURCE_RECOGNITION_V1'));
@@ -73,7 +92,7 @@ try {
   assert.ok(readFileSync('dist/beyond/index.html', 'utf8').includes('SINGLE_SOURCE_PHOTO_V2'));
   assert.ok(!readFileSync('dist/beyond/index.html', 'utf8').includes('SINGLE_SOURCE_PHOTO_V1'));
   for (const path of files('dist').filter((file) => /\.(html|xml|js|json)$/.test(file))) assert.ok(!readFileSync(path, 'utf8').includes('PRIVATE_DRAFT_MARKER_7d7fb'), `Draft leaked into ${path}`);
-  console.log('PASS: projects, writing, dates, metadata, feed, shared activity/photo/recognition edits, badge images and labels, captions, homepage previews, sitemap and draft exclusion.');
+  console.log('PASS: projects, writing, dates, metadata, automatic per-page PNGs/cache versions/long bilingual copy, feed, shared activity/photo/recognition edits, badge images and labels, captions, homepage previews, sitemap and draft exclusion.');
 } catch (error) {
   console.error(error);
   process.exitCode = 1;

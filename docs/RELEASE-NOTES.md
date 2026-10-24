@@ -4,6 +4,12 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 24 page-specific link previews
+
+- Replaced the shared homepage image on other URLs with automatic 1200 × 630 PNG cards using each page's existing title/description. All five games have distinct artwork; projects and original writing inherit the same system, including new content-only additions. Kept the homepage image and existing URLs.
+- Added complete Open Graph/Twitter image metadata in initial static HTML, stable asset paths and content-version queries. Rendering uses existing local fonts and explicitly pinned Sharp during builds, with no client script, backend or third-party image service.
+- Added metadata/PNG/cache-version and bilingual authoring checks. Extended network assertions to all five engines: no game engine on Home/Play list, only the selected engine on each game page. Updated guides and README preview examples.
+
 ## October 24 Completionist text-only presentation
 
 - Removed the inline Completionist artwork and DEV profile action from Home, About and Open source through the single milestone file. Retained the title, explanation and working View badge proof link.

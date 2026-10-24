@@ -238,14 +238,18 @@ test('Play remains readable without JavaScript and handles an unavailable canvas
   await expect(page.locator('[data-press-button]')).toBeEnabled();
 });
 
-test('activity engines load only after selection and never on the portfolio Home page', async ({ page }) => {
+test('only the current game engine loads, with none on Home or the Play list', async ({ page }) => {
   const requests: string[] = []; page.on('request', (request) => requests.push(request.url()));
   const engine = /\/(?:physics|drawing|surprise|tic-tac-toe|stack-tower)\.[^/]+\.js/;
   await page.goto('/'); expect(requests.filter((url) => engine.test(url))).toEqual([]);
   await page.goto('/play/'); expect(requests.filter((url) => engine.test(url))).toEqual([]);
-  await open(page, 'draw');
-  expect(requests.some((url) => /\/drawing\.[^/]+\.js/.test(url))).toBe(true);
-  expect(requests.some((url) => /\/(?:physics|surprise|tic-tac-toe|stack-tower)\.[^/]+\.js/.test(url))).toBe(false);
+  for (const [id, filename] of [['draw', 'drawing'], ['playground', 'physics'], ['button', 'surprise'], ['tic-tac-toe', 'tic-tac-toe'], ['stack-tower', 'stack-tower']]) {
+    requests.length = 0;
+    await open(page, id);
+    const loaded = requests.filter((url) => engine.test(url));
+    expect(loaded).toHaveLength(1);
+    expect(loaded[0]).toMatch(new RegExp(`/${filename}\\.[^/]+\\.js`));
+  }
 });
 
 test('expanded Play workspaces fit small and large screens in both themes', async ({ page }) => {

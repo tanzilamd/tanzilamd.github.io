@@ -152,6 +152,14 @@ Home-এর typing animation-এও `profile.json`-এর `headline` এবং `
 
 JSON-এ text double quote-এর মধ্যে রাখুন। লেখার মধ্যে double quote লাগলে `\"` ব্যবহার করুন। কোনো key-এর নাম অকারণে বদলাবেন না। About paragraph edit করলে component edit করার প্রয়োজন নেই।
 
+## Link preview / share ছবি
+
+- প্রতিটি page-এর link share করলে তার নিজস্ব title, description ও preview ছবি আসে। Games-এর ছবি আলাদা। Home-এর ছবি `public/social-card.png`-তেই আছে।
+- নতুন নিজের post/project-এর `title` ও `summary` লিখলেই হবে। Build-এর সময় ওই লেখা থেকে 1200 × 630 PNG নিজে তৈরি হয়; বাড়তি image field বা আলাদা component edit লাগে না। External article link-এর preview তার নিজস্ব website নিয়ন্ত্রণ করে।
+- Games-এর title/description `src/data/play.json` থেকে আসে। স্থির page-এর metadata সংশ্লিষ্ট page-এর `Layout` props-এ আছে। নাম/author-এর source `src/data/profile.json`।
+- `dist/share/` generated output; এখানে হাতে edit বা commit করবেন না। Local preview দেখতে আগে `npm run build`, তারপর `npm run preview` চালান। শুধু dev server চালালে generated ছবিগুলো তৈরি হয় না।
+- Title/summary বদলালে ছবির URL-এর version নিজে বদলায়। তবু Facebook/LinkedIn/অন্যান্য app পুরোনো link preview cache করে রাখতে পারে। Deployment সফল হওয়ার পরে Facebook Sharing Debugger বা LinkedIn Post Inspector দিয়ে link আবার fetch করান; পুরোনো message/post সব app-এ নিজে বদলায় না।
+
 ## ভুল হলে
 
 GitHub-এ file-এর **History** থেকে আগের version দেখতে পারবেন। Edit করে আগের text ফিরিয়ে নতুন commit দিন। এটি সরাসরি master edit করলেও কাজ করে। File rename করলে article/project-এর URL বদলে যাবে—পুরোনো link রাখার জন্য অকারণে rename করবেন না।

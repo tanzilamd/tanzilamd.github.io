@@ -99,6 +99,14 @@ See the [drawing preview](docs/images/play-drawing.jpg), [footer preview](docs/i
 
 Read [the UI guide](docs/UI-GUIDE.md) before changing shared components. Keep the implementation, README, content guide and relevant release/verification notes in sync; repository working instructions are in [AGENTS.md](AGENTS.md).
 
+## Link previews
+
+Every page has its own Open Graph/Twitter title, description and 1200 × 630 PNG. Games use distinct illustrations; projects and original articles automatically receive previews from their existing title/summary when built. No extra content field, browser script, API or hosting service is needed. The homepage retains `public/social-card.png`. See the [maintenance guide](docs/CONTENT-GUIDE.md#link-preview--share-ছবি).
+
+| Tic-tac-toe link | Stack Tower link |
+| --- | --- |
+| ![Tic-tac-toe social preview](docs/images/share-tic-tac-toe.png) | ![Stack Tower social preview](docs/images/share-stack-tower.png) |
+
 ## Local development and checks
 
 Use Node **24.19.0** (`.nvmrc`). Run `npm ci`, then `npm run dev`; the CLI prints the address. `npm run build` writes the static site to `dist/`, and `npm run preview` serves that output.
