@@ -8,7 +8,9 @@ test('the first-visit typing preserves the accessible headline and its layout, t
   await page.evaluate(() => document.fonts.ready);
   const before = await heading.boundingBox();
   await expect(page.locator('html')).toHaveAttribute('data-intro', 'done');
-  await expect(page.locator('[data-type-line][data-typed="true"]')).toHaveCount(2);
+  // The bounded fail-open deadline may finish the intro before every RAF tick.
+  // Check the user-visible result rather than incidental per-line markers.
+  await expect.poll(() => page.locator('[data-type-text]').evaluateAll((lines) => lines.map((line) => getComputedStyle(line).clipPath))).toEqual(['none', 'none']);
   expect(await heading.boundingBox()).toEqual(before);
   await expect(page.locator('[data-type-text]')).toHaveText([profile.headline, profile.headlineAccent]);
   await expect(page.locator('.hero-type-caret:visible')).toHaveCount(0);

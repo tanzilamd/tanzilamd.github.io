@@ -58,11 +58,13 @@ const [firstName, ...restName] = profile.name.split(' ');
     </header>
     <main id="main" tabindex="-1"><slot/></main>
     <footer class="site-footer container">
-      {path !== '/contact/' && <div class="footer-top"><a class="footer-heading" href="/contact/">Have a project or an idea?<br/><span>Let’s talk.</span><Icon name="diagonal" size={32}/></a><p>Open to collaborations,<br/>new ideas, and learning opportunities.</p></div>}
+      <div class:list={['footer-main', { 'footer-main-contact': path === '/contact/' }]}>
+        {path !== '/contact/' && <div class="footer-contact-block"><p class="eyebrow">Have a project or an idea?</p><a class="footer-heading" href="/contact/">Let’s talk.<Icon name="diagonal" size={30}/></a><p>Open to collaborations, new ideas<br/>and learning opportunities.</p></div>}
+        <div class="footer-break"><p class="eyebrow">Off the clock</p><a class="footer-play" href="/play/" aria-current={path === '/play/' ? 'page' : undefined}>Take a little break<Icon name="arrow" size={24}/></a><p>Games and small distractions, just for fun.</p></div>
+      </div>
       <div class="footer-bottom">
         <div class="footer-identity"><a class="wordmark footer-wordmark" href="/">{profile.name}<span class="wordmark-dot">.</span></a><p class="footer-signoff">Made with curiosity. © {new Date().getFullYear()}</p></div>
         <nav class="social-links" aria-label="Social profiles">{profile.socialLinks.map((link) => <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label} <Icon name="diagonal" size={14}/></a>)}</nav>
-        <a class="footer-play" href="/play/" aria-current={path === '/play/' ? 'page' : undefined}><span class="footer-play-icon" aria-hidden="true"><Icon name="spark" size={22}/></span><span><strong>Take a little break</strong><small>Move, draw, or press your luck.</small></span><Icon name="arrow" size={18}/></a>
       </div>
     </footer>
     <PocketSurprise/>

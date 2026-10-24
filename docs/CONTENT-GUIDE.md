@@ -152,15 +152,22 @@ Browser ও authoring tests একসঙ্গে চালাবেন না; 
 
 ## Play page বদলানো
 
-Footer-এর আলাদা **Take a little break** card থেকে `/play/` খুলবে। Card-এ click করলে প্রতিটি game নিজের page-এ খুলবে: `/play/playground/`, `/play/drawing-pad/`, `/play/do-not-press/`। Play-এর content বদলাতে শুধু `src/data/play.json` edit করুন:
+Footer-এর খোলা **Take a little break** link থেকে `/play/` খুলবে। পাঁচটি activity-র আলাদা page আছে: `/play/tic-tac-toe/`, `/play/stack-tower/`, `/play/playground/`, `/play/drawing-pad/`, `/play/do-not-press/`। Play-এর content বদলাতে শুধু `src/data/play.json` edit করুন:
 
 - `headline`, `headlineAccent`, `intro`: page-এর শুরুর লেখা।
-- `activities`: তিনটি card-এর title, label, description ও action text। `id` (`playground`, `draw`, `button`) অপরিবর্তিত রাখুন—এগুলো shareable URL ও controls-এর সঙ্গে যুক্ত।
+- `activities`: পাঁচটি card-এর title, label, description ও action text। `id` (`tic-tac-toe`, `stack-tower`, `playground`, `draw`, `button`) অপরিবর্তিত রাখুন—এগুলো shareable URL ও controls-এর সঙ্গে যুক্ত।
 - `prompts`: drawing-এর **Give me a prompt** button-এর লেখা। Array-তে নতুন quoted sentence যোগ করতে পারেন; অন্তত একটি রাখুন।
 - `palette`: drawing-এর রঙের নাম ও `#RRGGBB` value। অন্তত একটি রং রাখুন।
-- `pocket.label`: সব page-এর ছোট fixed **✦** button-এর accessible label/tooltip। `pocket.messages`: duck, bubbles, stars-এর তিনটি message—এই ক্রমে ঠিক তিনটি রাখুন। এগুলো page না বদলিয়েই দেখা যায়।
+- `pocket.label`: fixed **✦** button-এর screen-reader label। Click করলে visible screen জুড়ে প্রায় 5.5 সেকেন্ডের effect হয়; কোনো popup text বা tooltip নেই। পুরোনো `pocket.messages` সরানো হয়েছে।
 - `reactions`: **Do not press** game-এর message, caption ও effect। সমর্থিত effect: `balloon`, `flip`, `confetti`, `duck`, `bubbles`। অন্তত একটি reaction রাখুন; page-এর আসল লেখা বা portfolio নষ্ট হয় না।
 
 উদাহরণ: নতুন drawing prompt দিতে `prompts`-এ `"Draw a tiny moon with a garden."` যোগ করুন। প্রতিটি item-এর মাঝে comma লাগবে; JSON-এ শেষ item-এর পরে comma দেবেন না। Build-এ খালি list, ভুল color বা unsupported effect ধরা পড়বে; invalid content live হবে না। Commit করলে স্বাভাবিক master deployment চলবে।
 
 Drawing চলতি browser tab-এর `sessionStorage`-এ থাকে; একই tab-এ game বদলে বা normal reload করে ফিরলে পাওয়া যাবে। Tab/session শেষ হলে browser এটি সরিয়ে দিতে পারে; স্থায়ীভাবে রাখতে **Download PNG** ব্যবহার করুন। Browser storage বন্ধ থাকলে reminder দেখাবে, drawing/export তবুও কাজ করবে। Undo/Redo buttons বা Ctrl/Cmd+Z ও Ctrl/Cmd+Shift+Z ব্যবহার করা যায়। History সীমিত এবং reload-এ পুরো undo history রাখা হয় না। কোনো drawing server-এ পাঠানো বা gallery-তে প্রকাশ করা হয় না।
+
+
+Tic-tac-toe-তে **Computer** (Easy/Hard) বা **A friend** বেছে নিন। A friend একই screen-এ দুজনের খেলা। Computer-এর বিরুদ্ধে X/O বদলালেও নিজের win/loss নিজেরই থাকে; Easy, Hard ও local two-player scores আলাদা। **Reset scores** শুধু চলতি mode-এর score মুছে দেয়; **New round** বোর্ড নতুন করে।
+
+Stack Tower-এর **Chill** একটু ধীর, **Classic** দ্রুত, আর **Step mode**-এ timer নেই। Start stacking দিয়ে শুরু করে tap/click/Space/Enter দিয়ে drop করুন। Step mode-এ Left/Right button বা arrow key দিয়ে block সরানো যায়; Shift+arrow ছোট adjustment করে। তিনটি perfect landing-এ কিছু width ফেরত পাওয়া যায়। Pause/Resume ও New game আছে। Scroll করে play area ছেড়ে গেলে বা অন্য tab-এ গেলে game pause হবে; Resume করে ফিরতে হবে। Reduced motion থাকলে শুরুতেই Step mode বেছে নেওয়া হয়। প্রতিটি pace-এর best score device-এ থাকে; clear site data করলে মুছে যাবে। Browser storage বন্ধ থাকলেও দুটো game খেলা যায়।
+
+Game-এর নিয়ম বদলানো content edit নয়: UI আছে `src/components/games/`, controllers ও rules আছে `src/scripts/play/` ও `src/scripts/play/games/`-এ। শুধু title/description/card text বদলাতে JSON-ই যথেষ্ট; নতুন engine ছাড়া নতুন game ID যোগ করবেন না।

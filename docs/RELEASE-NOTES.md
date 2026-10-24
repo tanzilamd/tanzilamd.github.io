@@ -4,6 +4,14 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 24 Tic-tac-toe, Stack Tower and open footer
+
+- Added `/play/tic-tac-toe/`: Easy/Hard computer play, same-screen two-player mode, X/O choice, keyboard board navigation, stable winning line, replay and per-mode local scores. Computer scores follow the human when switching sides. Hard uses tested minimax; stale turns cannot leak into a new round or mode.
+- Added `/play/stack-tower/`: tap/click/keyboard drops, overlap trimming, perfect landings/triple-perfect width recovery, Chill/Classic/untimed Step modes, per-pace best, pause/restart and bounded canvas/camera effects. Scrolling/backgrounding pauses timed play; touch swipes do not drop blocks. Reduced motion defaults to Step.
+- Highlighted the two new games in a five-choice Play page; preserved existing URLs, native navigation and lazy per-game loading. Device scores are validated/local only; storage restrictions do not stop play.
+- Removed all ✦ popup text and tooltip UI. Expanded silent effects across the visible viewport for about 5.5 seconds, with bounded particles, pointer-transparent rendering, static reduced-motion alternatives and cleanup.
+- Replaced the footer's boxed Play card with open contact/Play typography and a compact identity/social row. Updated documentation, previews, sitemap and game-rule/browser coverage. No packages, backend or owner-content changes.
+
 ## October 24 dedicated games, footer and corner surprises
 
 - Reorganized the footer into identity, social and dedicated Play groups, with consistent desktop/tablet/mobile spacing.

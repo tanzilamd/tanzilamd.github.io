@@ -1,9 +1,7 @@
 ---
 import copy from '../lib/play';
 ---
-<div class="pocket-surprise" data-pocket hidden data-pocket-messages={JSON.stringify(copy.pocket.messages)}>
+<div class="pocket-surprise" data-pocket hidden>
   <div class="pocket-scene" data-pocket-scene aria-hidden="true"></div>
-  <p class="pocket-message" data-pocket-message role="status" aria-live="polite" aria-atomic="true"></p>
-  <button class="pocket-button" type="button" data-pocket-button aria-label={copy.pocket.label} aria-describedby="pocket-hint"><span aria-hidden="true">✦</span></button>
-  <span class="pocket-hint" id="pocket-hint">{copy.pocket.label}</span>
+  <button class="pocket-button" type="button" data-pocket-button aria-label={copy.pocket.label}><span aria-hidden="true">✦</span></button>
 </div>

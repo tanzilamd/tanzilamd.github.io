@@ -4,8 +4,24 @@
   "intro": "No particular purpose. Just a few things to move, make, and definitely not press.",
   "activities": [
     {
-      "id": "playground",
+      "id": "tic-tac-toe",
       "number": "01",
+      "label": "One more round",
+      "title": "Tic-tac-toe",
+      "description": "Your move. Play the computer or challenge someone beside you.",
+      "action": "Pick a side"
+    },
+    {
+      "id": "stack-tower",
+      "number": "02",
+      "label": "Find your rhythm",
+      "title": "Stack Tower",
+      "description": "One tap. One more block. How high can you go?",
+      "action": "Start stacking"
+    },
+    {
+      "id": "playground",
+      "number": "03",
       "label": "Move things around",
       "title": "Playground",
       "description": "A handful of shapes. A little gravity. Make a small, satisfying mess.",
@@ -13,7 +29,7 @@
     },
     {
       "id": "draw",
-      "number": "02",
+      "number": "04",
       "label": "Make something",
       "title": "Drawing pad",
       "description": "An empty page, a few good colors, and absolutely no need to be good at drawing.",
@@ -21,7 +37,7 @@
     },
     {
       "id": "button",
-      "number": "03",
+      "number": "05",
       "label": "You had one job",
       "title": "Do not press",
       "description": "One very clear instruction. You can probably guess how this goes.",
@@ -102,11 +118,6 @@
     }
   ],
   "pocket": {
-    "label": "A little surprise",
-    "messages": [
-      "A very small visitor.",
-      "A few bubbles. Zero responsibilities.",
-      "A little sparkle for your day."
-    ]
+    "label": "A little surprise"
   }
 }

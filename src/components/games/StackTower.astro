@@ -1,0 +1,27 @@
+---
+import Icon from '../Icon.astro';
+---
+<div class="play-panel tower-game" id="stack-tower" data-play-panel="stack-tower">
+  <fieldset class="tower-options" data-play-controls disabled>
+    <legend class="sr-only">Stack Tower controls</legend>
+    <label class="tower-mode">Your pace <select data-tower-mode><option value="chill">Chill</option><option value="classic">Classic</option><option value="step">Step mode</option></select></label>
+    <div class="tower-action-buttons"><button class="button button-primary" type="button" data-tower-action>Start stacking</button><button class="play-control" type="button" data-tower-pause disabled>Pause</button><button class="play-control" type="button" data-tower-reset>New game</button></div>
+  </fieldset>
+  <div class="tower-layout">
+    <div class="tower-arena">
+      <dl class="tower-hud"><div><dt>Height</dt><dd><span data-tower-score>0</span><small>blocks</small></dd></div><div><dt>Best</dt><dd data-tower-best>0</dd></div><div><dt>Block width</dt><dd><span data-tower-width>100</span><small>%</small></dd></div></dl>
+      <div class="tower-stage" data-tower-stage>
+        <canvas width="600" height="660" tabindex="0" role="group" aria-label="Stack Tower play area" aria-describedby="tower-help tower-status" data-tower-canvas>Your browser needs canvas support for Stack Tower.</canvas>
+        <div class="tower-overlay" data-tower-overlay aria-hidden="true"><span class="eyebrow" data-tower-overlay-label>One tap at a time</span><strong data-tower-overlay-title>How high<br/>can you go?</strong><span data-tower-overlay-note>Tap here or choose Start stacking.</span></div>
+      </div>
+      <fieldset class="tower-step-controls" data-play-controls disabled hidden data-tower-step-controls><legend class="sr-only">Position the block</legend><button class="play-control" type="button" data-tower-left aria-label="Move block left"><Icon name="arrow" class="tower-left-arrow" size={18}/> Left</button><span>Line it up, then drop.</span><button class="play-control" type="button" data-tower-right aria-label="Move block right">Right <Icon name="arrow" size={18}/></button></fieldset>
+    </div>
+    <aside class="tower-sidebar" aria-label="Stack Tower instructions">
+      <p class="eyebrow">Find the sweet spot</p><h2>Little moves.<br/><span class="serif-word">Tall ambitions.</span></h2>
+      <p role="status" aria-live="polite" id="tower-status" class="tower-status" data-tower-status>Pick your pace, then start.</p>
+      <p id="tower-help" class="game-help">Tap the play area or use Drop block to stack. Keyboard: focus the play area and press Space or Enter. The part hanging over the edge falls away.</p>
+      <ul class="tower-tips"><li>Land squarely for a perfect block.</li><li>Three perfect landings restore a little width.</li><li>Step mode has no timer. Move with Left/Right, then drop.</li></ul>
+      <p class="game-storage-note" data-tower-storage>Each pace has its own best on this device.</p>
+    </aside>
+  </div>
+</div>

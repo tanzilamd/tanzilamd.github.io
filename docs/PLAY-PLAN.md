@@ -1,20 +1,25 @@
-# Play and corner-surprise implementation plan
+# Games, surprises and footer implementation plan
 
-## Approved scope
+## Scope
 
-Keep Offscript's identity, owner content and equal activity photos intact. Make the footer's Play invitation a clear, separate card. Give Playground, Drawing pad and Do not press individual static pages, reached by native choice links. Add a fixed corner ✦ button whose small silent surprise happens on the current page. No new packages, accounts, uploads or backend.
+Add polished Tic-tac-toe and Stack Tower games to the existing Play area, expand silent ✦ effects across the visible screen with no text, and replace the boxed footer card with an open layout. Preserve owner content, media/captions, Offscript themes, existing URLs and the three original activities. No new packages, backend, accounts or uploads.
 
-## Architecture and experience
+## Routes and editable content
 
-- `/play/` contains three illustrated choices; `/play/playground/`, `/play/drawing-pad/` and `/play/do-not-press/` render one activity each. Native back/other-game links support navigation. Preserve old hash bookmarks, including same-document hash changes.
-- Keep editable headings/cards/prompts/colors/game and corner messages in `src/data/play.json`, validated during build. Keep public route mapping in `src/lib/play-routes.ts` so editing copy does not change URLs.
-- Load game CSS/bootstrap on Play routes only and lazy-import only the current engine. Global corner bootstrap imports its separate effect engine only after a click. Disable controls until initialized; provide retry/unsupported and no-JavaScript messages without breaking navigation.
-- Playground: at most 16 shapes; drag/throw, keyboard nudges, gravity, pause, add/reset and Shuffle. Bounded frame steps; stop when settled, offscreen, backgrounded or inactive. Reduced motion supports manual arrangement.
-- Drawing: capped high-DPI 4:3 canvas with normalized vectors, colors/brush/eraser/mirror, prompts, keyboard pen, star stamp, Undo/Redo, reversible clear and opaque PNG export. Bound live artwork/history. Validate and recover artwork from the current tab's session on navigation/reload; flush pending saves on exit. Storage restrictions fall back to drawing/export with a reminder. Reload need not preserve full history; PNG is the lasting copy.
-- Do not press: stable real button, bounded balloon/flip/confetti/duck/bubble decorations, repeat messages and reset. Replace effects on rapid input, stop them/audio offscreen/backgrounded, and keep sound opt-in. Reduced motion stays static/readable.
-- Corner surprise: stable 48px bottom-right control, safe-area spacing, small pointer-transparent decorative stage, polite short feedback and tooltip. Cycle duck/bubbles/stars; at most 12 particles and under three seconds. Never move the actual page, steal focus or make sound. Escape/background/navigation clean up; reduced motion uses static decorations. Hide during gallery/mobile navigation and focused game interaction.
-- Footer: identity/copyright, social profiles and Play card in a responsive grid, with reserved lower spacing for the corner control.
+Five static routes are mapped in `src/lib/play-routes.ts`: Tic-tac-toe, Stack Tower, Playground, Drawing pad and Do not press. Highlight the two new games on `/play/`, render only the selected activity, and keep native back/other-game navigation plus legacy hashes. Keep headings/card copy, drawing palette/prompts, Do not press messages and the corner button's accessible label in validated `src/data/play.json`. Remove corner message/tooltip UI. Load each engine only on its own page; global effects load only after a click.
 
-## Completion checks
+## Game behavior
 
-Run check, build, output/content tests, authoring tests and browser tests sequentially where build fixtures are involved. Cover native routes/back/legacy hashes, game controls, touch/keyboard, recovery/blocked/corrupt storage, actual PNG bytes, reduced motion, rapid input, lazy loading, error recovery, dark/light accessibility and 19-route responsive overflow. Inspect real desktop/mobile screenshots in both themes. Sync README, guides, previews and release/verification notes before publishing master, then report actual deployment status. Actual results belong in [verification](VERIFICATION.md).
+- Tic-tac-toe: computer Easy/Hard, same-screen two-player, choose X/O, native accessible board/arrow navigation, clear turns/results, SVG winning line and New round. Hard uses cached minimax, tested against every legal human continuation. Cancel stale timers on settings/new-round/navigation/backgrounding. Record each result once. Keep Easy/Hard/local scores separate; computer win/loss follows the player across side changes. Validate and bound local storage; blocked storage falls back to the visit.
+- Stack Tower: tap/click/Space/Enter to drop, accurate overlap trimming and perfect snaps, width recovery after three perfect landings, increasing challenge, per-pace best and pause/restart. Chill/Classic offer timing challenges; Step mode uses Left/Right with no timer and is the reduced-motion default. Keep scores/status/control instructions in DOM; announce manual alignment. Preserve mobile canvas scrolling and reject swipes/canceled pointers. Pause offscreen/backgrounded and wait for explicit resume. Bound high-DPI drawing, camera/history/pieces and frame deltas; stop idle animation. Pure rules make alignment, timing, loss and long-run bounds independently testable.
+- Preserve existing Playground, drawing/session recovery/export and Do not press behavior.
+
+## Corner effects and footer
+
+A stable 48px ✦ control creates no visible text or tooltip. A viewport-sized, pointer-transparent overlay spreads three ducks or bounded bubbles/stars for about 5.5 seconds (at most 28 particles, 20 on mobile). Reduced motion uses static decorations. Repeat clicks replace effects; Escape/resize/background/navigation/game/modal focus clears them. Never move the portfolio or intercept input/audio.
+
+Use open contact/Play typography in two columns, followed by a fine separator and compact identity/copyright/social row. Stack invitations cleanly on mobile and reserve lower clearance for the corner control. Contact omits the repeated contact invitation.
+
+## Completion
+
+Run check, build, output/content/rule tests, authoring tests, then browser tests; never run authoring fixtures alongside browsers. Check both themes, 21-route responsive overflow, native/no-JS navigation, touch/keyboard, scoring/replay/settings, stale turns, storage failure, lazy loading, reduced motion and lifecycle cleanup. Review real desktop/mobile screenshots and sync README/guides/previews/release/verification notes before publishing master. Report actual deployment status; actual check results belong in [verification](VERIFICATION.md).

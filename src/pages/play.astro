@@ -5,13 +5,13 @@ import copy from '../lib/play';
 import '../styles/play.css';
 import { playRoutes } from '../lib/play-routes';
 ---
-<Layout title="Play" description="A little break: an interactive shape playground, a drawing pad, and one button you probably shouldn't press.">
+<Layout title="Play" description="Play Tic-tac-toe, build a Stack Tower, draw a little, or try a small surprise. Five free browser activities, just for fun.">
   <div class="container page-body play-page" data-play-page>
     <header class="page-heading play-heading"><p class="eyebrow">A little break</p><h1>{copy.headline}<br/><span class="serif-word">{copy.headlineAccent}</span></h1><p>{copy.intro}</p></header>
     <div class="play-choices" aria-label="Choose an activity">
       {copy.activities.map((activity) => <a class={`play-choice choice-${activity.id}`} href={playRoutes[activity.id]} id={activity.id} data-play-choice={activity.id}>
         <div class={`play-choice-art preview-${activity.id}`} aria-hidden="true">
-          {activity.id === 'playground' ? <><span class="preview-circle"/><span class="preview-square"/><span class="preview-star"/><span class="preview-orbit"/></> : activity.id === 'draw' ? <><svg viewBox="0 0 300 180" fill="none"><path d="M35 125C60 25 95 150 125 72S170 40 170 92s55 42 80-42" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path d="m233 112 7 14 16 3-12 11 2 16-13-7-15 7 3-16-11-11 16-3Z" stroke-width="3" stroke="currentColor"/></svg><span class="preview-pencil"/></> : <><span class="preview-press">DO NOT<br/>PRESS<span/></span><span class="preview-warning">!</span></>}
+          {activity.id === 'tic-tac-toe' ? <div class="preview-tic-board"><span class="preview-tic-x"/><span/><span class="preview-tic-o"/><span/><span class="preview-tic-x"/><span/><span class="preview-tic-o"/><span/><span class="preview-tic-x"/></div> : activity.id === 'stack-tower' ? <div class="preview-tower-blocks">{[0, 1, 2, 3, 4].map((level) => <span style={`--level:${level}`}/>)}<i/></div> : activity.id === 'playground' ? <><span class="preview-circle"/><span class="preview-square"/><span class="preview-star"/><span class="preview-orbit"/></> : activity.id === 'draw' ? <><svg viewBox="0 0 300 180" fill="none"><path d="M35 125C60 25 95 150 125 72S170 40 170 92s55 42 80-42" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path d="m233 112 7 14 16 3-12 11 2 16-13-7-15 7 3-16-11-11 16-3Z" stroke-width="3" stroke="currentColor"/></svg><span class="preview-pencil"/></> : <><span class="preview-press">DO NOT<br/>PRESS<span/></span><span class="preview-warning">!</span></>}
           <span class="play-choice-number">{activity.number}</span>
         </div>
         <div class="play-choice-copy"><p class="eyebrow">{activity.label}</p><h2>{activity.title}</h2><p>{activity.description}</p><span class="text-link">{activity.action}<Icon name="arrow" size={18}/></span></div>

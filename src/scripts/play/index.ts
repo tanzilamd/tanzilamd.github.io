@@ -7,6 +7,8 @@ const loaders = {
   playground: () => import('./physics'),
   draw: () => import('./drawing'),
   button: () => import('./surprise'),
+  'tic-tac-toe': () => import('./tic-tac-toe'),
+  'stack-tower': () => import('./stack-tower'),
 };
 const key = workspace.dataset.gameId as keyof typeof loaders;
 let activity: Activity | undefined;

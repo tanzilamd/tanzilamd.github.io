@@ -26,7 +26,7 @@ GitHub থেকে সরাসরি `master`-এ edit করতে পার�
 | Portrait | `src/assets/tanzil.jpg` |
 | Article/project images | `public/media/` |
 | Activity photos | `public/media/activities/`, referenced by the relevant activity's `gallery` |
-| Play/game headlines, cards, colors, prompts and corner/game surprise messages | [`src/data/play.json`](src/data/play.json) |
+| Play/game headlines, cards, colors, prompts, game reactions and the corner accessible label | [`src/data/play.json`](src/data/play.json) |
 
 ### Add an article
 
@@ -55,15 +55,27 @@ The first Home visit in a tab has a brief wordmark/portrait entrance and a singl
 
 ### A little room to play
 
-The footer has a dedicated **Take a little break** card leading to `/play/`. Its three illustrated cards open separate pages: [Playground](https://tanzilahmed.tech/play/playground/), [Drawing pad](https://tanzilahmed.tech/play/drawing-pad/) and [Do not press](https://tanzilahmed.tech/play/do-not-press/). Each page has native back/other-game links; old `/play/#draw` and related bookmarks redirect to the matching game. Only the selected game's engine loads.
+The footer's unboxed **Take a little break** link opens `/play/`. Five illustrated choices lead to their own static pages, with the two games highlighted first:
 
-Playground has drag/throw, keyboard movement, gravity, pause, adding/resetting shapes and Shuffle. Physics sleeps when settled and stops offscreen/backgrounded; reduced motion supports manual arranging. Drawing adds Undo/Redo and keyboard shortcuts, reversible clear, colors/brush/eraser/mirror, prompts, a star stamp and an opaque PNG download. Bounded artwork is saved locally in the current tab's session, so normal reloads and page changes recover it; browser storage restrictions show an honest download reminder. Download PNG for a lasting copy. Artwork is never uploaded. Do not press adds bubble reactions alongside the duck, confetti and other surprises; its button stays in place and sound remains opt-in.
+| Activity | What you can do |
+| --- | --- |
+| [Tic-tac-toe](https://tanzilahmed.tech/play/tic-tac-toe/) | Computer Easy/Hard or two players on one screen; choose X/O, use touch or keyboard, replay and keep device-local scores. Hard plays perfectly; computer scores follow you when changing sides. |
+| [Stack Tower](https://tanzilahmed.tech/play/stack-tower/) | Tap/click/Space to stack, trim overhangs and chase perfect landings. Chill/Classic offer timed play; Step mode uses Left/Right with no timer. Each pace has its own device-local best. |
+| [Playground](https://tanzilahmed.tech/play/playground/) | Drag/throw shapes, keyboard movement, gravity, pause, add/reset and Shuffle. |
+| [Drawing pad](https://tanzilahmed.tech/play/drawing-pad/) | Colors/brush/eraser/mirror, Undo/Redo, reversible clear, prompts, keyboard pen, star stamp and an opaque PNG download. |
+| [Do not press](https://tanzilahmed.tech/play/do-not-press/) | A stable button, unexpected reactions, reset and optional sound. |
 
-A small fixed **✦** button brings a silent duck, bubbles or stars to the current page. Effects are loaded only on first use, bounded, replaced by repeat clicks, and cleaned up automatically or with Escape. Reduced motion uses static surprises. It hides during photo viewing, open mobile navigation and focused game interaction. The footer reserves space for the corner control. No backend or dependencies were added.
+Each page has native back/other-game links. Old `/play/#draw` and related bookmarks still work; only the selected engine loads. Scores stay in the browser, with a visit-only fallback when device storage is unavailable. Drawing is recovered from the current tab's session on normal navigation/reload; download PNG for a lasting copy. Nothing is uploaded. Physics sleeps when settled; timed tower play pauses offscreen/backgrounded and waits for explicit Resume. Reduced motion defaults the tower to untimed Step mode.
+
+The fixed **✦** button sends silent ducks, bubbles or stars across the visible screen for about **5.5 seconds**, with no popup text or tooltip. It never moves the page or intercepts clicks. Effects load only on first use, stay bounded, replace previous effects on repeat clicks and clean up automatically or with Escape/background/navigation. Reduced motion uses static decorations. The control hides during photo viewing, open mobile navigation and focused game interaction. The footer pairs open contact/Play links above a compact identity/social row. No backend or packages were added.
 
 | Play — dark | Play — light |
 | --- | --- |
 | ![Play page in dark mode](docs/images/play-dark.jpg) | ![Play page in light mode](docs/images/play-light.jpg) |
+
+| Tic-tac-toe | Stack Tower |
+| --- | --- |
+| ![Tic-tac-toe with local two-player scoring](docs/images/tic-tac-toe-dark.jpg) | ![Stack Tower with step controls and a five-block tower](docs/images/stack-tower-dark.jpg) |
 
 See the [drawing preview](docs/images/play-drawing.jpg), [footer preview](docs/images/footer-dark.jpg) and [implementation plan](docs/PLAY-PLAN.md).
 
@@ -77,6 +89,7 @@ See the [drawing preview](docs/images/play-drawing.jpg), [footer preview](docs/i
 | Theme/menu/filter/copy/gallery interactions | `src/scripts/site.ts` |
 | Headline typing, lightweight heading fades and article reading progress | `src/scripts/motion.ts` |
 | Play landing/game routes and lazy activity engines | `src/scripts/play/`, `src/pages/play/`, `src/components/PlayWorkspace.astro`, `src/styles/play.css` |
+| Native game UI and independently testable rules | `src/components/games/`, `src/scripts/play/games/` |
 | On-page corner surprise, loaded on demand | `src/components/PocketSurprise.astro`, `src/scripts/pocket.ts`, `src/scripts/fun/` |
 | Reusable content examples | `templates/` |
 | Production-output, content-authoring and browser checks | `tests/`, `scripts/check-authoring.mjs` |

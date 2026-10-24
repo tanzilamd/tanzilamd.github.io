@@ -1,0 +1,28 @@
+---
+const cells = Array.from({ length: 9 }, (_, index) => index);
+---
+<div class="play-panel tic-game" id="tic-tac-toe" data-play-panel="tic-tac-toe">
+  <fieldset class="tic-options" data-play-controls disabled>
+    <legend class="sr-only">Game settings</legend>
+    <fieldset class="game-option-group"><legend>Play against</legend><div class="game-segmented"><label><input type="radio" name="tic-opponent" value="computer" checked data-tic-mode/><span>Computer</span></label><label><input type="radio" name="tic-opponent" value="local" data-tic-mode/><span>A friend</span></label></div></fieldset>
+    <fieldset class="game-option-group" data-tic-computer-options><legend>Difficulty</legend><div class="game-segmented"><label><input type="radio" name="tic-difficulty" value="easy" checked data-tic-difficulty/><span>Easy</span></label><label><input type="radio" name="tic-difficulty" value="hard" data-tic-difficulty/><span>Hard</span></label></div></fieldset>
+    <fieldset class="game-option-group" data-tic-mark-options><legend>Your side</legend><div class="game-segmented"><label><input type="radio" name="tic-mark" value="X" checked data-tic-mark/><span>X</span></label><label><input type="radio" name="tic-mark" value="O" data-tic-mark/><span>O</span></label></div></fieldset>
+  </fieldset>
+  <div class="tic-layout">
+    <div class="tic-board-area">
+      <p class="tic-turn" role="status" aria-live="polite" data-tic-status>Choose a square to begin.</p>
+      <div class="tic-board" role="group" aria-label="Tic-tac-toe board" aria-describedby="tic-help">
+        {cells.map((index) => <button class="tic-cell" type="button" disabled data-tic-cell={index} aria-label={`Row ${Math.floor(index / 3) + 1}, column ${index % 3 + 1}: empty`} tabindex={index === 0 ? 0 : -1}></button>)}
+        <svg class="tic-win-line" viewBox="0 0 300 300" aria-hidden="true" data-tic-line style="display:none"><line x1="0" y1="0" x2="0" y2="0"/></svg>
+      </div>
+      <div class="tic-round-actions"><button class="button button-primary" type="button" data-tic-new disabled>New round</button><span class="tic-first-note">X always goes first.</span></div>
+    </div>
+    <aside class="tic-sidebar" aria-label="Score and how to play">
+      <p class="eyebrow">The score so far</p>
+      <dl class="tic-scoreboard"><div><dt data-tic-x-label>You · X</dt><dd data-tic-x>0</dd></div><div><dt>Draws</dt><dd data-tic-draw>0</dd></div><div><dt data-tic-o-label>Computer · O</dt><dd data-tic-o>0</dd></div></dl>
+      <p class="tic-mode-note" data-tic-note>Easy leaves a little room for luck.</p>
+      <p id="tic-help" class="game-help">Get three in a row, column or diagonal. Tap a square, or use the arrow keys to choose one and Enter or Space to play. “A friend” lets two people share this screen.</p>
+      <div class="tic-score-tools"><button class="text-link" type="button" data-tic-reset-scores disabled>Reset scores</button><span class="game-storage-note" data-tic-storage>Scores stay on this device.</span></div>
+    </aside>
+  </div>
+</div>

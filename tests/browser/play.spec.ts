@@ -20,7 +20,7 @@ for (const theme of ['dark', 'light']) {
     page.on('pageerror', (error) => errors.push(error.message));
     await page.addInitScript((theme) => localStorage.setItem('offscript-theme', theme), theme);
     await page.goto('/play/');
-    for (const activity of ['playground', 'draw', 'button']) {
+    for (const activity of copy.activities.map((activity) => activity.id)) {
       await open(page, activity);
       await expect(page.locator('h1')).toHaveCount(1);
       if (activity === 'playground') await page.locator('[data-physics-pause]').click();
@@ -222,7 +222,7 @@ test('Play remains readable without JavaScript and handles an unavailable canvas
   try {
     const noJs = await context.newPage(); await noJs.goto('http://127.0.0.1:4321/play/');
     await expect(noJs.locator('.play-fallback')).toContainText('need JavaScript');
-    await expect(noJs.locator('.play-choice')).toHaveCount(3);
+    await expect(noJs.locator('.play-choice')).toHaveCount(copy.activities.length);
     await expect(noJs.locator('[data-pocket]')).toBeHidden();
     await expect(noJs.locator('[data-play-workspace]')).toHaveCount(0);
     await noJs.locator('[data-play-choice="draw"]').click();
@@ -240,20 +240,20 @@ test('Play remains readable without JavaScript and handles an unavailable canvas
 
 test('activity engines load only after selection and never on the portfolio Home page', async ({ page }) => {
   const requests: string[] = []; page.on('request', (request) => requests.push(request.url()));
-  const engine = /\/(?:physics|drawing|surprise)\.[^/]+\.js/;
+  const engine = /\/(?:physics|drawing|surprise|tic-tac-toe|stack-tower)\.[^/]+\.js/;
   await page.goto('/'); expect(requests.filter((url) => engine.test(url))).toEqual([]);
   await page.goto('/play/'); expect(requests.filter((url) => engine.test(url))).toEqual([]);
   await open(page, 'draw');
   expect(requests.some((url) => /\/drawing\.[^/]+\.js/.test(url))).toBe(true);
-  expect(requests.some((url) => /\/(?:physics|surprise)\.[^/]+\.js/.test(url))).toBe(false);
+  expect(requests.some((url) => /\/(?:physics|surprise|tic-tac-toe|stack-tower)\.[^/]+\.js/.test(url))).toBe(false);
 });
 
 test('expanded Play workspaces fit small and large screens in both themes', async ({ page }) => {
-  test.setTimeout(60_000);
+  test.setTimeout(90_000);
   for (const width of [320, 768, 1440]) for (const theme of ['dark', 'light']) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/play/'); await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; localStorage.setItem('offscript-theme', theme); }, theme);
-    for (const activity of ['playground', 'draw', 'button']) {
+    for (const activity of copy.activities.map((activity) => activity.id)) {
       await open(page, activity);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${activity}, ${theme}, ${width}px`).toBe(true);
     }
