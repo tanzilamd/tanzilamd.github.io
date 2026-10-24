@@ -12,7 +12,7 @@ Tanzil Ahmed’s portfolio: projects, open-source work, experience, recognition,
 
 GitHub থেকে সরাসরি `master`-এ edit করতে পারেন। প্রতিটি item-এর একটি source file; সেখান থেকে সংশ্লিষ্ট Home/list/detail views তৈরি হয়। Layout edit করতে হয় না।
 
-**[সহজ বাংলা content update manual →](docs/CONTENT-GUIDE.md)**
+**[content update manual →](docs/CONTENT-GUIDE.md)**
 
 | Update | Source |
 | --- | --- |
