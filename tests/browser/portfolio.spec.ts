@@ -25,6 +25,9 @@ test('the selected-work journey preserves theme and shows the right priorities',
   await page.goto('/');
   await expect(page.locator('.featured-grid h3')).toHaveText(['Tuktak', 'ScopeProof', 'EngJatra', 'PlayPiku']);
   await expect(page.locator('.featured-grid .project-card')).toHaveCount(4);
+  await expect(page.locator('.featured-grid img')).toHaveCount(4);
+  await page.locator('.featured-grid img').evaluateAll(images => Promise.all(images.map(image => (image as HTMLImageElement).decode())));
+  expect(await page.locator('.featured-grid img').evaluateAll(images => images.every(image => (image as HTMLImageElement).naturalWidth >= 1200))).toBe(true);
   await expect(page.locator('.featured-grid')).not.toContainText('Choreseed');
   await expect(page.locator('.hero')).not.toContainText('Cargotab');
   await page.getByRole('button', { name: 'Switch to light theme' }).click();

@@ -12,3 +12,6 @@
 - PlayPiku cover: the project’s existing public share artwork from `tanzilamd/playpiku`, copied unchanged for its portfolio entry.
 - Built with Astro and TypeScript. Development of this portfolio was assisted by OpenAI Codex under Tanzil Ahmed’s direction.
 - Tabbycat and other external projects retain their upstream authorship and licenses; original project/contribution links identify their sources.
+
+- Tuktak and EngJatra homepage/UI previews: actual local Chromium captures of their public source, with the applications’ demo/sample labels retained. No production accounts or personal records were captured.
+- ScopeProof homepage preview: its existing `docs/screenshots/overview.png` actual local browser capture, cropped to the homepage introduction and optimized for delivery.

@@ -19,7 +19,9 @@
       "label": "Explore the source",
       "url": "https://github.com/tanzilamd/EngJatra"
     }
-  ]
+  ],
+  "coverImage": "/media/engjatra-home.webp",
+  "coverAlt": "Local demo preview of EngJatra’s Bangla welcome page."
 }
 ---
 

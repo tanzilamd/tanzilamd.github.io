@@ -4,6 +4,12 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 24 selected-project homepage previews
+
+- Replaced the Tuktak, ScopeProof and EngJatra generated thumbnail artwork with optimized actual UI/homepage previews; kept PlayPiku’s own preview and the same four selected projects.
+- Reused each project’s image fields across Home, All projects and its detail page. Image-based detail covers now preserve the same complete framing as the cards; other generated artwork keeps its previous layout.
+- Retained sample/demo labels and source provenance, updated the maintenance guide and README captures, and extended the existing project journey to check all four images decode.
+
 ## October 24 PlayPiku selected project
 
 - Replaced Choreseed in the four Home highlights with PlayPiku, using one project record, the supplied live/source links and its existing project artwork. Added the PlayPiku detail page and automatic share preview.

@@ -237,6 +237,8 @@ h2 { font-size: clamp(30px, 3vw, 40px); font-weight: 600; line-height: 1.2; lett
 .project-heading > p:not(.eyebrow) { color: var(--muted); font-size: 18px; margin-top: 20px; max-width: 740px; line-height: 1.8; }
 .case-cover { border: 1px solid var(--line); overflow: hidden; border-radius: var(--radius); }
 .case-cover .project-art { aspect-ratio: 3; padding: 56px 72px; }
+/* Screenshot covers keep the same complete preview framing as project cards. */
+.case-cover .project-art.art-with-image { aspect-ratio: 1.85; }
 .case-cover .tuktak-name { font-size: clamp(90px, 12vw, 160px); }
 .case-cover .tuktak-tagline { font-size: 25px; }
 .case-cover .conversation-bubble { width: 90px; height: 60px; right: 20%; }
