@@ -24,6 +24,7 @@ GitHub থেকে সরাসরি `master`-এ edit করতে পার�
 | Work experience | [`src/content/experience/`](src/content/experience/) |
 | Awards, recognition and milestones | [`src/content/milestones/`](src/content/milestones/) |
 | Portrait | `src/assets/tanzil.jpg` |
+| Badge artwork and recognition proof images | `src/assets/recognition/`, referenced by the milestone’s `image` field |
 | Article/project images | `public/media/` |
 | Activity photos | `public/media/activities/`, referenced by the relevant activity's `gallery` |
 | Play/game headlines, cards, colors, prompts, game reactions and the corner accessible label | [`src/data/play.json`](src/data/play.json) |
@@ -40,7 +41,7 @@ Draft content is excluded from generated pages, RSS and sitemap. A public Git re
 
 - Projects: first four published `featured: true` entries, sorted by `order`. Current selection: Tuktak, ScopeProof, EngJatra and Choreseed. Cargotab/Tanzilbot stay under Earlier work.
 - Contributions: up to three featured entries. A `spotlight: true` entry also receives a detailed Open source feature; Tabbycat’s published website work links to its source and upstream integration.
-- Recognition: up to three featured milestones. All awards and work experience appear on About; Hacktoberfest milestones also appear under Open source.
+- Recognition: up to four featured milestones in a two-column desktop grid. All awards and work experience appear on About; Hacktoberfest milestones also appear under Open source. Optional local badge artwork and proof-image links come from the same milestone file. Current highlights include YCPC Grand Finale 2k25 (3rd place) and the Hacktoberfest 2026 Completionist badge.
 - Activities: featured entries appear on Home; all published activities appear under Activities. Edit one activity’s summary once to update both views.
 - Activity photos: add `gallery` entries to the same activity file. Set `homePreview: true` to choose its first photo for the Home preview. Photos follow each activity’s description directly, with captions; optional demo entries show a small Demo badge. Captions support event/year/role; the full-image viewer supports keyboard navigation and works with direct image links without JavaScript. The current gallery uses owner-supplied event photographs, optimized as local WebP images. [Update photos using the guide](docs/CONTENT-GUIDE.md#activity-photos--আসল-ছবি-বসানো).
 - Writing: the first featured entry, or the latest entry when none is featured. About also shows the first featured personal essay. Writing itself sorts by publication date, then `order`.
@@ -52,6 +53,8 @@ Offscript uses a restrained editorial layout: consistent project cards, readable
 The first Home visit in a tab has a brief wordmark/portrait entrance and a single typing pass for the two profile headlines. Brief desktop heading fades, project/button feedback, and smooth gallery changes add motion without blocking navigation. Reduced-motion settings show the complete headline immediately. Native articles have a thin reading-progress line, and activity photos use equal 3:2 frames in a consistent two-column desktop grid and a single column on mobile. Touch scrolling keeps sections static; large project/photo grids never animate into view. Everything remains static and database-free; no animation dependency was added.
 
 ![Theatre gallery with owner-supplied event photographs](docs/images/activities-dark.jpg)
+
+![Selected recognition with YCPC result and the owner-supplied Completionist badge](docs/images/recognition-dark.jpg)
 
 ### A little room to play
 
@@ -67,7 +70,7 @@ The footer's unboxed **Take a little break** link opens `/play/`. Five illustrat
 
 Each page has native back/other-game links. Old `/play/#draw` and related bookmarks still work; only the selected engine loads. Scores stay in the browser, with a visit-only fallback when device storage is unavailable. Drawing is recovered from the current tab's session on normal navigation/reload; download PNG for a lasting copy. Nothing is uploaded. Physics sleeps when settled; timed tower play pauses offscreen/backgrounded and waits for explicit Resume. Reduced motion defaults the tower to untimed Step mode.
 
-The fixed **✦** button sends silent ducks, bubbles or stars across the visible screen for about **5.5 seconds**, with no popup text or tooltip. It never moves the page or intercepts clicks. Effects load only on first use, stay bounded, replace previous effects on repeat clicks and clean up automatically or with Escape/background/navigation. Reduced motion uses static decorations. The control hides during photo viewing, open mobile navigation and focused game interaction. The footer pairs open contact/Play links above a compact identity/social row. No backend or packages were added.
+The fixed **✦** button sends silent ducks, bubbles or stars across the visible screen for about **5.5 seconds**, with no popup text or tooltip. It never moves the page or intercepts clicks. Effects load only on first use, stay bounded, replace previous effects on repeat clicks and clean up automatically or with Escape/background/navigation. Reduced motion uses static decorations. The control hides during photo viewing, open mobile navigation and focused game interaction. The footer pairs open contact/Play links above a compact identity/social row. Desktop spacing is reduced and copyright sits at the center, independently of the wordmark/social widths; the mobile identity stack stays unchanged. No backend or packages were added.
 
 | Play — dark | Play — light |
 | --- | --- |

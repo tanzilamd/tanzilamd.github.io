@@ -9,3 +9,13 @@
   "draft": true
 }
 ---
+
+Optional image fields (add inside the JSON only after uploading the file to src/assets/recognition/):
+
+- image: ../../assets/recognition/your-file.png
+- imageAlt: a clear description of the badge or result shown
+- imageLabel: View badge / View leaderboard
+- imagePresentation: badge (inline artwork + proof link) or evidence (proof link only; default)
+- url and urlLabel: optional clean public source URL and link text
+
+Home shows up to four featured entries by order. Hacktoberfest-prefixed filenames also appear under Open source. Images are optimized automatically at build time.

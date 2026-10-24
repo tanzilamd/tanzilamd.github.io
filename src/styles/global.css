@@ -186,14 +186,21 @@ h2 { font-size: clamp(30px, 3vw, 40px); font-weight: 600; line-height: 1.2; lett
 .merge-status { display: inline-flex; justify-content: center; align-items: center; gap: 5px; font-size: 11px; line-height: 1.4; color: var(--positive); background: var(--positive-bg); padding: 5px 9px; border-radius: 5px; }
 .merge-status.status-open { color: var(--accent); background: var(--surface-raised); }
 .merge-status.status-closed { color: var(--muted); background: var(--surface-raised); }
-.recognition-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.recognition-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .recognition-grid article { border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; }
 .recognition-year { color: var(--quiet); }
 .recognition-grid .recognition-year { display: block; font-size: 14px; margin-bottom: 28px; }
 .recognition-grid .eyebrow { font-size: 10px; }
 .recognition-grid h3 { font-size: 21px; line-height: 1.4; letter-spacing: -.035em; margin: 9px 0 14px; font-weight: 600; }
 .recognition-grid p:not(.eyebrow) { font-size: 14px; color: var(--muted); line-height: 1.8; }
-.recognition-grid .text-link { margin-top: 16px; }
+.recognition-content { display: flex; align-items: flex-start; gap: 24px; min-width: 0; }
+.recognition-copy { flex: 1; min-width: 0; }
+.recognition-links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; margin-top: 14px; }
+.recognition-grid .recognition-links .text-link, .recognition-list .recognition-links .text-link { margin-top: 0; }
+.recognition-badge { flex: 0 0 128px; margin: 0; }
+.recognition-badge img { display: block; width: 128px; height: auto; border-radius: 9px; }
+.recognition-list .recognition-content { justify-content: space-between; }
+.recognition-list .recognition-copy { max-width: 800px; }
 .beyond-teaser { display: grid; grid-template-columns: 1fr 1.2fr; gap: 64px; border-top: 1px solid var(--line); }
 .beyond-title > .eyebrow { margin-bottom: 14px; }
 .beyond-title h2 { margin-bottom: 20px; }
@@ -290,12 +297,7 @@ h2 { font-size: clamp(30px, 3vw, 40px); font-weight: 600; line-height: 1.2; lett
 .contribution-state .pr-link:hover { text-decoration: underline; }
 .contribution-state time { font-size: 11px; color: var(--quiet); }
 .milestone-section { padding-bottom: 0; }
-.milestone-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
-.milestone-card { border: 1px solid var(--line); padding: 28px; border-radius: var(--radius); }
-.milestone-year { font-size: 32px; letter-spacing: -.05em; color: var(--quiet); display: block; margin-bottom: 24px; line-height: 1.2; }
-.milestone-card h3 { font-size: 22px; line-height: 1.4; letter-spacing: -.035em; margin: 10px 0 14px; font-weight: 600; }
-.milestone-card > p:not(.eyebrow) { font-size: 14px; color: var(--muted); line-height: 1.8; }
-.milestone-card .text-link { margin-top: 18px; }
+
 /* About and activities */
 .about-intro { display: grid; grid-template-columns: .85fr 1.15fr; gap: 72px; align-items: start; padding: 0 0 48px; }
 .about-photo img { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: 65% center; border-radius: var(--radius); }
@@ -442,6 +444,16 @@ h2 { font-size: clamp(30px, 3vw, 40px); font-weight: 600; line-height: 1.2; lett
 .social-links a { display: inline-flex; gap: 6px; align-items: center; min-height: 44px; font-size: 12px; color: var(--muted); }
 .social-links a:hover { color: var(--text); }
 .footer-signoff { color: var(--quiet); font-size: 11px; }
+@media (min-width: 800px) {
+  .footer-main { padding-block: 36px; }
+  .footer-contact-block > .eyebrow, .footer-break > .eyebrow { margin-bottom: 12px; }
+  .footer-contact-block > p:last-child, .footer-break > p:last-child { margin-top: 12px; }
+  .footer-bottom { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 24px; padding-block: 20px 80px; }
+  .footer-identity { display: contents; }
+  .footer-wordmark { grid-column: 1; justify-self: start; }
+  .footer-signoff { grid-column: 2; justify-self: center; text-align: center; }
+  .footer-bottom > .social-links { grid-column: 3; justify-self: end; }
+}
 /* Decorations use the viewport without becoming an input surface or moving content. */
 .pocket-surprise { position: fixed; z-index: 30; right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); }
 .pocket-button { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: var(--surface-raised); color: var(--accent); box-shadow: 0 3px 14px #00000018; font-size: 28px; line-height: 1; }
@@ -621,6 +633,9 @@ h2 { font-size: clamp(30px, 3vw, 40px); font-weight: 600; line-height: 1.2; lett
   .preview-end .merge-status { font-size: 10px; padding: 4px 6px; }
   .recognition-grid article { grid-template-columns: 1fr; gap: 18px; }
   .recognition-grid .recognition-year { margin: 0; }
+  .recognition-content { flex-direction: column; gap: 20px; }
+  .recognition-badge { flex-basis: auto; order: -1; }
+  .recognition-badge img { width: 144px; }
   .recognition-list article { grid-template-columns: 45px minmax(0, 1fr); gap: 18px; }
   .recognition-list h3 { font-size: 19px; }
   .recognition-list p:not(.eyebrow) { font-size: 14px; }
@@ -650,8 +665,6 @@ h2 { font-size: clamp(30px, 3vw, 40px); font-weight: 600; line-height: 1.2; lett
   .contribution-state .pr-link + time { margin-left: 0; }
   .entry-meta { font-size: 10px; gap: 4px 10px; }
   .entry-meta > span + span { padding-left: 10px; }
-  .milestone-grid { grid-template-columns: 1fr; gap: 16px; }
-  .milestone-card { padding: 24px; }
   .writing-featured { padding: 24px; }
   .writing-featured::before { left: 24px; }
   .writing-card-copy :is(h2, h3) { font-size: 24px; }

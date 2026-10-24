@@ -4,6 +4,14 @@
 
 Responsive dark/light portfolio; new owner-supplied portrait; four selected projects and two earlier-work stories; eleven selected open-source records; About, Activities, Writing, Contact and 404; content templates; sitemap/metadata; self-hosted fonts; optimized images; GitHub Pages workflow; build, authoring, privacy/link and browser/accessibility checks.
 
+## October 24 recognition evidence, leadership session and footer spacing
+
+- Added YCPC Grand Finale 2k25 — 3rd place, with the owner-supplied HackerRank leaderboard proof.
+- Highlighted the owner-supplied Hacktoberfest 2026 Completionist badge and all-three-milestone result on Home, About and Open source. Added the clean DEV profile URL, responsive local artwork and full proof links through one reusable recognition component/content source.
+- Expanded Home recognition to four highlights in two columns and added optional milestone image/alt/presentation/link-label fields, template guidance and authoring coverage.
+- Clarified former President of Faizur Rahman Ideal Institute Debating Club, 2022–23 session, in the shared activity summary and detail.
+- Reduced desktop footer spacing and centered copyright independently of the wordmark/social groups. Preserved the mobile footer arrangement. Updated docs/previews; no packages or gameplay changes.
+
 ## October 24 Tic-tac-toe, Stack Tower and open footer
 
 - Added `/play/tic-tac-toe/`: Easy/Hard computer play, same-screen two-player mode, X/O choice, keyboard board navigation, stable winning line, replay and per-mode local scores. Computer scores follow the human when switching sides. Hard uses tested minimax; stale turns cannot leak into a new round or mode.

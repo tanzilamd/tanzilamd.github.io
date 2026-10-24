@@ -69,6 +69,13 @@ const experience = defineCollection({
 });
 const milestones = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/milestones' }),
-  schema: z.object({ ...common, title: z.string(), year: z.string().optional(), summary: z.string(), kind: z.string(), url: z.url().optional(), featured: z.boolean().default(false) }),
+  schema: ({ image }) => z.object({
+    ...common, title: z.string(), year: z.string().optional(), summary: z.string(), kind: z.string(),
+    url: z.url().optional(), urlLabel: z.string().trim().min(1).default('View details'),
+    featured: z.boolean().default(false),
+    image: image().optional(), imageAlt: z.string().trim().min(1).optional(),
+    imageLabel: z.string().trim().min(1).default('View image'),
+    imagePresentation: z.enum(['evidence', 'badge']).default('evidence'),
+  }).refine((data) => !data.image || !!data.imageAlt, { message: 'Recognition images need an informative imageAlt.', path: ['imageAlt'] }),
 });
 export const collections = { projects, contributions, notes, activities, experience, milestones };

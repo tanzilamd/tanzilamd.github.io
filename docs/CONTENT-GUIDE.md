@@ -85,9 +85,30 @@ Matching template copy করে matching folder-এ নতুন `.md` file ব
 - **Project:** `templates/project.md.example`। Category: `Product`, `Tool`, `Experiment`, `Earlier work`। `featured: true` ও ছোট `order` দিয়ে Home-এর প্রথম চারটি project বেছে নিন। নতুন project-এ `cover: "custom"` দিন, অথবা `/media/`-এর ছবি `coverImage` এবং বর্ণনা `coverAlt` দিন। নতুন file-এর নামই `/work/file-name/` URL হবে।
 - **Contribution:** সাধারণ PR-এর জন্য `templates/contribution.md.example`; published website-এর জন্য `templates/website-contribution.md.example`। একটি PR একবারই যোগ করুন। `Merged`, `Open`, `Closed`, `Published` সঠিকভাবে দিন। Personal fork merge-কে upstream contribution বলবেন না। `featured` দিয়ে Home-এর তিনটি highlight; `spotlight: true` দিয়ে Open source-এর বিস্তারিত highlight বাছাই হয়।
 - **Activity:** `templates/activity.md.example`। `summary` Home ও Activities-এ একই source থেকে আসে। নিচে বিস্তারিত লিখুন। Icon-এর `art`: `debate`, `theatre`, `community`। `featured: false` করলে শুধু Activities-এ থাকবে।
-- **Experience / recognition:** `templates/experience.md.example` বা `templates/milestone.md.example`। Award-এর সঠিক নাম, year এবং সহজ summary দিন। Nomination-কে win লিখবেন না। Unknown year বাদ রাখুন। Milestone-এর `featured: true` Home-এর প্রথম তিনটি recognition-এ বাছাই করে।
+- **Experience / recognition:** `templates/experience.md.example` বা `templates/milestone.md.example`। Award-এর সঠিক নাম, year এবং সহজ summary দিন। Nomination-কে win লিখবেন না। Unknown year বাদ রাখুন। Milestone-এর `featured: true` Home-এর প্রথম চারটি recognition-এ বাছাই করে।
 
 সব collection-এ `draft: true` দিলে public page, list, feed ও sitemap থেকে item বাদ যায়। তবে source repository public হলে committed draft-এর source অন্য কেউ দেখতে পারে। ব্যক্তিগত draft নিজের কাছে রাখুন। `order` ছোট হলে আগে আসে; Writing-এর ক্ষেত্রে date আগে বিবেচিত হয়।
+
+## Recognition badge ও proof image
+
+একটি recognition-এর title, year, summary, link ও ছবি একই `src/content/milestones/*.md` file-এ থাকবে। Home ও About একই source ব্যবহার করে; filename `hacktoberfest` দিয়ে শুরু হলে Open source-এও আসে। এখন Home-এ সর্বোচ্চ চারটি featured item দেখা যায়।
+
+ছবি আগে `src/assets/recognition/`-এ upload করুন। Milestone file-এ এই optional fields দিন:
+
+```json
+"image": "../../assets/recognition/hacktoberfest-completionist-2026.png",
+"imageAlt": "Hacktoberfest 2026 Completionist badge, earned by Tanzil Ahmed.",
+"imageLabel": "View badge",
+"imagePresentation": "badge",
+"url": "https://dev.to/tanzil_ahmed_e6a826eee8c4",
+"urlLabel": "DEV profile"
+```
+
+এগুলো বিদ্যমান JSON object-এর অন্য field-এর সঙ্গে comma দিয়ে যোগ করবেন। `imagePresentation: "badge"` হলে ছোট artwork ও full-image link দেখা যায়। `"evidence"` দিলে শুধু proof image-এর link থাকে—YCPC leaderboard-এর মতো screenshot-এর জন্য ভালো। Default `evidence`। ছবি থাকলে অর্থপূর্ণ `imageAlt` লাগবেই; `imageLabel` দিয়ে “View badge” বা “View leaderboard” লিখতে পারেন। Website link-এর লেখা `urlLabel` দিয়ে বদলানো যায়। Source path হলো milestone file থেকে relative; `/media/` path-এর সঙ্গে গুলিয়ে ফেলবেন না।
+
+Build নিজে responsive WebP badge images ও full proof তৈরি করে। ছবি পাল্টালে শুধু নতুন file upload করে ওই milestone-এর path/alt বদলালেই হবে; Home/About/Open source আলাদা edit লাগে না। Email বা analytics-এর tracking parameters ছাড়া clean public URL দিন। Nomination, badge ও contest position-এর ভাষা আলাদা রাখুন।
+
+Debate club-এর former President role ও 2022–23 session আছে `src/content/activities/debate.md`-এ। এর summary বদলালে Home এবং Activities দুটোই update হয়; নিচের Markdown-এ বিস্তারিত থাকে।
 
 ## Activity photos / আসল ছবি বসানো
 

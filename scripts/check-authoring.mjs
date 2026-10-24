@@ -25,7 +25,15 @@ try {
   const activity = { title: 'Authoring check activity', label: 'Community', summary: 'SINGLE_SOURCE_ACTIVITY_V1', featured: true, homePreview: true, order: 0, gallery: [{ src: '/media/activities/authoring-check.svg', alt: 'Temporary gallery artwork', caption: 'SINGLE_SOURCE_PHOTO_V1', event: 'Authoring event', year: '2024', role: 'Volunteer', demo: false }] };
   content('src/content/activities/authoring-check.md', activity, 'An activity added without changing a component.');
   content('src/content/activities/authoring-draft.md', { ...activity, draft: true, title: 'PRIVATE_DRAFT_MARKER_7d7fb' }, 'PRIVATE_DRAFT_MARKER_7d7fb');
+  const milestone = { title: 'Authoring milestone', year: '2026', summary: 'SINGLE_SOURCE_RECOGNITION_V1', kind: 'Authoring check', featured: true, order: 0, image: '../../assets/recognition/hacktoberfest-completionist-2026.png', imageAlt: 'SINGLE_SOURCE_BADGE_ALT_V1', imageLabel: 'Inspect fixture badge', imagePresentation: 'badge', url: 'https://example.com/recognition', urlLabel: 'External fixture proof' };
+  content('src/content/milestones/hacktoberfest-authoring-check.md', milestone);
+  content('src/content/milestones/hacktoberfest-authoring-draft.md', { ...milestone, draft: true, title: 'PRIVATE_DRAFT_MARKER_7d7fb' });
   build();
+  for (const path of ['dist/index.html', 'dist/about/index.html', 'dist/open-source/index.html']) {
+    const html = readFileSync(path, 'utf8');
+    assert.ok(html.includes('SINGLE_SOURCE_RECOGNITION_V1') && html.includes('SINGLE_SOURCE_BADGE_ALT_V1'));
+    assert.ok(html.includes('Inspect fixture badge') && html.includes('External fixture proof'));
+  }
   const page = readFileSync('dist/work/authoring-check/index.html', 'utf8');
   assert.ok(page.includes('Authoring check project') && page.includes('/media/authoring-check.svg'));
   assert.ok(readFileSync('dist/index.html', 'utf8').includes('/work/authoring-check/'));
@@ -51,7 +59,13 @@ try {
   assert.ok(readFileSync('dist/beyond/index.html', 'utf8').includes('SINGLE_SOURCE_PHOTO_V1'));
   assert.ok(readFileSync('dist/beyond/index.html', 'utf8').includes('Authoring event · 2024 · Volunteer'));
   writeFileSync('src/content/activities/authoring-check.md', `---\n${JSON.stringify({ ...activity, summary: 'SINGLE_SOURCE_ACTIVITY_V2', gallery: [{ ...activity.gallery[0], caption: 'SINGLE_SOURCE_PHOTO_V2' }] })}\n---\n\nUpdated in one content file.\n`);
+  writeFileSync('src/content/milestones/hacktoberfest-authoring-check.md', `---\n${JSON.stringify({ ...milestone, summary: 'SINGLE_SOURCE_RECOGNITION_V2', imageAlt: 'SINGLE_SOURCE_BADGE_ALT_V2' })}\n---\n`);
   build();
+  for (const path of ['dist/index.html', 'dist/about/index.html', 'dist/open-source/index.html']) {
+    const html = readFileSync(path, 'utf8');
+    assert.ok(html.includes('SINGLE_SOURCE_RECOGNITION_V2') && !html.includes('SINGLE_SOURCE_RECOGNITION_V1'));
+    assert.ok(html.includes('SINGLE_SOURCE_BADGE_ALT_V2') && !html.includes('SINGLE_SOURCE_BADGE_ALT_V1'));
+  }
   for (const path of ['dist/index.html', 'dist/beyond/index.html']) {
     const html = readFileSync(path, 'utf8');
     assert.ok(html.includes('SINGLE_SOURCE_ACTIVITY_V2') && !html.includes('SINGLE_SOURCE_ACTIVITY_V1'));
@@ -59,7 +73,7 @@ try {
   assert.ok(readFileSync('dist/beyond/index.html', 'utf8').includes('SINGLE_SOURCE_PHOTO_V2'));
   assert.ok(!readFileSync('dist/beyond/index.html', 'utf8').includes('SINGLE_SOURCE_PHOTO_V1'));
   for (const path of files('dist').filter((file) => /\.(html|xml|js|json)$/.test(file))) assert.ok(!readFileSync(path, 'utf8').includes('PRIVATE_DRAFT_MARKER_7d7fb'), `Draft leaked into ${path}`);
-  console.log('PASS: projects, writing, dates, metadata, feed, shared activity/photo edits, captions, homepage previews, sitemap and draft exclusion.');
+  console.log('PASS: projects, writing, dates, metadata, feed, shared activity/photo/recognition edits, badge images and labels, captions, homepage previews, sitemap and draft exclusion.');
 } catch (error) {
   console.error(error);
   process.exitCode = 1;

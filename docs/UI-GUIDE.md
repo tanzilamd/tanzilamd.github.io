@@ -22,7 +22,7 @@ The content container has a 1160px maximum width. Section spacing uses `--space-
 | `Layout.astro` | Main/mobile/no-JS navigation, theme setup, shared metadata, footer and bounded Home intro bootstrap. Activities is part of all navigation variants. Contact omits the repeated footer contact invitation. |
 | `ProjectCard.astro` | Reusable cover, category, title and summary. Heading level 3 on Home; level 2 in the Work list. |
 | `Cover.astro` | Project identity artwork or an owner-supplied image. No fake product screenshot claims. |
-| `RecognitionList.astro` | Same award content as a Home grid or About list. |
+| `RecognitionList.astro` | Shared Home grid/About list/Open source milestones, optional authentic badge art, proof-image links and custom source labels. |
 | `WritingCard.astro` | Shared native/external publication, dates, reading time and destination labels. |
 | `Filters.astro` | Accessible button group; `site.ts` handles URL state, count announcements and empty states. Hidden without JS so all content remains visible. |
 | `ActivityPhoto.astro`, `ActivityGallery.astro` | Shared activity photos, captions, demo labels and a selected Home preview, driven by each activity's `gallery` data. |
@@ -35,9 +35,15 @@ The content container has a 1160px maximum width. Section spacing uses `--space-
 | `PocketSurprise.astro`, `pocket.ts`, `fun/pocket-effects.ts` | Fixed corner control and on-demand, bounded same-page surprises. |
 | `lib/play.ts`, `data/play.json` | Build validation and the single editable source for Play copy, palette, prompts and reactions. |
 
+## Recognition images and hierarchy
+
+Home selects up to four featured milestones in a two-column desktop grid, retaining the Peace Prize nomination and Tech Diary writing result alongside YCPC 2025 third place and Hacktoberfest 2026 Completionist. Mobile uses one column. About lists all competition/recognition entries and separate open-source milestones. Open source reuses the same component rather than duplicating badge content.
+
+Milestone content optionally provides an Astro-managed local `image`, required `imageAlt`, `imageLabel`, `imagePresentation` (`badge` or default `evidence`) and external `urlLabel`. Badge presentation adds a small contain-fit image; evidence presentation keeps the full screenshot behind a native proof link. Generate responsive 128/192/256px WebP badge variants and a full-size optimized WebP proof without modifying the supplied evidence. Assets under `src/assets/recognition/` keep raw attachments out of the published asset directory; only generated derivatives are needed by the site. No modal/JavaScript is required for proof links. Keep exact recognition wording and accessible image descriptions, and strip email/analytics parameters from public profile links.
+
 ## Play page
 
-The footer uses an open two-column composition: a clear contact invitation and an unboxed **Take a little break** link, followed by a fine separator and compact identity/social row. Mobile stacks the invitations and keeps the metadata orderly; bottom spacing clears the fixed corner control. Contact omits the repeated contact invitation.
+The footer uses an open two-column composition: a clear contact invitation and an unboxed **Take a little break** link, followed by a fine separator and compact identity/social row. At 800px and wider, shorter vertical padding and a three-column bottom grid put the wordmark left, copyright at the true center and social profiles right. On smaller screens, the existing identity/copyright stack, invitation spacing and social wrapping are preserved; bottom spacing still clears the fixed corner control. Contact omits the repeated contact invitation.
 
 `/play/` contains five illustrated choices. Tic-tac-toe and Stack Tower get a larger first row on desktop; the original three activities share the next row. Mobile uses consistent single-column choices. Each dedicated game page renders its own controls, a back link and links to the other four activities. Keep Play out of primary navigation and the Home hero. Only Play routes load game CSS/bootstrap and only the chosen engine is imported. Legacy hashes, including same-document changes, redirect to the corresponding game. No-JavaScript descriptions/navigation/fallbacks remain readable and controls stay disabled until initialized. Unsupported engines offer retry and native links to other activities.
 
